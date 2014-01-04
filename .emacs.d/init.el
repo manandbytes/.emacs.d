@@ -4,6 +4,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(backup-directory-alist (quote (("." . "~/.emacs.d/backups/"))))
+ '(delete-by-moving-to-trash t)
  '(url-proxy-services
    (quote
     (("no_proxy" . "\\(localhost\\|127\\.0\\.0\\.0/8\\|::1\\)")
