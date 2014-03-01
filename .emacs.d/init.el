@@ -16,6 +16,10 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
+; disable menu bar and tool bar
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+
 ;; integrate vcsh and magit
 ;; - open directory '/vcsh:<repo>:.'
 ;; - M-x magit-status
