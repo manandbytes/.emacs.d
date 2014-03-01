@@ -14,6 +14,20 @@
 ; yes-or-no -> y-or-n
 (fset 'yes-or-no-p 'y-or-n-p)
 
+;; integrate vcsh and magit
+;; - open directory '/vcsh:<repo>:.'
+;; - M-x magit-status
+(eval-after-load "tramp"
+  '(add-to-list 'tramp-methods '("vcsh"
+                                 (tramp-login-program "vcsh")
+                                 (tramp-login-args
+                                  (("enter")
+                                   ("%h")))
+                                 (tramp-remote-shell "/bin/sh")
+                                 (tramp-remote-shell-args
+                                  ("-c"))))
+  )
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
