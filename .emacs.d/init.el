@@ -14,6 +14,8 @@
 ; yes-or-no -> y-or-n
 (fset 'yes-or-no-p 'y-or-n-p)
 
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+
 ;; integrate vcsh and magit
 ;; - open directory '/vcsh:<repo>:.'
 ;; - M-x magit-status
