@@ -67,14 +67,21 @@
 ;; - open directory '/vcsh:<repo>:.'
 ;; - M-x magit-status
 (eval-after-load "tramp"
-  '(add-to-list 'tramp-methods '("vcsh"
-                                 (tramp-login-program "vcsh")
-                                 (tramp-login-args
-                                  (("enter")
-                                   ("%h")))
-                                 (tramp-remote-shell "/bin/sh")
-                                 (tramp-remote-shell-args
-                                  ("-c"))))
+  '(progn
+     (add-to-list 'tramp-methods '("vcsh"
+                                   (tramp-login-program "vcsh")
+                                   (tramp-login-args
+                                    (("enter")
+                                     ("%h")))
+                                   (tramp-remote-shell "/bin/sh")
+                                   (tramp-remote-shell-args
+                                    ("-c"))))
+
+     (defun tramp-parse-vcsh (_ignore)
+       "List all repositories"
+       (mapcar (lambda (x) (list nil x)) (split-string (shell-command-to-string "vcsh list"))))
+     (tramp-set-completion-function "vcsh" '((tramp-parse-vcsh "")))
+     )
   )
 
 (custom-set-variables
