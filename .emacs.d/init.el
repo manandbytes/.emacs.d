@@ -1,3 +1,6 @@
+; yes-or-no -> y-or-n
+(fset 'yes-or-no-p 'y-or-n-p)
+
 (server-start)
 
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
@@ -10,9 +13,6 @@
 
 (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
 (el-get 'sync)
-
-; yes-or-no -> y-or-n
-(fset 'yes-or-no-p 'y-or-n-p)
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
