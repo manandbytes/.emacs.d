@@ -88,6 +88,9 @@
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
 
+;; Gemfile is a Ruby file
+(add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
+
 ;; Killing lines, inspired by http://xahlee.org/emacs/emacs_delete_whole_line.html
 ;; - kill the rest of the current line, C-k by default
 ;; - kill the whole line including its terminating newline, C-S-k
