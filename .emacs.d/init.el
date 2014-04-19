@@ -91,6 +91,10 @@
 ;; Gemfile is a Ruby file
 (add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
 
+;; Puppet files
+(add-to-list 'auto-mode-alist '("Puppetfile$" . puppet-mode))
+(add-hook 'puppet-mode-hook 'flymake-puppet-load)
+
 ;; Killing lines, inspired by http://xahlee.org/emacs/emacs_delete_whole_line.html
 ;; - kill the rest of the current line, C-k by default
 ;; - kill the whole line including its terminating newline, C-S-k
