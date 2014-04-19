@@ -88,6 +88,11 @@
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
 
+;; Killing lines, inspired by http://xahlee.org/emacs/emacs_delete_whole_line.html
+;; - kill the rest of the current line, C-k by default
+;; - kill the whole line including its terminating newline, C-S-k
+(global-set-key (kbd "C-S-k") 'kill-whole-line)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
