@@ -89,6 +89,8 @@
 (add-to-list 'auto-mode-alist '("\\.htm$" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.xhtml$" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.xhtm$" . nxml-mode))
+;; BeanShell files
+(add-to-list 'auto-mode-alist '("\\.bsh$" . java-mode))
 ;; AspectJ files
 (add-to-list 'auto-mode-alist '("\\.aj$" . java-mode))
 
