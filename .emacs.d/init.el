@@ -90,6 +90,10 @@
 (add-to-list 'auto-mode-alist '("\\.xhtml$" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.xhtm$" . nxml-mode))
 
+;; Maven POM files
+(add-to-list 'auto-mode-alist '("\\pom.xml$" . nxml-mode))
+(add-to-list 'auto-mode-alist '("\\pom-*.xml$" . nxml-mode))
+
 ;; Eclipse's project files
 (add-to-list 'auto-mode-alist '("\\.project$" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.classpath$" . nxml-mode))
