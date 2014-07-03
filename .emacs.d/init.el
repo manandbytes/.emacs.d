@@ -12,6 +12,12 @@
     (eval-print-last-sexp)))
 
 (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
+
+(setq el-get-sources
+      '(el-get
+        (:name puppet-flymake :pkgname "grimradical/puppet-flymake" :type github)
+        ))
+
 (el-get 'sync)
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
