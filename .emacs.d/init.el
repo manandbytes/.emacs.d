@@ -89,6 +89,11 @@
 (add-to-list 'auto-mode-alist '("\\.htm$" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.xhtml$" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.xhtm$" . nxml-mode))
+
+;; Eclipse's project files
+(add-to-list 'auto-mode-alist '("\\.project$" . nxml-mode))
+(add-to-list 'auto-mode-alist '("\\.classpath$" . nxml-mode))
+
 ; Java deployable artifacts
 (add-to-list 'auto-mode-alist '("\\.jar$" . archive-mode))
 (add-to-list 'auto-mode-alist '("\\.war$" . archive-mode))
