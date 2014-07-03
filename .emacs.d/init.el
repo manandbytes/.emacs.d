@@ -89,6 +89,8 @@
 (add-to-list 'auto-mode-alist '("\\.htm$" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.xhtml$" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.xhtm$" . nxml-mode))
+;; AspectJ files
+(add-to-list 'auto-mode-alist '("\\.aj$" . java-mode))
 
 ;; use markdown mode for *.md files
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
