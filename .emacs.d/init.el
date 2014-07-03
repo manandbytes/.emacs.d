@@ -84,6 +84,12 @@
      )
   )
 
+; edit html files with nxml-mode
+(add-to-list 'auto-mode-alist '("\\.html$" . nxml-mode))
+(add-to-list 'auto-mode-alist '("\\.htm$" . nxml-mode))
+(add-to-list 'auto-mode-alist '("\\.xhtml$" . nxml-mode))
+(add-to-list 'auto-mode-alist '("\\.xhtm$" . nxml-mode))
+
 ;; use markdown mode for *.md files
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
