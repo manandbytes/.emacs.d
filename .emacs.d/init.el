@@ -19,6 +19,7 @@
         (:name smex ;; a smart M-x enhancement
                :after (progn
                         (global-set-key (kbd "M-x") 'smex)
+                        (global-set-key (kbd "M-X") 'smex-major-mode-commands)
                         (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command) ;; an old M-x
                         ))
         (:name puppet-flymake :pkgname "grimradical/puppet-flymake" :type github)
