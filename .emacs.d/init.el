@@ -22,6 +22,9 @@
                         (global-set-key (kbd "M-X") 'smex-major-mode-commands)
                         (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command) ;; an old M-x
                         ))
+        (:name magit
+               :after (progn
+                        (global-set-key (kbd "C-x C-z") 'magit-status)))
         (:name puppet-flymake :pkgname "grimradical/puppet-flymake" :type github)
         ))
 
