@@ -13,12 +13,21 @@
 
 (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
 
+;; local recipes or advices to existing ones
 (setq el-get-sources
       '(el-get
         (:name puppet-flymake :pkgname "grimradical/puppet-flymake" :type github)
         ))
 
-(el-get 'sync)
+(setq my:el-get-packages
+      '(el-get
+        ))
+
+(setq my:el-get-packages
+      (append my:el-get-packages
+              (mapcar #'el-get-source-name el-get-sources)))
+
+(el-get 'sync my:el-get-packages)
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
