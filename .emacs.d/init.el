@@ -154,6 +154,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(backup-directory-alist (quote (("." . "~/.emacs.d/backups/"))))
+ '(custom-enabled-themes (quote (tango-dark tango)))
  '(delete-by-moving-to-trash t)
  '(url-proxy-services
    (quote
