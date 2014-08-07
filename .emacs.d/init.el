@@ -109,6 +109,17 @@
      )
   )
 
+;; enable SMerge, a minor mode to quickly navigate between conflicts and
+;; choose which to keep, for files with conflict markers
+(defun sm-try-smerge ()
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (when (re-search-forward "^<<<<<<< " nil t)
+      (smerge-mode 1))))
+;; smerge-mode will be enabled for files which contain conflict markers
+(add-hook 'find-file-hook 'sm-try-smerge t)
+
 ; edit html files with nxml-mode
 (add-to-list 'auto-mode-alist '("\\.html$" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.htm$" . nxml-mode))
