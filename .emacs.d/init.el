@@ -30,6 +30,7 @@
 
 (setq my:el-get-packages
       '(el-get
+        puppet-mode
         ))
 
 (setq my:el-get-packages
