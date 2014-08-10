@@ -30,7 +30,13 @@
 
 (setq my:el-get-packages
       '(el-get
+        command-frequency
+        helm
+        magit
+        magit-view-file
+        org-mode
         puppet-mode
+        smex
         ))
 
 (setq my:el-get-packages
