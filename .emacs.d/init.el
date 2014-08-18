@@ -25,6 +25,15 @@
         (:name magit
                :after (progn
                         (global-set-key (kbd "C-x C-z") 'magit-status)))
+        (:name org-mode
+               :after (progn
+                        ;; a link type to show debian's package info using apt-utils-mode
+                        (when (require 'apt-utils nil 'noerror)
+                          (require 'org)
+                          (defun org-deb-open (package)
+                            (apt-utils-show-package-1 package t nil))
+                          (org-add-link-type "deb"
+                                             'org-deb-open))))
         (:name puppet-flymake :pkgname "grimradical/puppet-flymake" :type github)
         ))
 
