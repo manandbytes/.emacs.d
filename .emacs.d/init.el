@@ -27,6 +27,10 @@
                         (global-set-key (kbd "C-x C-z") 'magit-status)))
         (:name org-mode
                :after (progn
+                        ;; http://orgmode.org/manual/Clocking-work-time.html
+                        (setq org-clock-persist t)
+                        (org-clock-persistence-insinuate)
+
                         ;; a link type to show debian's package info using apt-utils-mode
                         (when (require 'apt-utils nil 'noerror)
                           (require 'org)
