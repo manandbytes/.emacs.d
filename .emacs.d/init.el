@@ -200,6 +200,7 @@
  '(backup-directory-alist (quote (("." . "~/.emacs.d/backups/"))))
  '(custom-enabled-themes (quote (tango-dark tango)))
  '(delete-by-moving-to-trash t)
+ '(european-calendar-style t)
  '(url-proxy-services
    (quote
     (("no_proxy" . "\\(localhost\\|127\\.0\\.0\\.0/8\\|::1\\)")
