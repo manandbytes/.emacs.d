@@ -34,6 +34,7 @@
                         (global-set-key (kbd "C-c a") 'org-agenda)
                         (global-set-key (kbd "C-c r") 'org-capture) ;; capture with C-c r
                         (global-set-key (kbd "C-c .") 'org-time-stamp) ;; insert timestamp everywhere with 'C-c .'
+                        (global-set-key (kbd "C-c b") 'org-switchb) ;; switch between org buffers with 'C-c b'
 
                         ;; a link type to show debian's package info using apt-utils-mode
                         (when (require 'apt-utils nil 'noerror)
@@ -207,6 +208,7 @@
      ("http" . "127.0.0.1:3128"))))
  '(org-agenda-custom-commands (quote (("r" tags-todo "REFILE" nil))))
  '(org-agenda-start-on-weekday nil)
+ '(org-completion-use-ido t)
  '(org-link-abbrev-alist (quote (("github" . "https://github.com/%s"))))
  '(vc-make-backup-files t)
  )
