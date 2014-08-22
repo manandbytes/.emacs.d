@@ -42,12 +42,21 @@
                             (apt-utils-show-package-1 package t nil))
                           (org-add-link-type "deb"
                                              'org-deb-open))))
+        (:name crontab-mode
+               :checksum f68206c1d10de68ba0685ce4cb14741c7ca7c648
+               :after (progn
+                        (add-to-list 'auto-mode-alist '("\\.cron\\(tab\\)?\\'" . crontab-mode))
+                        (add-to-list 'auto-mode-alist '("cron\\(tab\\)?\\."    . crontab-mode))
+                        )
+               )
+
         (:name puppet-flymake :pkgname "grimradical/puppet-flymake" :type github)
         ))
 
 (setq my:el-get-packages
       '(el-get
         command-frequency
+        crontab-mode
         helm
         magit
         magit-view-file
