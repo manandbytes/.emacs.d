@@ -191,6 +191,7 @@
    (quote
     (("no_proxy" . "\\(localhost\\|127\\.0\\.0\\.0/8\\|::1\\)")
      ("http" . "127.0.0.1:3128"))))
+ '(org-agenda-custom-commands (quote (("r" tags-todo "REFILE" nil))))
  '(org-link-abbrev-alist (quote (("github" . "https://github.com/%s"))))
  '(vc-make-backup-files t)
  )
