@@ -33,6 +33,7 @@
 
                         (global-set-key (kbd "C-c a") 'org-agenda)
                         (global-set-key (kbd "C-c r") 'org-capture) ;; capture with C-c r
+                        (global-set-key (kbd "C-c .") 'org-time-stamp) ;; insert timestamp everywhere with 'C-c .'
 
                         ;; a link type to show debian's package info using apt-utils-mode
                         (when (require 'apt-utils nil 'noerror)
