@@ -32,6 +32,7 @@
                         (org-clock-persistence-insinuate)
 
                         (global-set-key (kbd "C-c a") 'org-agenda)
+                        (global-set-key (kbd "C-c r") 'org-capture) ;; capture with C-c r
 
                         ;; a link type to show debian's package info using apt-utils-mode
                         (when (require 'apt-utils nil 'noerror)
