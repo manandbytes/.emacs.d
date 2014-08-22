@@ -31,6 +31,8 @@
                         (setq org-clock-persist t)
                         (org-clock-persistence-insinuate)
 
+                        (global-set-key (kbd "C-c a") 'org-agenda)
+
                         ;; a link type to show debian's package info using apt-utils-mode
                         (when (require 'apt-utils nil 'noerror)
                           (require 'org)
