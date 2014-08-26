@@ -43,6 +43,11 @@
                             (apt-utils-show-package-1 package t nil))
                           (org-add-link-type "deb"
                                              'org-deb-open))))
+        (:name org-link-travis :pkgname "manandbytes/org-link-travis" :type github
+               :depends (org-mode)
+               :after (progn
+                        (org-add-link-type "travis-build" 'org-link-travis/open-build-link)
+                        ))
         (:name crontab-mode
                :checksum f68206c1d10de68ba0685ce4cb14741c7ca7c648
                :after (progn
@@ -61,6 +66,7 @@
         helm
         magit
         magit-view-file
+        org-link-travis
         org-mode
         puppet-mode
         smex
