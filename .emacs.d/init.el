@@ -212,7 +212,7 @@
    (quote
     (("no_proxy" . "\\(localhost\\|127\\.0\\.0\\.0/8\\|::1\\)")
      ("http" . "127.0.0.1:3128"))))
- '(org-agenda-custom-commands (quote (("r" tags-todo "REFILE" nil))))
+ '(org-agenda-custom-commands (quote (("r" tags-todo "REFILE" nil) ("W" "Weekly review" ((agenda "" ((org-agenda-ndays 7))) (stuck "") (tags "PROJECT") (todo "SOMEDAY") (todo "WAITING")) "" nil))))
  '(org-agenda-start-on-weekday nil)
  '(org-completion-use-ido t)
  '(org-link-abbrev-alist (quote (("github" . "https://github.com/%s"))))
