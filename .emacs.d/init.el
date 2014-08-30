@@ -215,7 +215,7 @@
  '(org-agenda-custom-commands (quote (("r" tags-todo "REFILE" nil) ("W" "Weekly review" ((agenda "" ((org-agenda-ndays 7))) (stuck "") (tags "PROJECT") (todo "SOMEDAY") (todo "WAITING")) "" nil))))
  '(org-agenda-start-on-weekday nil)
  '(org-completion-use-ido t)
- '(org-link-abbrev-alist (quote (("github" . "https://github.com/%s"))))
+ '(org-link-abbrev-alist (quote (("google" . "http://www.google.com/search?q=%s") ("hotline" . "http://hotline.ua/sr?x=29&y=14&q=%s") ("wikipedia" . "http://en.wikipedia.org/wiki/%s") ("debianbug" . "http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=%s") ("jsr" . "http://jcp.org/en/jsr/detail?id=%s") ("eclipsebug" . "https://bugs.eclipse.org/bugs/show_bug.cgi?id=%s") ("github" . "https://github.com/%s"))))
  '(vc-make-backup-files t)
  )
 (custom-set-faces
