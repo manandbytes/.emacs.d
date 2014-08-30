@@ -63,6 +63,7 @@
       '(el-get
         command-frequency
         crontab-mode
+        flymake-puppet
         helm
         magit
         magit-view-file
