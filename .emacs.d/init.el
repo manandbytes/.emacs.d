@@ -219,7 +219,7 @@
  '(org-link-abbrev-alist (quote (("google" . "http://www.google.com/search?q=%s") ("hotline" . "http://hotline.ua/sr?x=29&y=14&q=%s") ("wikipedia" . "http://en.wikipedia.org/wiki/%s") ("debianbug" . "http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=%s") ("jsr" . "http://jcp.org/en/jsr/detail?id=%s") ("eclipsebug" . "https://bugs.eclipse.org/bugs/show_bug.cgi?id=%s") ("github" . "https://github.com/%s"))))
  '(org-refile-targets (quote ((org-agenda-files :tag . "PROJECT") (org-agenda-files :maxlevel . 2))))
  '(org-stuck-projects (quote ("+PROJECT/-DONE-CANCELED" ("NEXT") nil)))
- '(org-todo-keywords (quote ((sequence "TODO" "NEXT" "|" "DONE") (sequence "WAITING" "SOMEDAY" "|" "CANCELED"))))
+ '(org-todo-keywords (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(x)") (sequence "WAITING(w)" "SOMEDAY(s)" "|" "CANCELED(c)"))))
  '(org-use-fast-todo-selection (quote prefix))
  '(vc-make-backup-files t)
  )
