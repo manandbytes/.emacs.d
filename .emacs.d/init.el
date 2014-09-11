@@ -220,6 +220,7 @@
  '(org-refile-targets (quote ((org-agenda-files :tag . "PROJECT") (org-agenda-files :maxlevel . 2))))
  '(org-stuck-projects (quote ("+PROJECT/-DONE-CANCELED" ("NEXT") nil)))
  '(org-todo-keywords (quote ((sequence "TODO" "NEXT" "|" "DONE") (sequence "WAITING" "SOMEDAY" "|" "CANCELED"))))
+ '(org-use-fast-todo-selection (quote prefix))
  '(vc-make-backup-files t)
  )
 (custom-set-faces
