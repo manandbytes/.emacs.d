@@ -85,6 +85,10 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 
+;; change current buffer's font size with C-+ and C--
+(global-set-key (kbd "C-+") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+
 (eval-after-load "tramp"
   '(progn
      (defun mn-sudo-mode-line-function ()
