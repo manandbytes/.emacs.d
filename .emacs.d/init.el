@@ -217,7 +217,7 @@
    (quote
     (("no_proxy" . "\\(localhost\\|127\\.0\\.0\\.0/8\\|::1\\)")
      ("http" . "127.0.0.1:3128"))))
- '(org-agenda-custom-commands (quote (("r" tags-todo "REFILE" nil) ("W" "Weekly review" ((agenda "" ((org-agenda-ndays 7))) (stuck "") (tags "PROJECT") (todo "SOMEDAY") (todo "WAITING")) "" nil) ("p" tags "+PROJECT" ((org-use-tag-inheritance nil) (org-agenda-sorting-strategy (quote (todo-state-up))))))))
+ '(org-agenda-custom-commands (quote (("r" tags-todo "REFILE" nil) ("W" "Weekly review" ((agenda "" ((org-agenda-ndays 7))) (stuck "") (tags "PROJECT") (todo "SOMEDAY") (todo "WAITING")) "" nil) ("p" tags "+PROJECT" ((org-use-tag-inheritance nil) (org-agenda-sorting-strategy (quote (todo-state-up))))) ("u" "Unscheduled tasks" tags-todo "" ((org-agenda-skip-function (quote (org-agenda-skip-entry-if (quote scheduled) (quote deadline)))))))))
  '(org-agenda-start-on-weekday nil)
  '(org-clock-into-drawer 1)
  '(org-completion-use-ido t)
