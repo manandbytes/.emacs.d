@@ -221,6 +221,8 @@
  '(org-agenda-start-on-weekday nil)
  '(org-clock-into-drawer 1)
  '(org-completion-use-ido t)
+ '(org-enforce-todo-checkbox-dependencies t)
+ '(org-enforce-todo-dependencies t)
  '(org-link-abbrev-alist (quote (("google" . "http://www.google.com/search?q=%s") ("hotline" . "http://hotline.ua/sr?x=29&y=14&q=%s") ("wikipedia" . "http://en.wikipedia.org/wiki/%s") ("debianbug" . "http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=%s") ("jsr" . "http://jcp.org/en/jsr/detail?id=%s") ("eclipsebug" . "https://bugs.eclipse.org/bugs/show_bug.cgi?id=%s") ("github" . "https://github.com/%s"))))
  '(org-log-into-drawer "LOGBOOK")
  '(org-refile-targets (quote ((org-agenda-files :tag . "PROJECT") (org-agenda-files :maxlevel . 2))))
