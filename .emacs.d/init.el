@@ -48,6 +48,7 @@
                :after (progn
                         (org-add-link-type "travis-build" 'org-link-travis/open-build-link)
                         ))
+        (:name nhexl-mode :pkgname "emacsmirror/nhexl-mode" :type github)
         (:name crontab-mode
                :checksum f68206c1d10de68ba0685ce4cb14741c7ca7c648
                :after (progn
@@ -67,6 +68,7 @@
         helm
         magit
         magit-view-file
+        nhexl-mode
         org-link-travis
         org-mode
         puppet-mode
