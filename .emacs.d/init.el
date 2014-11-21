@@ -216,6 +216,7 @@
  '(custom-enabled-themes (quote (tango-dark tango)))
  '(delete-by-moving-to-trash t)
  '(european-calendar-style t)
+ '(ido-enable-flex-matching t)
  '(url-proxy-services
    (quote
     (("no_proxy" . "\\(localhost\\|127\\.0\\.0\\.0/8\\|::1\\)")
