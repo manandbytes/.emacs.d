@@ -62,6 +62,7 @@
 
 (setq my:el-get-packages
       '(el-get
+        linum-relative
         command-frequency
         crontab-mode
         flymake-puppet
