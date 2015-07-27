@@ -33,16 +33,8 @@ quickly navigate between conflicts and choose which to keep:
       (goto-char (point-max))
       (eval-print-last-sexp)))
 #+END_SRC
-* Legacy configuration
+** Local recipes
 #+BEGIN_SRC emacs-lisp
-  ;; yes-or-no -> y-or-n
-  (fset 'yes-or-no-p 'y-or-n-p)
-
-  (server-start)
-
-  (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
-
-  ;; local recipes or advices to existing ones
   (setq el-get-sources
         '(el-get
           (:name smex ;; a smart M-x enhancement
@@ -88,7 +80,9 @@ quickly navigate between conflicts and choose which to keep:
 
           (:name puppet-flymake :pkgname "grimradical/puppet-flymake" :type github)
           ))
-
+#+END_SRC
+** Packages
+#+BEGIN_SRC emacs-lisp
   (setq my:el-get-packages
         '(el-get
           linum-relative
@@ -104,12 +98,23 @@ quickly navigate between conflicts and choose which to keep:
           puppet-mode
           smex
           ))
-
+#+END_SRC
+** Install and configure packages
+#+BEGIN_SRC emacs-lisp
   (setq my:el-get-packages
         (append my:el-get-packages
                 (mapcar #'el-get-source-name el-get-sources)))
 
   (el-get 'sync my:el-get-packages)
+#+END_SRC
+* Legacy configuration
+#+BEGIN_SRC emacs-lisp
+  ;; yes-or-no -> y-or-n
+  (fset 'yes-or-no-p 'y-or-n-p)
+
+  (server-start)
+
+  (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
 
   (add-to-list 'load-path "~/.emacs.d/lisp/")
 
