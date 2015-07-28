@@ -64,12 +64,12 @@ quickly navigate between conflicts and choose which to keep:
                (org-add-link-type "deb"
                                   'org-deb-open))))
 
-  (el-get-bundle org-link-travis :pkgname "manandbytes/org-link-travis" :type github
+  (el-get-bundle org-link-travis :pkgname "manandbytes/org-link-travis"
     :depends (org-mode)
     :after (progn
              (org-add-link-type "travis-build" 'org-link-travis/open-build-link)))
 
-  (el-get-bundle nhexl-mode :pkgname "emacsmirror/nhexl-mode" :type github)
+  (el-get-bundle nhexl-mode :pkgname "emacsmirror/nhexl-mode")
 
   (el-get-bundle crontab-mode
     :checksum f68206c1d10de68ba0685ce4cb14741c7ca7c648
@@ -77,7 +77,7 @@ quickly navigate between conflicts and choose which to keep:
              (add-to-list 'auto-mode-alist '("\\.cron\\(tab\\)?\\'" . crontab-mode))
              (add-to-list 'auto-mode-alist '("cron\\(tab\\)?\\."    . crontab-mode))))
 
-  (el-get-bundle puppet-flymake :pkgname "grimradical/puppet-flymake" :type github)
+  (el-get-bundle puppet-flymake :pkgname "grimradical/puppet-flymake")
 #+END_SRC
 ** Packages with default configration
 #+BEGIN_SRC emacs-lisp
