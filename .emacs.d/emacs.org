@@ -35,51 +35,49 @@ quickly navigate between conflicts and choose which to keep:
 #+END_SRC
 ** Local recipes
 #+BEGIN_SRC emacs-lisp
-  (setq el-get-sources
-        '(el-get
-          (:name smex ;; a smart M-x enhancement
-                 :after (progn
-                          (global-set-key (kbd "M-x") 'smex)
-                          (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-                          (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command) ;; an old M-x
-                          ))
-          (:name magit
-                 :after (progn
-                          (global-set-key (kbd "C-x C-z") 'magit-status)))
-          (:name org-mode
-                 :after (progn
-                          ;; http://orgmode.org/manual/Clocking-work-time.html
-                          (setq org-clock-persist t)
-                          (org-clock-persistence-insinuate)
+  (el-get-bundle smex ;; a smart M-x enhancement
+    :after (progn
+             (global-set-key (kbd "M-x") 'smex)
+             (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+             (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)))
 
-                          (global-set-key (kbd "C-c a") 'org-agenda)
-                          (global-set-key (kbd "C-c r") 'org-capture) ;; capture with C-c r
-                          (global-set-key (kbd "C-c .") 'org-time-stamp) ;; insert timestamp everywhere with 'C-c .'
-                          (global-set-key (kbd "C-c b") 'org-switchb) ;; switch between org buffers with 'C-c b'
+  (el-get-bundle magit
+    :after (progn
+             (global-set-key (kbd "C-x C-z") 'magit-status)))
 
-                          ;; a link type to show debian's package info using apt-utils-mode
-                          (when (require 'apt-utils nil 'noerror)
-                            (require 'org)
-                            (defun org-deb-open (package)
-                              (apt-utils-show-package-1 package t nil))
-                            (org-add-link-type "deb"
-                                               'org-deb-open))))
-          (:name org-link-travis :pkgname "manandbytes/org-link-travis" :type github
-                 :depends (org-mode)
-                 :after (progn
-                          (org-add-link-type "travis-build" 'org-link-travis/open-build-link)
-                          ))
-          (:name nhexl-mode :pkgname "emacsmirror/nhexl-mode" :type github)
-          (:name crontab-mode
-                 :checksum f68206c1d10de68ba0685ce4cb14741c7ca7c648
-                 :after (progn
-                          (add-to-list 'auto-mode-alist '("\\.cron\\(tab\\)?\\'" . crontab-mode))
-                          (add-to-list 'auto-mode-alist '("cron\\(tab\\)?\\."    . crontab-mode))
-                          )
-                 )
+  (el-get-bundle org-mode
+    :after (progn
+             ;; http://orgmode.org/manual/Clocking-work-time.html
+             (setq org-clock-persist t)
+             (org-clock-persistence-insinuate)
 
-          (:name puppet-flymake :pkgname "grimradical/puppet-flymake" :type github)
-          ))
+             (global-set-key (kbd "C-c a") 'org-agenda)
+             (global-set-key (kbd "C-c r") 'org-capture) ;; capture with C-c r
+             (global-set-key (kbd "C-c .") 'org-time-stamp) ;; insert timestamp everywhere with 'C-c .'
+             (global-set-key (kbd "C-c b") 'org-switchb) ;; switch between org buffers with 'C-c b'
+
+             ;; a link type to show debian's package info using apt-utils-mode
+             (when (require 'apt-utils nil 'noerror)
+               (require 'org)
+               (defun org-deb-open (package)
+                 (apt-utils-show-package-1 package t nil))
+               (org-add-link-type "deb"
+                                  'org-deb-open))))
+
+  (el-get-bundle org-link-travis :pkgname "manandbytes/org-link-travis" :type github
+    :depends (org-mode)
+    :after (progn
+             (org-add-link-type "travis-build" 'org-link-travis/open-build-link)))
+
+  (el-get-bundle nhexl-mode :pkgname "emacsmirror/nhexl-mode" :type github)
+
+  (el-get-bundle crontab-mode
+    :checksum f68206c1d10de68ba0685ce4cb14741c7ca7c648
+    :after (progn
+             (add-to-list 'auto-mode-alist '("\\.cron\\(tab\\)?\\'" . crontab-mode))
+             (add-to-list 'auto-mode-alist '("cron\\(tab\\)?\\."    . crontab-mode))))
+
+  (el-get-bundle puppet-flymake :pkgname "grimradical/puppet-flymake" :type github)
 #+END_SRC
 ** Packages with default configration
 #+BEGIN_SRC emacs-lisp
