@@ -79,8 +79,6 @@ quickly navigate between conflicts and choose which to keep:
     :after (progn
              (add-to-list 'auto-mode-alist '("\\.cron\\(tab\\)?\\'" . crontab-mode))
              (add-to-list 'auto-mode-alist '("cron\\(tab\\)?\\."    . crontab-mode))))
-
-  (el-get-bundle puppet-flymake :pkgname "grimradical/puppet-flymake")
 #+END_SRC
 ** Packages with default configration
 #+BEGIN_SRC emacs-lisp
@@ -89,16 +87,30 @@ quickly navigate between conflicts and choose which to keep:
        '(linum-relative
          command-frequency
          crontab-mode
-         flymake-puppet
          helm
-         magit-view-file
-         puppet-mode)
+         magit-view-file)
        (el-get-bundle package)))
 #+END_SRC
 ** Install and configure packages
 #+BEGIN_SRC emacs-lisp
   (el-get 'sync)
 #+END_SRC
+* Puppet
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle puppet-mode)
+  (el-get-bundle flymake-puppet)
+#+END_SRC
+
+[[github:librarian-puppet][librarian-puppet]], a manager for the Puppet modules, uses files =Puppetfile=, =Modulefile= or =metadata.json= as a source of modules' dependencies:
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'auto-mode-alist '("Puppetfile$" . puppet-mode))
+#+END_SRC
+** TODO Missing flymake-puppet -> puppet-mode		     :bug:dependency:
+** TODO grimradical/puppet-flymake vs benprew/flymake-puppet - what to chose?
+   There are two modes to check Puppet manifests against the Puppetlabs style guide:
+   - [[github:grimradical/puppet-flymake]]
+   - [[github:benprew/flymake-puppet]]
+   Both =(provide 'flymake-puppet)=, use [[https://rubygems.org/gems/puppet-lint][puppet-lint]] and are based on Steve Purcell's [[github:purcell/flymake-coffee][flymake-coffe]]. For now, let use [[github:benprew/flymake-puppet]].
 * Legacy configuration
 #+BEGIN_SRC emacs-lisp
   ;; yes-or-no -> y-or-n
@@ -212,10 +224,6 @@ quickly navigate between conflicts and choose which to keep:
 
   ;; Gemfile is a Ruby file
   (add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
-
-  ;; Puppet files
-  (add-to-list 'auto-mode-alist '("Puppetfile$" . puppet-mode))
-  (add-hook 'puppet-mode-hook 'flymake-puppet-load)
 
   ;; Killing lines, inspired by http://xahlee.org/emacs/emacs_delete_whole_line.html
   ;; - kill the rest of the current line, C-k by default
