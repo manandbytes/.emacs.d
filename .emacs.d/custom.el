@@ -60,10 +60,6 @@
     ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(x)")
      (sequence "WAITING(w)" "SOMEDAY(s)" "|" "CANCELED(c)"))))
  '(org-use-fast-todo-selection (quote prefix))
- '(url-proxy-services
-   (quote
-    (("no_proxy" . "\\(localhost\\|127\\.0\\.0\\.0/8\\|::1\\)")
-     ("http" . "127.0.0.1:3128"))))
  '(vc-make-backup-files t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

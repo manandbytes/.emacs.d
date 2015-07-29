@@ -7,6 +7,8 @@ clean and simple, save customizations to a separate file:
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
   (load custom-file t)
 #+END_SRC
+* Networking
+** TODO Set proxies conditionally
 * Version control
 ** Resolving conflicts
 For files with conflict markers, enable SMerge, a minor mode to
