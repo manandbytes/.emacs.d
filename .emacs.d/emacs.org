@@ -91,13 +91,8 @@ quickly navigate between conflicts and choose which to keep:
          crontab-mode
          flymake-puppet
          helm
-         magit
          magit-view-file
-         nhexl-mode
-         org-link-travis
-         org-mode
-         puppet-mode
-         smex)
+         puppet-mode)
        (el-get-bundle package)))
 #+END_SRC
 ** Install and configure packages
