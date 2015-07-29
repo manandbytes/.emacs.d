@@ -62,7 +62,8 @@ quickly navigate between conflicts and choose which to keep:
                (defun org-deb-open (package)
                  (apt-utils-show-package-1 package t nil))
                (org-add-link-type "deb"
-                                  'org-deb-open))))
+                                  'org-deb-open)))
+    (org-reload))
 
   (el-get-bundle org-link-travis :pkgname "manandbytes/org-link-travis"
     :depends (org-mode)
