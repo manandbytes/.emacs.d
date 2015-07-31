@@ -111,6 +111,16 @@ quickly navigate between conflicts and choose which to keep:
    - [[github:grimradical/puppet-flymake]]
    - [[github:benprew/flymake-puppet]]
    Both =(provide 'flymake-puppet)=, use [[https://rubygems.org/gems/puppet-lint][puppet-lint]] and are based on Steve Purcell's [[github:purcell/flymake-coffee][flymake-coffe]]. For now, let use [[github:benprew/flymake-puppet]].
+* Org
+** TODO Navigation between source code blocks
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle hydra)
+  (defhydra hydra-org-src-block ()
+    "Navigate through source code blocks"
+    ("j" org-babel-previous-src-block "Prev")
+    ("k" org-babel-next-src-block "Next"))
+#+END_SRC
+*** TODO Define initial keybinding
 * Legacy configuration
 #+BEGIN_SRC emacs-lisp
   ;; yes-or-no -> y-or-n
