@@ -7,6 +7,14 @@ clean and simple, save customizations to a separate file:
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
   (load custom-file t)
 #+END_SRC
+* Backups
+By default, Emacs saves backup files (the files ending with =~=) in the current directory. Stash them all under =backups= directory in user's Emacs directory:
+#+BEGIN_SRC emacs-lisp
+  (defvar mn/backup-directory (expand-file-name "backups" user-emacs-directory))
+  (if (not (file-exists-p mn/backup-directory))
+          (make-directory mn/backup-directory t))
+  (setq backup-directory-alist `((".*" . ,mn/backup-directory)))
+#+END_SRC
 * Networking
 ** TODO Set proxies conditionally
 * Version control
