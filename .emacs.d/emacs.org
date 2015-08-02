@@ -55,26 +55,6 @@ quickly navigate between conflicts and choose which to keep:
     :after (progn
              (global-set-key (kbd "C-x C-z") 'magit-status)))
 
-  (el-get-bundle org-mode
-    :after (progn
-             ;; http://orgmode.org/manual/Clocking-work-time.html
-             (setq org-clock-persist t)
-             (org-clock-persistence-insinuate)
-
-             (global-set-key (kbd "C-c a") 'org-agenda)
-             (global-set-key (kbd "C-c r") 'org-capture) ;; capture with C-c r
-             (global-set-key (kbd "C-c .") 'org-time-stamp) ;; insert timestamp everywhere with 'C-c .'
-             (global-set-key (kbd "C-c b") 'org-switchb) ;; switch between org buffers with 'C-c b'
-
-             ;; a link type to show debian's package info using apt-utils-mode
-             (when (require 'apt-utils nil 'noerror)
-               (require 'org)
-               (defun org-deb-open (package)
-                 (apt-utils-show-package-1 package t nil))
-               (org-add-link-type "deb"
-                                  'org-deb-open)))
-    (org-reload))
-
   (el-get-bundle org-link-travis :pkgname "manandbytes/org-link-travis"
     :depends (org-mode)
     :after (progn
@@ -120,6 +100,26 @@ quickly navigate between conflicts and choose which to keep:
    - [[github:benprew/flymake-puppet]]
    Both =(provide 'flymake-puppet)=, use [[https://rubygems.org/gems/puppet-lint][puppet-lint]] and are based on Steve Purcell's [[github:purcell/flymake-coffee][flymake-coffe]]. For now, let use [[github:benprew/flymake-puppet]].
 * Org
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle org-mode
+
+    ;; http://orgmode.org/manual/Clocking-work-time.html
+    (setq org-clock-persist t)
+    (org-clock-persistence-insinuate)
+
+    (global-set-key (kbd "C-c a") 'org-agenda)
+    (global-set-key (kbd "C-c r") 'org-capture) ;; capture with C-c r
+    (global-set-key (kbd "C-c .") 'org-time-stamp) ;; insert timestamp everywhere with 'C-c .'
+    (global-set-key (kbd "C-c b") 'org-switchb) ;; switch between org buffers with 'C-c b'
+
+    ;; a link type to show debian's package info using apt-utils-mode
+    (when (require 'apt-utils nil 'noerror)
+      (require 'org)
+      (defun org-deb-open (package)
+        (apt-utils-show-package-1 package t nil))
+      (org-add-link-type "deb" 'org-deb-open)))
+  (org-reload)
+#+END_SRC
 ** TODO Navigation between source code blocks
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle hydra)
