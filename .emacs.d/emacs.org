@@ -40,6 +40,12 @@ And finally enable desktop mode:
   (desktop-save-mode 1)
 #+END_SRC
 * Networking
+** Use SOCKS 5 proxy
+#+BEGIN_SRC emacs-lisp
+  (require 'socks)
+  (setq socks-server '("Default server" "localhost" 9050 5)
+        url-gateway-method 'socks)
+#+END_SRC
 ** TODO Set proxies conditionally
 * Version control
 ** Git
