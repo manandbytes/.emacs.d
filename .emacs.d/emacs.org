@@ -29,6 +29,13 @@ By default, Emacs saves backup files (the files ending with =~=) in the current 
 * Networking
 ** TODO Set proxies conditionally
 * Version control
+** Git
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle magit
+    :after (progn
+             (global-set-key (kbd "C-x C-z") 'magit-status)))
+  (el-get-bundle magit-view-file)
+#+END_SRC
 ** Resolving conflicts
 For files with conflict markers, enable SMerge, a minor mode to
 quickly navigate between conflicts and choose which to keep:
@@ -51,10 +58,6 @@ quickly navigate between conflicts and choose which to keep:
              (global-set-key (kbd "M-X") 'smex-major-mode-commands)
              (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)))
 
-  (el-get-bundle magit
-    :after (progn
-             (global-set-key (kbd "C-x C-z") 'magit-status)))
-
   (el-get-bundle org-link-travis :pkgname "manandbytes/org-link-travis"
     :depends (org-mode)
     :after (progn
@@ -75,8 +78,7 @@ quickly navigate between conflicts and choose which to keep:
        '(linum-relative
          command-frequency
          crontab-mode
-         helm
-         magit-view-file)
+         helm)
        (el-get-bundle package)))
 #+END_SRC
 ** Install and configure packages
