@@ -26,6 +26,19 @@ By default, Emacs saves backup files (the files ending with =~=) in the current 
       (goto-char (point-max))
       (eval-print-last-sexp)))
 #+END_SRC
+* Saving and restoring desktop state between sessions
+#+BEGIN_SRC emacs-lisp
+  (setq desktop-path (list user-emacs-directory))
+  (setq desktop-dirname user-emacs-directory)
+#+END_SRC
+By default, all the buffers in the desktop are restored at one go and may take quite some time. Do not restore immediately any buffers and let them be restored lazily, when Emacs is idle:
+#+BEGIN_SRC emacs-lisp
+  (setq desktop-restore-eager 0)
+#+END_SRC
+And finally enable desktop mode:
+#+BEGIN_SRC emacs-lisp
+  (desktop-save-mode 1)
+#+END_SRC
 * Networking
 ** TODO Set proxies conditionally
 * Version control
