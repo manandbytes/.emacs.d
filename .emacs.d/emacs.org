@@ -61,19 +61,20 @@ And finally enable desktop mode:
 #+BEGIN_SRC emacs-lisp
   (eval-after-load "tramp"
     '(progn
-       (add-to-list 'tramp-methods '("vcsh"
-                                     (tramp-login-program "vcsh")
-                                     (tramp-login-args
-                                      (("enter")
-                                       ("%h")))
-                                     (tramp-remote-shell "/bin/sh")
-                                     (tramp-remote-shell-args
-                                      ("-c"))))
+       (defconst tramp-vcsh-method "vcsh"
+         "*When this method name is used, forward all calls to VCSH.")
+
+       (add-to-list 'tramp-methods
+                    (cons tramp-vcsh-method
+                          '((tramp-login-program "vcsh")
+                            (tramp-login-args (("enter") ("%h")))
+                            (tramp-remote-shell "/bin/sh")
+                            (tramp-remote-shell-args ("-c")))))
 
        (defun tramp-parse-vcsh (_ignore)
          "List all repositories"
          (mapcar (lambda (x) (list nil x)) (split-string (shell-command-to-string "vcsh list"))))
-       (tramp-set-completion-function "vcsh" '((tramp-parse-vcsh "")))))
+       (tramp-set-completion-function tramp-vcsh-method '((tramp-parse-vcsh "")))))
 #+END_SRC
 ** Resolving conflicts
 For files with conflict markers, enable SMerge, a minor mode to
