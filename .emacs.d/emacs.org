@@ -56,7 +56,7 @@ And finally enable desktop mode:
   (el-get-bundle magit-view-file)
 #+END_SRC
 ** Integrate Vcsh and Magit
-   - open directory '/vcsh:<repo>:.
+   - open directory [[/vcsh:emacs:.emacs.d/]] or a file [[/vcsh:emacs:.emacs.d/init.el]]
    - =M-x magit-status=
 #+BEGIN_SRC emacs-lisp
   (eval-after-load "tramp"
