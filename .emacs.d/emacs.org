@@ -77,6 +77,52 @@ And finally enable desktop mode:
          (mapcar (lambda (x) (list nil x)) (split-string (shell-command-to-string "vcsh list"))))
        (tramp-set-completion-function tramp-vcsh-method '((tramp-parse-vcsh "")))))
 #+END_SRC
+*** TODO Improve filename completion
+Vcsh provides a list of all files tracked by all repositories:
+#+BEGIN_SRC shell :dir ~
+vcsh list-tracked
+#+END_SRC
+
+#+RESULTS:
+| /home/mn/.bash_logout                       |
+| /home/mn/.bashrc                            |
+| /home/mn/.config/byobu/status               |
+| /home/mn/.config/byobu/statusrc             |
+| /home/mn/.config/byobu/.tmux.conf           |
+| /home/mn/.config/systemd/user/emacs.service |
+| /home/mn/.config/tmux/inx                   |
+| /home/mn/.config/tmux/xless                 |
+| /home/mn/.emacs.d/custom.el                 |
+| /home/mn/.emacs.d/emacs.org                 |
+| /home/mn/.emacs.d/init.el                   |
+| /home/mn/.profile                           |
+| /home/mn/.tmux.conf                         |
+
+or a specific one:
+#+BEGIN_SRC shell :dir ~
+vcsh list-tracked emacs
+#+END_SRC
+
+#+RESULTS:
+| /home/mn/.config/systemd/user/emacs.service |
+| /home/mn/.emacs.d/custom.el                 |
+| /home/mn/.emacs.d/emacs.org                 |
+| /home/mn/.emacs.d/init.el                   |
+
+Use this feature to provide more fine-grained completion for repositories and files.
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (defconst tramp-vcsh-file-name-handler-alist
+    '((expand-file-name . tramp-vcsh-handle-expand-file-name)))
+
+  (add-to-list 'tramp-foreign-file-name-handler-alist
+               (cons tramp-vcsh-method 'tramp-vcsh-file-name-handler-alist))
+
+  (defsubst tramp-vcsh-file-name-p (filename)
+    "Check if it's a filename for VCSH."
+    (let ((v (tramp-dissect-file-name filename)))
+      (string= (tramp-file-name-method v) tramp-vcsh-method)))
+#+END_SRC
 ** Resolving conflicts
 For files with conflict markers, enable SMerge, a minor mode to
 quickly navigate between conflicts and choose which to keep:
