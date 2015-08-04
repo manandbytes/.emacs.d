@@ -64,6 +64,7 @@ And finally enable desktop mode:
        (defconst tramp-vcsh-method "vcsh"
          "*When this method name is used, forward all calls to VCSH.")
 
+       (setq tramp-methods (delq (assoc tramp-vcsh-method tramp-methods) tramp-methods))
        (add-to-list 'tramp-methods
                     (cons tramp-vcsh-method
                           '((tramp-login-program "vcsh")
