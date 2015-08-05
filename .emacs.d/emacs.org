@@ -236,6 +236,12 @@ Press =Ctrl-C r= to quickly create:
                '("w" "Web citation" entry (file+headline "NewNotes.org" "")
                  "* %c\n%U\n\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE" :immediate-finish t))
 #+END_SRC
+**** TODO Storing plain links
+Another option is [[github:kuanyui/copy-as-org-mode]] which allows to copy the contents in page as Org-mode markup and has some features missing in Org-mode Capture:
+- Copy all tabs of current window as a Org list.
+- Right click on anywhere of a page and copy the page title with URL as Org.
+- Right click on a link and copy it as Org.
+- Right click on an image and copy it as Org.
 ** TODO Navigation between source code blocks
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle hydra)
