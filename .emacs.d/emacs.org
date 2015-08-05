@@ -209,6 +209,21 @@ quickly navigate between conflicts and choose which to keep:
       (org-add-link-type "deb" 'org-deb-open)))
   (org-reload)
 #+END_SRC
+** Capture
+Press =Ctrl-C r= to quickly create:
+- task
+- note
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'org-capture
+    (setq org-capture-templates
+          '(("t" "Task" entry
+             (file "NewTasks.org")
+             "* TODO %?\n%U\n%a" :prepend t)
+            ("n" "Note" entry
+             (file+headline "NewNotes.org" "")
+             "* %?\n%U\n%a" :prepend t))))
+  (global-set-key (kbd "C-c r") 'org-capture)
+#+END_SRC
 ** TODO Navigation between source code blocks
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle hydra)
