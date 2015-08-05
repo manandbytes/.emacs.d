@@ -224,6 +224,17 @@ Press =Ctrl-C r= to quickly create:
              "* %?\n%U\n%a" :prepend t))))
   (global-set-key (kbd "C-c r") 'org-capture)
 #+END_SRC
+*** Capturing the web
+- Mozilla Firefox as a web browser
+- [[https://addons.mozilla.org/firefox/addon/org-mode-capture/][Org-mode Capture extension]] for Firefox that takes notes and registers bookmarks in Org-mode with [[http://orgmode.org/worg/org-contrib/org-protocol.html][org-protocol]]
+#+BEGIN_SRC emacs-lisp
+  (require 'org-protocol)
+  (add-to-list 'org-modules 'org-protocol)
+  (require 'org-capture)
+  (add-to-list 'org-capture-templates
+               '("w" "Web citation" entry (file+headline "NewNotes.org" "")
+                 "* %c\n%U\n\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE" :immediate-finish t))
+#+END_SRC
 ** TODO Navigation between source code blocks
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle hydra)
