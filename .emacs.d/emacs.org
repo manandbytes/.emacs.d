@@ -249,8 +249,6 @@ Press =Ctrl-C r= to quickly create:
   ;; yes-or-no -> y-or-n
   (fset 'yes-or-no-p 'y-or-n-p)
 
-  (server-start)
-
   (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
 
   (add-to-list 'load-path "~/.emacs.d/lisp/")
