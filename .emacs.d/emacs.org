@@ -51,6 +51,7 @@ And finally enable desktop mode:
 ** Git
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle magit
+    :checkout "2.1.0"
     :after (progn
              (global-set-key (kbd "C-x C-z") 'magit-status)))
   (el-get-bundle magit-view-file)
