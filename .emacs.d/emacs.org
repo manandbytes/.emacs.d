@@ -56,6 +56,19 @@ And finally enable desktop mode:
              (global-set-key (kbd "C-x C-z") 'magit-status)))
   (el-get-bundle magit-view-file)
 #+END_SRC
+*** TODO Is magit-revert-buffers broken? 			:bug:
+#+BEGIN_SRC diff
+  @@ -678,8 +678,7 @@ When called interactively then the revert is forced."
+               (let ((cnt (length buffers)))
+                 (when (> cnt 0)
+                   (message "Reverting (up to) %s file-visiting buffer(s)..." cnt)
+  -                (setq cnt (length (-non-nil (mapcar #'magit-revert-buffer
+  -                                                    buffers))))
+  +                (setq cnt (length (mapcar #'magit-revert-buffer buffers)))
+                   (if (> cnt 0)
+                       (pcase magit-revert-buffers
+                         (`t
+#+END_SRC
 ** Integrate Vcsh and Magit
    - open directory [[/vcsh:emacs:.emacs.d/]] or a file [[/vcsh:emacs:.emacs.d/init.el]]
    - =M-x magit-status=
