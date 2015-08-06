@@ -45,6 +45,14 @@ And finally enable desktop mode:
 #+BEGIN_SRC emacs-lisp
   (desktop-save-mode 1)
 #+END_SRC
+* Helm
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle helm
+    (setq helm-M-x-fuzzy-match t)
+    (helm-mode 1)
+    (helm-adaptive-mode 1)
+    (helm-autoresize-mode 1))
+#+END_SRC
 * Networking
 ** Use SOCKS 5 proxy
 #+BEGIN_SRC emacs-lisp
@@ -229,12 +237,6 @@ In other words, will work with =ssh://user@git.eclipse.org:29418/equinox/rt.equi
 Seems there is no support for anonymous access via =https://git.eclipse.org/r/a/equinox/rt.equinox.p2=.
 * Install other packages
 #+BEGIN_SRC emacs-lisp
-  (el-get-bundle smex ;; a smart M-x enhancement
-    :after (progn
-             (global-set-key (kbd "M-x") 'smex)
-             (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-             (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)))
-
   (el-get-bundle org-link-travis :pkgname "manandbytes/org-link-travis"
     :depends (org-mode)
     :after (progn
@@ -254,8 +256,7 @@ Seems there is no support for anonymous access via =https://git.eclipse.org/r/a/
       (package
        '(linum-relative
          command-frequency
-         crontab-mode
-         helm)
+         crontab-mode)
        (el-get-bundle package)))
 #+END_SRC
 ** Install and configure packages
