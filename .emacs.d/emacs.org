@@ -323,9 +323,7 @@ Another option is [[github:kuanyui/copy-as-org-mode]] which allows to copy the c
 
   (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
 
-  (add-to-list 'load-path "~/.emacs.d/lisp/")
-
-  ; disable menu bar and tool bar
+  ;; disable menu bar and tool bar
   (menu-bar-mode -1)
   (tool-bar-mode -1)
 
