@@ -321,8 +321,6 @@ Another option is [[github:kuanyui/copy-as-org-mode]] which allows to copy the c
   ;; yes-or-no -> y-or-n
   (fset 'yes-or-no-p 'y-or-n-p)
 
-  (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
-
   ;; disable menu bar and tool bar
   (menu-bar-mode -1)
   (tool-bar-mode -1)
