@@ -53,6 +53,16 @@ And finally enable desktop mode:
         url-gateway-method 'socks)
 #+END_SRC
 ** TODO Set proxies conditionally
+* Communications
+** Stack Exchange
+[[github:vermiculus/sx.el][SX]] provides a versatile experience for the Stack Exchange network within Emacs itself.
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle sx)
+#+END_SRC
+** TODO Integrate different messaging systems under one umbrella?
+- Gnus already provides some backends for working with e-mails, news, RSS;
+- Stack Exchange;
+- Twitter.
 * Version control
 ** Git
 *** magit-revert-buffers is broken with outdated dash.el 		:bug:
