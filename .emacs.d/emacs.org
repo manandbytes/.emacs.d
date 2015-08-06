@@ -50,13 +50,8 @@ And finally enable desktop mode:
 ** TODO Set proxies conditionally
 * Version control
 ** Git
-#+BEGIN_SRC emacs-lisp
-  (el-get-bundle magit
-    :checkout "2.1.0"
-    (global-set-key (kbd "C-x C-z") 'magit-status))
-  (el-get-bundle magit-view-file)
-#+END_SRC
-*** TODO Is magit-revert-buffers broken? 			:bug:
+*** magit-revert-buffers is broken with outdated dash.el 		:bug:
+Reverting buffers fails due to undefined function =-non-nil=:
 #+BEGIN_SRC diff
   @@ -678,8 +678,7 @@ When called interactively then the revert is forced."
                (let ((cnt (length buffers)))
@@ -68,6 +63,57 @@ And finally enable desktop mode:
                    (if (> cnt 0)
                        (pcase magit-revert-buffers
                          (`t
+#+END_SRC
+
+While this change would work, it turned out that I just had an old version of [[github:magnars/dash.el][dash.el]], one of the Magit's dependencies, without function =-non-nil=:
+#+BEGIN_SRC shell :dir "~/.emacs.d/el-get/dash" :results format org
+  git log -S-non-nil --patch --summary -- *.el
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC diff
+commit 3adad97d371be9a875f48f8d926c437a7d6c7f6b
+Author: Matus Goljer <dota.keys@gmail.com>
+Date:   Mon Aug 11 13:53:09 2014 +0200
+
+    Add -non-nil
+
+diff --git a/dash.el b/dash.el
+index 43e0349..76a8e75 100644
+--- a/dash.el
++++ b/dash.el
+@@ -239,6 +239,10 @@ Alias: `-reject'"
+   "Return a new list of the non-nil results of applying FN to the items in LIST."
+   (--keep (funcall fn it) list))
+ 
++(defun -non-nil (list)
++  "Return all non-nil elements of LIST."
++  (-remove 'null list))
++
+ (defmacro --map-indexed (form list)
+   "Anaphoric form of `-map-indexed'."
+   (declare (debug (form form)))
+@@ -1579,6 +1583,7 @@ structure such as plist or alist."
+                              "--remove"
+                              "-reject"
+                              "--reject"
++                             "-non-nil"
+                              "-keep"
+                              "--keep"
+                              "-map-indexed"
+#+END_SRC
+
+With el-get it is not possible to extend existing package's dependencies, so just amend receipe for =dash=:
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle dash :checkout "2.11.0")
+#+END_SRC
+** Magit
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle magit
+    :checkout "2.1.0"
+    (global-set-key (kbd "C-x C-z") 'magit-status))
+
+  (el-get-bundle magit-view-file)
 #+END_SRC
 ** Integrate Vcsh and Magit
    - open directory [[/vcsh:emacs:.emacs.d/]] or a file [[/vcsh:emacs:.emacs.d/init.el]]
