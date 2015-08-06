@@ -1,3 +1,4 @@
+#+PROPERTY: header-args:shell :results output
 * Customization
 Emacs provies a convenient way to browse, change and save settings via
 =M-x customize=. By default, it saves these settings to an
@@ -97,19 +98,21 @@ vcsh list-tracked
 #+END_SRC
 
 #+RESULTS:
-| /home/mn/.bash_logout                       |
-| /home/mn/.bashrc                            |
-| /home/mn/.config/byobu/status               |
-| /home/mn/.config/byobu/statusrc             |
-| /home/mn/.config/byobu/.tmux.conf           |
-| /home/mn/.config/systemd/user/emacs.service |
-| /home/mn/.config/tmux/inx                   |
-| /home/mn/.config/tmux/xless                 |
-| /home/mn/.emacs.d/custom.el                 |
-| /home/mn/.emacs.d/emacs.org                 |
-| /home/mn/.emacs.d/init.el                   |
-| /home/mn/.profile                           |
-| /home/mn/.tmux.conf                         |
+#+begin_example
+/home/mn/.bash_logout
+/home/mn/.bashrc
+/home/mn/.config/byobu/status
+/home/mn/.config/byobu/statusrc
+/home/mn/.config/byobu/.tmux.conf
+/home/mn/.config/systemd/user/emacs.service
+/home/mn/.config/tmux/inx
+/home/mn/.config/tmux/xless
+/home/mn/.emacs.d/custom.el
+/home/mn/.emacs.d/emacs.org
+/home/mn/.emacs.d/init.el
+/home/mn/.profile
+/home/mn/.tmux.conf
+#+end_example
 
 or a specific one:
 #+BEGIN_SRC shell :dir ~
@@ -117,10 +120,10 @@ vcsh list-tracked emacs
 #+END_SRC
 
 #+RESULTS:
-| /home/mn/.config/systemd/user/emacs.service |
-| /home/mn/.emacs.d/custom.el                 |
-| /home/mn/.emacs.d/emacs.org                 |
-| /home/mn/.emacs.d/init.el                   |
+: /home/mn/.config/systemd/user/emacs.service
+: /home/mn/.emacs.d/custom.el
+: /home/mn/.emacs.d/emacs.org
+: /home/mn/.emacs.d/init.el
 
 Use this feature to provide more fine-grained completion for repositories and files.
 
