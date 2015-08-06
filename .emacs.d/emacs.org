@@ -1,3 +1,4 @@
+#+OPTIONS: toc:t
 #+PROPERTY: header-args:shell :results output
 * Why?
 ** Github-hosted repositories
