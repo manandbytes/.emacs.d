@@ -53,6 +53,12 @@ And finally enable desktop mode:
     (helm-adaptive-mode 1)
     (helm-autoresize-mode 1))
 #+END_SRC
+* Buffer management
+Use Helm to switch between buffers:
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle helm
+    (global-set-key (kbd "C-x b") 'helm-buffers-list))
+#+END_SRC
 * Networking
 ** Use SOCKS 5 proxy
 #+BEGIN_SRC emacs-lisp
