@@ -1,4 +1,8 @@
 #+PROPERTY: header-args:shell :results output
+* Why?
+** Github-hosted repositories
+ - Org document (and [[github:github/markup#markups][a number of other formats]] as well) will be rendered as HTML (not without gotchas, though), using [[github:github/markup][GitHub Markup library]].
+ - Commits and pull requests that include prose documents have the ability to represent those documents with source and rendered views, see [[https://help.github.com/articles/rendering-differences-in-prose-documents/][Rendering differences in prose documents]].
 * Customization
 Emacs provies a convenient way to browse, change and save settings via
 =M-x customize=. By default, it saves these settings to an
