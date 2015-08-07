@@ -32,6 +32,17 @@ By default, Emacs saves backup files (the files ending with =~=) in the current 
       (goto-char (point-max))
       (eval-print-last-sexp)))
 #+END_SRC
+*** TODO Install packages from secure sources
+#+BEGIN_SRC emacs-lisp
+  (setq el-get-allow-insecure nil)
+#+END_SRC
+This breaks clean installalation of:
+#+BEGIN_SRC
+Error (el-get): while installing let-alist: Attempting to install insecure package let-alist without `el-get-allow-insecure'.
+Error (el-get): while installing markdown-mode: Attempting to install insecure package markdown-mode without `el-get-allow-insecure'.
+Error (el-get): while installing nhexl-mode: Wrong type argument: stringp, nil
+Error (el-get): while installing org-mode: Attempting to install insecure package org-mode without `el-get-allow-insecure'.
+#+END_SRC
 * Saving and restoring desktop state between sessions
 #+BEGIN_SRC emacs-lisp
   (setq desktop-path (list user-emacs-directory))
