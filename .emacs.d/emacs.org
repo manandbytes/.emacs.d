@@ -31,6 +31,8 @@ By default, Emacs saves backup files (the files ending with =~=) in the current 
          "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
       (goto-char (point-max))
       (eval-print-last-sexp)))
+
+  (el-get-bundle with-eval-after-load-feature)
 #+END_SRC
 ** Install packages over secure connection only
 #+BEGIN_SRC emacs-lisp
@@ -52,10 +54,11 @@ And finally enable desktop mode:
 * Helm
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle helm
-    (setq helm-M-x-fuzzy-match t)
-    (helm-mode 1)
-    (helm-adaptive-mode 1)
-    (helm-autoresize-mode 1))
+    (with-eval-after-load-feature (helm helm-command)
+      (setq helm-M-x-fuzzy-match t)
+      (helm-mode 1)
+      (helm-adaptive-mode 1)
+      (helm-autoresize-mode 1)))
 #+END_SRC
 * Buffer management
 Use Helm to switch between buffers:
@@ -312,21 +315,22 @@ Seems there is no support for anonymous access via =https://git.eclipse.org/r/a/
   (el-get-bundle org-mode
     :checkout "release_8.3.1" :checksum "003a0f10695f035e844d844eacb1a86a6d2df934"
 
-    ;; http://orgmode.org/manual/Clocking-work-time.html
-    (setq org-clock-persist t)
-    (org-clock-persistence-insinuate)
-
     (global-set-key (kbd "C-c a") 'org-agenda)
     (global-set-key (kbd "C-c r") 'org-capture) ;; capture with C-c r
     (global-set-key (kbd "C-c .") 'org-time-stamp) ;; insert timestamp everywhere with 'C-c .'
     (global-set-key (kbd "C-c b") 'org-switchb) ;; switch between org buffers with 'C-c b'
 
-    ;; a link type to show debian's package info using apt-utils-mode
-    (when (require 'apt-utils nil 'noerror)
-      (require 'org)
-      (defun org-deb-open (package)
-        (apt-utils-show-package-1 package t nil))
-      (org-add-link-type "deb" 'org-deb-open)))
+    (with-eval-after-load-feature (org-mode org-clock apt-utils)
+      ;; http://orgmode.org/manual/Clocking-work-time.html
+      (setq org-clock-persist t)
+      (org-clock-persistence-insinuate)
+
+      ;; a link type to show debian's package info using apt-utils-mode
+      (when (require 'apt-utils nil 'noerror)
+        (require 'org)
+        (defun org-deb-open (package)
+          (apt-utils-show-package-1 package t nil))
+        (org-add-link-type "deb" 'org-deb-open))))
   (org-reload)
 #+END_SRC
 ** Capture
