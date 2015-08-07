@@ -32,16 +32,9 @@ By default, Emacs saves backup files (the files ending with =~=) in the current 
       (goto-char (point-max))
       (eval-print-last-sexp)))
 #+END_SRC
-*** TODO Install packages from secure sources
+** Install packages over secure connection only
 #+BEGIN_SRC emacs-lisp
   (setq el-get-allow-insecure nil)
-#+END_SRC
-This breaks clean installalation of:
-#+BEGIN_SRC
-Error (el-get): while installing let-alist: Attempting to install insecure package let-alist without `el-get-allow-insecure'.
-Error (el-get): while installing markdown-mode: Attempting to install insecure package markdown-mode without `el-get-allow-insecure'.
-Error (el-get): while installing nhexl-mode: Wrong type argument: stringp, nil
-Error (el-get): while installing org-mode: Attempting to install insecure package org-mode without `el-get-allow-insecure'.
 #+END_SRC
 * Saving and restoring desktop state between sessions
 #+BEGIN_SRC emacs-lisp
@@ -82,6 +75,8 @@ Use Helm to switch between buffers:
 ** Stack Exchange
 [[github:vermiculus/sx.el][SX]] provides a versatile experience for the Stack Exchange network within Emacs itself.
 #+BEGIN_SRC emacs-lisp
+  (el-get-bundle markdown-mode :type github :pkgname "jrblevin/markdown-mode")
+  (el-get-bundle let-alist :url "https://raw.githubusercontent.com/emacsmirror/let-alist/master/let-alist.el")
   (el-get-bundle sx)
 #+END_SRC
 ** TODO Integrate different messaging systems under one umbrella?
@@ -259,7 +254,7 @@ Seems there is no support for anonymous access via =https://git.eclipse.org/r/a/
     :after (progn
              (org-add-link-type "travis-build" 'org-link-travis/open-build-link)))
 
-  (el-get-bundle nhexl-mode :pkgname "emacsmirror/nhexl-mode")
+  (el-get-bundle nhexl-mode :type github :pkgname "emacsmirror/nhexl-mode")
 
   (el-get-bundle crontab-mode
     :checksum f68206c1d10de68ba0685ce4cb14741c7ca7c648
@@ -343,6 +338,7 @@ Seems there is no support for anonymous access via =https://git.eclipse.org/r/a/
 * Org
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle org-mode
+    :checkout "release_8.3.1" :checksum "003a0f10695f035e844d844eacb1a86a6d2df934"
 
     ;; http://orgmode.org/manual/Clocking-work-time.html
     (setq org-clock-persist t)
@@ -455,6 +451,7 @@ Another option is [[github:kuanyui/copy-as-org-mode]] which allows to copy the c
 Navigate and edit LISP code with [[github:abo-abo/lispy][Oleh Krehel's lispy]] package:
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle swiper)
+  (el-get-bundle iedit :type http :url "https://raw.githubusercontent.com/emacsmirror/emacswiki.org/master/iedit.el")
   (el-get-bundle lispy
     :checkout "0.26.0"
     (add-hook 'emacs-lisp-mode-hook '(lambda () (lispy-mode 1))))
