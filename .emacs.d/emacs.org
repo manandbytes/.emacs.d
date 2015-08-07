@@ -441,14 +441,10 @@ Navigate and edit LISP code with [[github:abo-abo/lispy][Oleh Krehel's lispy]] p
     :checksum f68206c1d10de68ba0685ce4cb14741c7ca7c648
     (add-to-list 'auto-mode-alist '("\\.cron\\(tab\\)?\\'" . crontab-mode))
     (add-to-list 'auto-mode-alist '("cron\\(tab\\)?\\."    . crontab-mode)))
-#+END_SRC
-** Packages with default configration
-#+BEGIN_SRC emacs-lisp
   (dolist
       (package
        '(linum-relative
-         command-frequency
-         crontab-mode)
+         command-frequency)
        (el-get-bundle package)))
 #+END_SRC
 ** Install and configure packages
