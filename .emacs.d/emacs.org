@@ -247,34 +247,6 @@ By default, will recognize Git repository as Gerrit one only when:
 In other words, will work with =ssh://user@git.eclipse.org:29418/equinox/rt.equinox.p2= out of the box. Working with non-anonymous HTTPS (like =https://user@git.eclipse.org/r/a/equinox/rt.equinox.p2=) will require setting =magit-gerrit-ssh-creds=. 
 
 Seems there is no support for anonymous access via =https://git.eclipse.org/r/a/equinox/rt.equinox.p2=.
-* Install other packages
-#+BEGIN_SRC emacs-lisp
-  (el-get-bundle org-link-travis :pkgname "manandbytes/org-link-travis"
-    :depends (org-mode)
-    :after (progn
-             (org-add-link-type "travis-build" 'org-link-travis/open-build-link)))
-
-  (el-get-bundle nhexl-mode :type github :pkgname "emacsmirror/nhexl-mode")
-
-  (el-get-bundle crontab-mode
-    :checksum f68206c1d10de68ba0685ce4cb14741c7ca7c648
-    :after (progn
-             (add-to-list 'auto-mode-alist '("\\.cron\\(tab\\)?\\'" . crontab-mode))
-             (add-to-list 'auto-mode-alist '("cron\\(tab\\)?\\."    . crontab-mode))))
-#+END_SRC
-** Packages with default configration
-#+BEGIN_SRC emacs-lisp
-  (dolist
-      (package
-       '(linum-relative
-         command-frequency
-         crontab-mode)
-       (el-get-bundle package)))
-#+END_SRC
-** Install and configure packages
-#+BEGIN_SRC emacs-lisp
-  (el-get 'sync)
-#+END_SRC
 * Puppet
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle puppet-mode)
@@ -457,3 +429,29 @@ Navigate and edit LISP code with [[github:abo-abo/lispy][Oleh Krehel's lispy]] p
     (add-hook 'emacs-lisp-mode-hook '(lambda () (lispy-mode 1))))
 #+END_SRC
 ** TODO Missing dependency lispy -> swiper 		     :bug:dependency:
+* Install other packages
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle org-link-travis :pkgname "manandbytes/org-link-travis"
+    :depends (org-mode)
+    (org-add-link-type "travis-build" 'org-link-travis/open-build-link))
+
+  (el-get-bundle nhexl-mode :type github :pkgname "emacsmirror/nhexl-mode")
+
+  (el-get-bundle crontab-mode
+    :checksum f68206c1d10de68ba0685ce4cb14741c7ca7c648
+    (add-to-list 'auto-mode-alist '("\\.cron\\(tab\\)?\\'" . crontab-mode))
+    (add-to-list 'auto-mode-alist '("cron\\(tab\\)?\\."    . crontab-mode)))
+#+END_SRC
+** Packages with default configration
+#+BEGIN_SRC emacs-lisp
+  (dolist
+      (package
+       '(linum-relative
+         command-frequency
+         crontab-mode)
+       (el-get-bundle package)))
+#+END_SRC
+** Install and configure packages
+#+BEGIN_SRC emacs-lisp
+  (el-get 'sync)
+#+END_SRC
