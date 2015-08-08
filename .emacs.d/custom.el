@@ -6,7 +6,6 @@
  '(custom-enabled-themes (quote (tango-dark tango)))
  '(delete-by-moving-to-trash t)
  '(european-calendar-style t)
- '(ido-enable-flex-matching t)
  '(org-agenda-custom-commands
    (quote
     (("r" tags-todo "REFILE" nil)
@@ -33,9 +32,7 @@
 	(quote
 	 ("-PROJECT" "-REFILE"))))))))
  '(org-agenda-start-on-weekday nil)
- '(org-babel-load-languages (quote ((emacs-lisp . t) (shell . t))))
  '(org-clock-into-drawer 1)
- '(org-completion-use-ido t)
  '(org-enforce-todo-checkbox-dependencies t)
  '(org-enforce-todo-dependencies t)
  '(org-link-abbrev-alist
