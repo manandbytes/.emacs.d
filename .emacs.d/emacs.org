@@ -498,6 +498,16 @@ Navigate and edit LISP code with [[github:abo-abo/lispy][Oleh Krehel's lispy]] p
 *** TODO Use for other file extensions and locations
 - =.target=, =.socket=, =.link= and some others are valid systemd configuration files' extensions;
 - files are in [[file:/usr/lib/systemd]], [[file:/lib/systemd]] and some other places.
+** EPUB
+[[wikipedia:EPUB][.EPUB files]] are just plain ZIP archives, so treat them as such:
+#+BEGIN_SRC emacs-lisp
+  (eval-after-load 'files
+    '(progn
+       (add-to-list 'auto-mode-alist '("\\.epub$" . archive-mode))))
+  (eval-after-load 'mule
+    '(progn
+       (add-to-list 'auto-coding-alist '("\\.epub$" . no-conversion))))
+#+END_SRC
 * Tips and tricks
 ** Show the log of recent logs
 The buffer *Messages* is an Emacs' log with a lot of information about whats going on under the hood. The dumb way to swith to this buffer is to treat it as any other buffer and =M-x switch-to-buffer= and select it. Using a default keybinding =C-h e= will show this buffer but without switching to it.
