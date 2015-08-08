@@ -31,7 +31,6 @@
        (org-agenda-tag-filter-preset
 	(quote
 	 ("-PROJECT" "-REFILE"))))))))
- '(org-agenda-start-on-weekday nil)
  '(org-clock-into-drawer 1)
  '(org-enforce-todo-checkbox-dependencies t)
  '(org-enforce-todo-dependencies t)
