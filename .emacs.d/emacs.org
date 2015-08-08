@@ -498,6 +498,11 @@ Navigate and edit LISP code with [[github:abo-abo/lispy][Oleh Krehel's lispy]] p
 *** TODO Use for other file extensions and locations
 - =.target=, =.socket=, =.link= and some others are valid systemd configuration files' extensions;
 - files are in [[file:/usr/lib/systemd]], [[file:/lib/systemd]] and some other places.
+** TODO YAML
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle yaml-mode)
+  (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
+#+END_SRC
 ** EPUB
 [[wikipedia:EPUB][.EPUB files]] are just plain ZIP archives, so treat them as such:
 #+BEGIN_SRC emacs-lisp
