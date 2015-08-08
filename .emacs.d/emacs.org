@@ -503,6 +503,12 @@ Navigate and edit LISP code with [[github:abo-abo/lispy][Oleh Krehel's lispy]] p
   (el-get-bundle yaml-mode)
   (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
 #+END_SRC
+** TODO Torrent
+#+BEGIN_SRC emacs-lisp :tangle no
+  (el-get-bundle torrent
+    :type http
+    :url "https://github.com/kensanata/elisp/raw/master/torrent.el")
+#+END_SRC
 ** EPUB
 [[wikipedia:EPUB][.EPUB files]] are just plain ZIP archives, so treat them as such:
 #+BEGIN_SRC emacs-lisp
