@@ -364,7 +364,11 @@ Another option is [[github:kuanyui/copy-as-org-mode]] which allows to copy the c
 - Right click on anywhere of a page and copy the page title with URL as Org.
 - Right click on a link and copy it as Org.
 - Right click on an image and copy it as Org.
-** TODO Navigation between source code blocks
+** Working with source code blocks
+#+BEGIN_SRC emacs-lisp
+  (setq org-src-fontify-natively t)
+#+END_SRC
+*** TODO Navigation between blocks
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle hydra)
   (defhydra hydra-org-src-block ()
