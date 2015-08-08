@@ -13,6 +13,18 @@ clean and simple, save customizations to a separate file:
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
   (load custom-file t)
 #+END_SRC
+** TODO Refine workflow
+Check these resources for more info:
+- [[emacswiki:CategoryCustomize]]
+- [[emacswiki:CustomizingAndSaving]]
+
+Actual usecase for customization file is:
+- set some initial, non-Emacs-default, values;
+- configure with code and settings;
+- override some settings with a user-defined, per-host, values.
+
+Loading should be defferred and take place as late as possible.
+
 * Backups
 By default, Emacs saves backup files (the files ending with =~=) in the current directory. Stash them all under =backups= directory in user's Emacs directory:
 #+BEGIN_SRC emacs-lisp
@@ -362,8 +374,13 @@ Press =Ctrl-C r= to quickly create:
   (require 'org-capture)
   (add-to-list 'org-capture-templates
                '("w" "Web citation" entry (file+headline "NewNotes.org" "")
-                 "* %c\n%U\n\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE" :immediate-finish t))
+                 "* %c\n%U\n\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE"))
 #+END_SRC
+**** TODO Refine the flow
+- =:prepend= to insert newly captured information at the top of the file
+- =:immediate-finish= not offer to edit the information, just file it away immediately
+- =:kill-buffer= to kill the buffer again after capture is finalized
+- =:jump-to-captured= to jump to the captured entry when finished
 **** TODO Storing plain links
 Another option is [[github:kuanyui/copy-as-org-mode]] which allows to copy the contents in page as Org-mode markup and has some features missing in Org-mode Capture:
 - Copy all tabs of current window as a Org list.
