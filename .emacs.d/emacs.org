@@ -100,6 +100,23 @@ Use Helm to switch between buffers:
   (el-get-bundle let-alist :url "https://raw.githubusercontent.com/emacsmirror/let-alist/master/let-alist.el")
   (el-get-bundle sx)
 #+END_SRC
+*** TODO Allows insecure TLS communication
+Check if [[https://www.reddit.com/r/emacs/comments/3g1u2d/emacs_gnutlscli_invocations_called_with_insecure/][Emacs' gnutls-cli invocations called with --insecure flag? : emacs]] is still apply:
+#+BEGIN_QUOTE
+When using the stackexchange client for Emacs, I notice this every time in the *Messages* buffer:
+
+ Opening TLS connection to `api.stackexchange.com'...
+ Opening TLS connection with `gnutls-cli --insecure -p 443 api.stackexchange.com'...done
+ Opening TLS connection to `api.stackexchange.com'...done
+#+END_QUOTE
+Another option is to switch to the built-in GnuTLS integration.
+*** TODO Review =tls-program= variable
+Default list of commands is dangerous as it uses =--insecure= flag when invoking =gnutls-cli= program:
+#+BEGIN_SRC emacs-lisp :tangle no
+  ("gnutls-cli --insecure -p %p %h"
+   "gnutls-cli --insecure -p %p %h --protocols ssl3"
+   "openssl s_client -connect %h:%p -no_ssl2 -ign_eof")
+#+END_SRC
 ** TODO Integrate different messaging systems under one umbrella?
 - Gnus already provides some backends for working with e-mails, news, RSS;
 - Stack Exchange;
