@@ -50,6 +50,11 @@ By default, Emacs saves backup files (the files ending with =~=) in the current 
 #+BEGIN_SRC emacs-lisp
   (setq el-get-allow-insecure nil)
 #+END_SRC
+** TODO Removing unnecessary packages
+When trying out new packages, its easy to lose track of direct and indirect dependencies of (now) unused packages that could and should be removed, see issues [[github:dimitri/el-get/issues/1782][Removing unnecessary packages]] and [[github:dimitri/el-get/issues/1849][Feature request: el-get-autoremove]].
+#+BEGIN_SRC emacs-lisp :tangle no
+  (el-get-cleanup (mapcar 'el-get-source-name el-get-sources))
+#+END_SRC
 * Saving and restoring desktop state between sessions
 #+BEGIN_SRC emacs-lisp
   (setq desktop-path (list user-emacs-directory))
