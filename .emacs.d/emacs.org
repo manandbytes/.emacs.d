@@ -542,6 +542,11 @@ Navigate and edit LISP code with [[github:abo-abo/lispy][Oleh Krehel's lispy]] p
     '(progn
        (add-to-list 'auto-coding-alist '("\\.epub$" . no-conversion))))
 #+END_SRC
+* Spell checking
+#+BEGIN_SRC emacs-lisp
+  (dolist (hook '(org-mode-hook text-mode-hook))
+    (add-hook hook 'flyspell-mode))
+#+END_SRC
 * Tips and tricks
 ** Show the log of recent logs
 The buffer *Messages* is an Emacs' log with a lot of information about whats going on under the hood. The dumb way to swith to this buffer is to treat it as any other buffer and =M-x switch-to-buffer= and select it. Using a default keybinding =C-h e= will show this buffer but without switching to it.
