@@ -5,7 +5,7 @@
  - Org document (and [[github:github/markup#markups][a number of other formats]] as well) will be rendered as HTML (not without gotchas, though), using [[github:github/markup][GitHub Markup library]].
  - Commits and pull requests that include prose documents have the ability to represent those documents with source and rendered views, see [[https://help.github.com/articles/rendering-differences-in-prose-documents/][Rendering differences in prose documents]].
 * Customization
-Emacs provies a convenient way to browse, change and save settings via
+Emacs provides a convenient way to browse, change and save settings via
 =M-x customize=. By default, it saves these settings to an
 initialization file, =~/.emacs.d/init.el=. To keep initialization file
 clean and simple, save customizations to a separate file:
@@ -23,7 +23,7 @@ Actual usecase for customization file is:
 - configure with code and settings;
 - override some settings with a user-defined, per-host, values.
 
-Loading should be defferred and take place as late as possible.
+Loading should be deferred and take place as late as possible.
 
 * Backups
 By default, Emacs saves backup files (the files ending with =~=) in the current directory. Stash them all under =backups= directory in user's Emacs directory:
@@ -173,7 +173,7 @@ index 43e0349..76a8e75 100644
 @@ -239,6 +239,10 @@ Alias: `-reject'"
    "Return a new list of the non-nil results of applying FN to the items in LIST."
    (--keep (funcall fn it) list))
- 
+
 +(defun -non-nil (list)
 +  "Return all non-nil elements of LIST."
 +  (-remove 'null list))
@@ -285,7 +285,7 @@ quickly navigate between conflicts and choose which to keep:
         (smerge-mode 1))))
   (add-hook 'find-file-hook 'sm-try-smerge t)
 #+END_SRC
-*** TODO Describe default keybindings
+*** TODO Describe default key bindings
 *** TODO Enable for files with complete conflict markers
 ** Integrate Magit and Gerrit Code Review
 [[https://www.gerritcodereview.com/][Google Gerrit]] provides web based code review and repository management for the Git version control system.
@@ -297,7 +297,7 @@ By default, will recognize Git repository as Gerrit one only when:
 - there is remote with name =origin=;
 - this remote's URL uses =SSH= scheme and port =29418=.
 
-In other words, will work with =ssh://user@git.eclipse.org:29418/equinox/rt.equinox.p2= out of the box. Working with non-anonymous HTTPS (like =https://user@git.eclipse.org/r/a/equinox/rt.equinox.p2=) will require setting =magit-gerrit-ssh-creds=. 
+In other words, will work with =ssh://user@git.eclipse.org:29418/equinox/rt.equinox.p2= out of the box. Working with non-anonymous HTTPS (like =https://user@git.eclipse.org/r/a/equinox/rt.equinox.p2=) will require setting =magit-gerrit-ssh-creds=.
 
 Seems there is no support for anonymous access via =https://git.eclipse.org/r/a/equinox/rt.equinox.p2=.
 * Puppet
