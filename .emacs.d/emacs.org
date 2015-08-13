@@ -71,6 +71,14 @@ And finally enable desktop mode:
 * TODO Mode line
 - [[github:Malabarba/smart-mode-line]]
 
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle smart-mode-line
+    (with-eval-after-load-feature smart-mode-line
+      (if after-init-time (sml/setup)
+        (add-hook 'after-init-hook 'sml/setup))
+      (sml/apply-theme 'automatic)))
+#+END_SRC
+
 There are two forks of original [[emacswiki:powerline.el]] (references [[github:yuanotes/powerline]], now unavailable):
 - [[github:milkypostman/powerline]] receiving updates from time to time, at least;
 - [[github:jonathanchu/emacs-powerline]] seems abandoned with latest commit on <2014-12-04 Thu> (or it is feature-complete, just works and needs no updates to fix bugs and add new features).
