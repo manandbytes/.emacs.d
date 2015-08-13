@@ -83,6 +83,16 @@ There are two forks of original [[emacswiki:powerline.el]] (references [[github:
       (helm-adaptive-mode 1)
       (helm-autoresize-mode 1)))
 #+END_SRC
+* TODO Displaying Line and Column Numbers
+- show absolute line number on the left fringe using =linum-mode=
+- show line number relative to the current line on the right fringe with =linum-relative-mode=
+- show on activating point-moving command only
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle linum-mode :builtin "22")
+  (el-get-bundle linum-relative
+    :type http
+    :url "https://raw.github.com/emacsmirror/emacswiki.org/master/linum-relative.el")
+#+END_SRC
 * Buffer management
 Use Helm to switch between buffers:
 #+BEGIN_SRC emacs-lisp
