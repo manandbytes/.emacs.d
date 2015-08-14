@@ -557,6 +557,15 @@ Navigate and edit LISP code with [[github:abo-abo/lispy][Oleh Krehel's lispy]] p
        (add-to-list 'auto-coding-alist '("\\.epub$" . no-conversion))))
 #+END_SRC
 * Spell checking
+El-get tries to reinstall the apt-get package regardless of it's state, so this doesn't work:
+#+BEGIN_SRC emacs-lisp :tangle no
+  (el-get-bundle apt-get:hunspell)
+  (el-get-bundle flyspell :builtin "22" :depends (hunspell))
+#+END_SRC
+Just use simplified version of recipe:
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle flyspell :builtin "22")
+#+END_SRC
 #+BEGIN_SRC emacs-lisp
   (dolist (hook '(org-mode-hook text-mode-hook))
     (add-hook hook 'flyspell-mode))
