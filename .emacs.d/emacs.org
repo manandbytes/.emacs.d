@@ -82,6 +82,14 @@ And finally enable desktop mode:
 There are two forks of original [[emacswiki:powerline.el]] (references [[github:yuanotes/powerline]], now unavailable):
 - [[github:milkypostman/powerline]] receiving updates from time to time, at least;
 - [[github:jonathanchu/emacs-powerline]] seems abandoned with latest commit on <2014-12-04 Thu> (or it is feature-complete, just works and needs no updates to fix bugs and add new features).
+
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle emacs-powerline
+    (defadvice load-theme
+        (after theme-reset-powerline (theme &optional no-confirm no-enable) activate)
+      (el-get-reload 'emacs-powerline)))
+#+END_SRC
+
 * Helm
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle helm
