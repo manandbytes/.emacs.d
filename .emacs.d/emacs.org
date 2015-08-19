@@ -219,6 +219,7 @@ With el-get it is not possible to extend existing package's dependencies, so jus
 
   (el-get-bundle magit-view-file)
 #+END_SRC
+*** TODO Why upgrading to 2.2.0
 ** Integrate Vcsh and Magit
    - open directory [[/vcsh:emacs:.emacs.d/]] or a file [[/vcsh:emacs:.emacs.d/init.el]]
    - =M-x magit-status=
