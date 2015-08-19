@@ -290,6 +290,22 @@ Use this feature to provide more fine-grained completion for repositories and fi
     (let ((v (tramp-dissect-file-name filename)))
       (string= (tramp-file-name-method v) tramp-vcsh-method)))
 #+END_SRC
+*** TODO Register Vcsh as VC backend
+#+BEGIN_SRC emacs-lisp :tangle no
+  (add-to-list 'vc-handled-backends 'Vcsh)
+#+END_SRC
+#+BEGIN_SRC emacs-lisp :results silent :tangle no
+  (defvar vc-vcsh-master-templates nil "Templates for Vcsh")
+
+  (provide 'vc-vcsh)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :results pp output :tangle no :dir ~
+  (split-string (shell-command-to-string "vcsh list-tracked"))
+#+END_SRC
+
+#+RESULTS:
+: ("/home/mn/.bash_logout" "/home/mn/.bashrc" "/home/mn/.config/byobu/status" "/home/mn/.config/byobu/statusrc" "/home/mn/.config/byobu/.tmux.conf" "/home/mn/.config/systemd/user/emacs.service" "/home/mn/.config/tmux/inx" "/home/mn/.config/tmux/xless" "/home/mn/.emacs.d/custom.el" "/home/mn/.emacs.d/emacs.org" "/home/mn/.emacs.d/init.el" "/home/mn/.profile" "/home/mn/.tmux.conf")
 ** Resolving conflicts
 For files with conflict markers, enable SMerge, a minor mode to
 quickly navigate between conflicts and choose which to keep:
