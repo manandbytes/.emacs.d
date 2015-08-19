@@ -385,16 +385,10 @@ Seems there is no support for anonymous access via =https://git.eclipse.org/r/a/
     (global-set-key (kbd "C-c .") 'org-time-stamp) ;; insert timestamp everywhere with 'C-c .'
     (global-set-key (kbd "C-c b") 'org-switchb) ;; switch between org buffers with 'C-c b'
 
-    (with-eval-after-load-feature (org org-clock apt-utils)
+    (with-eval-after-load-feature (org-clock)
       ;; http://orgmode.org/manual/Clocking-work-time.html
       (setq org-clock-persist t)
-      (org-clock-persistence-insinuate)
-
-      ;; a link type to show debian's package info using apt-utils-mode
-      (when (require 'apt-utils nil 'noerror)
-        (defun org-deb-open (package)
-          (apt-utils-show-package-1 package t nil))
-        (org-add-link-type "deb" 'org-deb-open))))
+      (org-clock-persistence-insinuate)))
   (org-reload)
 #+END_SRC
 ** Agenda
@@ -408,11 +402,22 @@ Start the overview always on the current day and not on the weekday:
   (setq org-agenda-start-on-weekday nil)
 #+END_SRC
 ** Custom link types
+*** Wikisites dedicated to Emacs
 #+BEGIN_SRC emacs-lisp
   (dolist (list '(("emacswiki" . "http://www.emacswiki.org/emacs/%s")
                   ("wikemacs" . "https://wikemacs.org/wiki/%s")))
     (add-to-list 'org-link-abbrev-alist list))
 #+END_SRC
+*** Debian package
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load-feature (org)
+      (defun org-deb-open (package)
+        (when (require 'apt-utils nil 'noerror)
+          (apt-utils-show-package-1 package t nil)))
+      (org-add-link-type "deb" 'org-deb-open))
+#+END_SRC
+**** TODO Do something if apt-utils is unavailable
+For now, its a noop and will break exporting such links.
 ** Capture
 Press =Ctrl-C r= to quickly create:
 - task
