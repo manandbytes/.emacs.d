@@ -402,6 +402,11 @@ Start the overview always on the current day and not on the weekday:
 #+BEGIN_SRC emacs-lisp
   (setq org-agenda-start-on-weekday nil)
 #+END_SRC
+
+Highlight the agenda line under cursor:
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-agenda-mode-hook (lambda () (hl-line-mode 1)))
+#+END_SRC
 ** Custom link types
 *** Wikisites dedicated to Emacs
 #+BEGIN_SRC emacs-lisp
