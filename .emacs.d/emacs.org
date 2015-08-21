@@ -609,6 +609,13 @@ Navigate and edit LISP code with [[github:abo-abo/lispy][Oleh Krehel's lispy]] p
   (add-hook 'emacs-lisp-mode-hook '(lambda () (lispy-mode 1)))
 #+END_SRC
 ** TODO Missing dependency lispy -> swiper 		     :bug:dependency:
+* Commands, frequency of use
+Originally [[http://ergoemacs.org/emacs/command-frequency.html][Emacs's Command Frequency Statistics]] by Xah Lee, had been replaced with [[github:dacap/keyfreq]]:
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle keyfreq
+    (keyfreq-mode 1)
+    (keyfreq-autosave-mode 1))
+#+END_SRC
 * Install other packages
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle org-link-travis :pkgname "manandbytes/org-link-travis"
@@ -621,11 +628,6 @@ Navigate and edit LISP code with [[github:abo-abo/lispy][Oleh Krehel's lispy]] p
     :checksum f68206c1d10de68ba0685ce4cb14741c7ca7c648
     (add-to-list 'auto-mode-alist '("\\.cron\\(tab\\)?\\'" . crontab-mode))
     (add-to-list 'auto-mode-alist '("cron\\(tab\\)?\\."    . crontab-mode)))
-  (dolist
-      (package
-       '(linum-relative
-         command-frequency)
-       (el-get-bundle package)))
 #+END_SRC
 ** Install and configure packages
 #+BEGIN_SRC emacs-lisp :tangle no
