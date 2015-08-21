@@ -397,9 +397,14 @@ Define a keyboard shortcut to dispatch agenda commands to collect entries to the
   (global-set-key (kbd "C-c a") 'org-agenda)
 #+END_SRC
 
-Start the overview always on the current day and not on the weekday:
+Pressing =C-c a a= shows the agenda view with current tasks at hands, with minimal distractions:
+- starts on the current day;
+- shows current day only;
+- ignores scheduled but not finished items.
 #+BEGIN_SRC emacs-lisp
-  (setq org-agenda-start-on-weekday nil)
+  (setq org-agenda-start-on-weekday nil
+        org-agenda-span 'day
+        org-scheduled-past-days 0)
 #+END_SRC
 
 Highlight the agenda line under cursor:
