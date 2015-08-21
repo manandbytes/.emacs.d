@@ -612,7 +612,7 @@ Navigate and edit LISP code with [[github:abo-abo/lispy][Oleh Krehel's lispy]] p
        (el-get-bundle package)))
 #+END_SRC
 ** Install and configure packages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (el-get 'sync)
 #+END_SRC
 * File formats
