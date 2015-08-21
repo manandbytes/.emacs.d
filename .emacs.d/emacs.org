@@ -446,6 +446,44 @@ For now, its a noop and will break exporting such links.
 Other ways to achieve almost the same are:
 - for all files by customizing the variable =org-startup-indented=
 - for individual files using property =#+STARTUP: indent=
+** (Re)viewing differences
+Fix little inconveniences when viewing differences between org-mode buffers.
+*** Comparing using Ediff mode
+For each diff selection, that portion of the tree for each buffer is expanded. When moving to a new diff, the previous portion of the tree is collapsed and the area surrounding the new diff location is expanded:
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load-feature (ediff-init org)
+    (add-hook 'ediff-select-hook 'mn/ediff-org-unfold-tree)
+    (add-hook 'ediff-unselect-hook 'mn/ediff-org-fold-tree)
+
+    (defun mn/ediff-org-showhide (buf command &rest cmdargs)
+      "If buffer exists and is org-mode then execute command"
+      (if (and buf
+               (eq (buffer-local-value 'major-mode (get-buffer buf)) 'org-mode))
+          (save-excursion (set-buffer buf) (apply command cmdargs))))
+
+    (defun mn/ediff-org-unfold-tree ()
+      "Unfold tree at diff location"
+      (mn/ediff-org-showhide ediff-buffer-A 'org-reveal)
+      (mn/ediff-org-showhide ediff-buffer-B 'org-reveal)
+      (mn/ediff-org-showhide ediff-buffer-C 'org-reveal))
+
+    (defun mn/ediff-org-fold-tree ()
+      "Fold tree back to top level"
+      (mn/ediff-org-showhide ediff-buffer-A 'hide-sublevels 1)
+      (mn/ediff-org-showhide ediff-buffer-B 'hide-sublevels 1)
+      (mn/ediff-org-showhide ediff-buffer-C 'hide-sublevels 1)))
+#+END_SRC
+*** Jumping from Magit-provided diff
+Unfold point of interest after switching to org-mode buffer from the diff section, i.e. from magit-status-mode:
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load-feature (org magit-diff)
+    (defun mn/org-reveal-magit-diff-visit-file (FILE &optional OTHER-WINDOW FORCE-WORKTREE)
+      "When switching to buffer in `org-mode', show more context with `org-reveal'. See `magit-diff-visit-file'"
+      (if (derived-mode-p 'org-mode)
+          (org-reveal)))
+
+    (advice-add #'magit-diff-visit-file :after #'mn/org-reveal-magit-diff-visit-file))
+#+END_SRC
 ** Capture
 Press =Ctrl-C r= to quickly create:
 - task
