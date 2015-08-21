@@ -429,6 +429,21 @@ All files in a default location to look for Org files will be used for agenda di
 #+END_SRC
 **** TODO Do something if apt-utils is unavailable
 For now, its a noop and will break exporting such links.
+** A cleaner presentation
+- all lines are prefixed for display with the necessary amount of space;
+- all headlines are prefixed with additional stars, so that the amount of indentation shifts by =org-indent-indentation-per-level= spaces per level;
+- all headline stars but the last one are made invisible;
+- enable [[info:emacs#Visual%20Line%20Mode][Visual Line Mode]].
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook (lambda ()
+                             (setq org-indent-indentation-per-level 1)
+                             (org-indent-mode 1)
+                             (visual-line-mode 1)))
+#+END_SRC
+Other ways to achieve almost the same are:
+- for all files by customizing the variable =org-startup-indented=
+- for individual files using property =#+STARTUP: indent=
 ** Capture
 Press =Ctrl-C r= to quickly create:
 - task
