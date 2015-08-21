@@ -336,46 +336,44 @@ Seems there is no support for anonymous access via =https://git.eclipse.org/r/a/
 * Working with files
 ** Open files as another user
 #+BEGIN_SRC emacs-lisp
-  (eval-after-load "tramp"
-    '(progn
-       (defun mn-sudo-mode-line-function ()
-         (when (string-match "^/su\\(do\\)?:" default-directory)
-           (setq mode-line-format
-                 (format-mode-line mode-line-format
-                                   'font-lock-warning-face))))
+  (with-eval-after-load-feature 'tramp
+    (defun mn/sudo-mode-line-function ()
+      (when (string-match "^/su\\(do\\)?:" default-directory)
+        (setq mode-line-format
+              (format-mode-line mode-line-format
+                                'font-lock-warning-face))))
 
-       (defvar sudo-tramp-prefix
-         "/sudo:"
-         (concat "Prefix to be used by sudo commands when building tramp path "))
+    (defvar sudo-tramp-prefix
+      "/sudo:"
+      (concat "Prefix to be used by sudo commands when building tramp path "))
 
-       (defun sudo-file-name (filename)
-         (set 'splitname (split-string filename ":"))
-         (if (> (length splitname) 1)
-             (progn (set 'final-split (cdr splitname))
-                    (set 'sudo-tramp-prefix "/sudo:"))
-           (progn (set 'final-split splitname)
-                  (set 'sudo-tramp-prefix (concat sudo-tramp-prefix "root@localhost:"))))
-         (set 'final-fn (concat sudo-tramp-prefix (mapconcat (lambda (e) e) final-split ":")))
-         (message "splitname is %s" splitname)
-         (message "sudo-tramp-prefix is %s" sudo-tramp-prefix)
-         (message "final-split is %s" final-split)
-         (message "final-fn is %s" final-fn)
-         (message "%s" final-fn))
+    (defun mn/sudo-file-name (filename)
+      (set 'splitname (split-string filename ":"))
+      (if (> (length splitname) 1)
+          (progn (set 'final-split (cdr splitname))
+                 (set 'sudo-tramp-prefix "/sudo:"))
+        (progn (set 'final-split splitname)
+               (set 'sudo-tramp-prefix (concat sudo-tramp-prefix "root@localhost:"))))
+      (set 'final-fn (concat sudo-tramp-prefix (mapconcat (lambda (e) e) final-split ":")))
+      (message "splitname is %s" splitname)
+      (message "sudo-tramp-prefix is %s" sudo-tramp-prefix)
+      (message "final-split is %s" final-split)
+      (message "final-fn is %s" final-fn)
+      (message "%s" final-fn))
 
-       (defun sudo-reopen-file ()
-         "Reopen file as root by prefixing its name with sudo-tramp-prefix and by clearing buffer-read-only"
-         (interactive)
-         (let*
-             ((file-name (expand-file-name buffer-file-name))
-              (sudo-name (sudo-file-name file-name)))
-           (progn
-             (setq buffer-file-name sudo-name)
-             (rename-buffer sudo-name)
-             (setq buffer-read-only nil)
-             (message (concat "File name set to " sudo-name)))))
-
-       (add-hook 'find-file-hooks 'mn-sudo-mode-line-function)
-       (add-hook 'dired-mode-hook 'mn-sudo-mode-line-function)))
+    (defun mn/sudo-reopen-file ()
+      "Reopen file as root by prefixing its name with sudo-tramp-prefix and by clearing buffer-read-only"
+      (interactive)
+      (let*
+          ((file-name (expand-file-name buffer-file-name))
+           (sudo-name (mn/sudo-file-name file-name)))
+        (progn
+          (setq buffer-file-name sudo-name)
+          (rename-buffer sudo-name)
+          (setq buffer-read-only nil)
+          (message (concat "File name set to " sudo-name)))))
+    (add-hook 'find-file-hooks 'mn/sudo-mode-line-function)
+    (add-hook 'dired-mode-hook 'mn/sudo-mode-line-function))
 #+END_SRC
 * Org
 #+BEGIN_SRC emacs-lisp
