@@ -457,6 +457,11 @@ Pressing =C-c a a= shows the agenda view with current tasks at hands, with minim
         org-scheduled-past-days 0)
 #+END_SRC
 
+Strike-through DONE agenda items:
+   #+BEGIN_SRC emacs-lisp
+     (set-face-attribute 'org-agenda-done nil :strike-through t)
+   #+END_SRC
+
 Highlight the agenda line under cursor:
 #+BEGIN_SRC emacs-lisp
   (add-hook 'org-agenda-mode-hook (lambda () (hl-line-mode 1)))
