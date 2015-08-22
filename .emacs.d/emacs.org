@@ -5,13 +5,9 @@
  - Org document (and [[github:github/markup#markups][a number of other formats]] as well) will be rendered as HTML (not without gotchas, though), using [[github:github/markup][GitHub Markup library]].
  - Commits and pull requests that include prose documents have the ability to represent those documents with source and rendered views, see [[https://help.github.com/articles/rendering-differences-in-prose-documents/][Rendering differences in prose documents]].
 * Customization
-Emacs provides a convenient way to browse, change and save settings via
-=M-x customize=. By default, it saves these settings to an
-initialization file, =~/.emacs.d/init.el=. To keep initialization file
-clean and simple, save customizations to a separate file:
+Emacs provides a convenient way to browse, change and save settings via =M-x customize=. By default, it saves these settings to an initialization file, =~/.emacs.d/init.el=. To keep initialization file clean and simple, customizations must go to a separate file:
 #+BEGIN_SRC emacs-lisp
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-  (load custom-file t)
 #+END_SRC
 ** TODO Refine workflow
 Check these resources for more info:
@@ -74,6 +70,7 @@ And finally enable desktop mode:
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle smart-mode-line
     (with-eval-after-load-feature smart-mode-line
+      (add-to-list 'custom-safe-themes "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e")
       (if after-init-time (sml/setup)
         (add-hook 'after-init-hook 'sml/setup))
       (sml/apply-theme 'automatic)))
@@ -550,7 +547,20 @@ Another option is [[github:kuanyui/copy-as-org-mode]] which allows to copy the c
     ("j" org-babel-previous-src-block "Prev")
     ("k" org-babel-next-src-block "Next"))
 #+END_SRC
-*** TODO Define initial keybinding
+*** TODO Define initial key bindings
+*** TODO Splitting source code blocks
+Split existing source code block
+#+BEGIN_SRC emacs-lisp :tangle no
+  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+  (load custom-file t)
+#+END_SRC
+in two
+#+BEGIN_SRC emacs-lisp
+  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+#+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (load custom-file t)
+#+END_SRC
 * Legacy configuration
 #+BEGIN_SRC emacs-lisp
   ;; yes-or-no -> y-or-n
@@ -677,6 +687,10 @@ Just use simplified version of recipe:
   (dolist (hook '(org-mode-hook text-mode-hook))
     (add-hook hook 'flyspell-mode))
 #+END_SRC
+* Load local customizations
+#+BEGIN_SRC emacs-lisp
+  (load custom-file t)
+#+END_SRC
 * Tips and tricks
-** Show the log of recent logs
+** Show the log
 The buffer *Messages* is an Emacs' log with a lot of information about whats going on under the hood. The dumb way to swith to this buffer is to treat it as any other buffer and =M-x switch-to-buffer= and select it. Using a default keybinding =C-h e= will show this buffer but without switching to it.
