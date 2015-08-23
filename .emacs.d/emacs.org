@@ -407,6 +407,8 @@ Seems there is no support for anonymous access via =https://git.eclipse.org/r/a/
     (global-set-key (kbd "C-c .") 'org-time-stamp) ;; insert timestamp everywhere with 'C-c .'
     (global-set-key (kbd "C-c b") 'org-switchb) ;; switch between org buffers with 'C-c b'
 
+    (setq org-modules nil)
+
     (with-eval-after-load-feature (org-clock)
       ;; http://orgmode.org/manual/Clocking-work-time.html
       (setq org-clock-persist t)
