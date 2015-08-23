@@ -143,6 +143,8 @@ I'm not using =.netrc=, just =.authinfo= but encrypted instead of being it in cl
 #+BEGIN_SRC emacs-lisp
   (setq auth-sources '("~/.authinfo.gpg"))
 #+END_SRC
+*** TODO Secret Service API
+[[info:auth#Secret%20Service%20API][Secret Service API]]
 ** Stack Exchange
 [[github:vermiculus/sx.el][SX]] provides a versatile experience for the Stack Exchange network within Emacs itself.
 #+BEGIN_SRC emacs-lisp
