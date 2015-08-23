@@ -1,6 +1,6 @@
 #+OPTIONS: toc:t
 #+LINK: emacswiki http://www.emacswiki.org/emacs/%s
-#+PROPERTY: header-args:shell :results output
+#+PROPERTY: header-args:sh :results output
 * Why?
 ** Github-hosted repositories
  - Org document (and [[github:github/markup#markups][a number of other formats]] as well) will be rendered as HTML (not without gotchas, though), using [[github:github/markup][GitHub Markup library]].
@@ -172,7 +172,7 @@ Reverting buffers fails due to undefined function =-non-nil=:
 #+END_SRC
 
 While this change would work, it turned out that I just had an old version of [[github:magnars/dash.el][dash.el]], one of the Magit's dependencies, without function =-non-nil=:
-#+BEGIN_SRC shell :dir "~/.emacs.d/el-get/dash" :results format org
+#+BEGIN_SRC sh :dir "~/.emacs.d/el-get/dash" :results format org
   git log -S-non-nil --patch --summary -- *.el
 #+END_SRC
 
@@ -252,8 +252,8 @@ When committing, show a diff at the bottom of the commit buffer just to remind m
 #+END_SRC
 *** TODO Improve filename completion
 Vcsh provides a list of all files tracked by all repositories:
-#+BEGIN_SRC shell :dir ~
-vcsh list-tracked
+#+BEGIN_SRC sh :dir ~
+  vcsh list-tracked
 #+END_SRC
 
 #+RESULTS:
@@ -274,7 +274,7 @@ vcsh list-tracked
 #+end_example
 
 or a specific one:
-#+BEGIN_SRC shell :dir ~
+#+BEGIN_SRC sh :dir ~
 vcsh list-tracked emacs
 #+END_SRC
 
@@ -556,6 +556,15 @@ Another option is [[github:kuanyui/copy-as-org-mode]] which allows to copy the c
 ** Working with source code blocks
 #+BEGIN_SRC emacs-lisp
   (setq org-src-fontify-natively t)
+#+END_SRC
+*** Shell
+There are two (at least) modes to work with shell code snippets:
+- =shell-mode=, major mode for interacting with an inferior shell
+- =sh-mode= (=shell-script-mode= is an alias), major mode for editing shell scripts
+
+The latter one should be used for source code blocks, i.e. =#+BEGIN_SRC sh=, and add it to the list of languages which can be evaluated:
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'org-babel-load-languages '(shell . t))
 #+END_SRC
 *** TODO Navigation between blocks
 #+BEGIN_SRC emacs-lisp
