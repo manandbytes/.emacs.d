@@ -160,6 +160,17 @@ When using the stackexchange client for Emacs, I notice this every time in the *
  Opening TLS connection to `api.stackexchange.com'...done
 #+END_QUOTE
 Another option is to switch to the built-in GnuTLS integration.
+** Twitter
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle twittering-mode
+    (setq twittering-oauth-use-ssl t
+          twittering-use-master-password t
+          twittering-timer-interval 300)
+    (with-eval-after-load-feature twittering-mode
+      (add-hook 'twittering-mode-init-hook
+                (lambda ()
+                  (set-face-attribute twittering-uri-face nil :inherit `link)))))
+#+END_SRC
 ** TODO Integrate different messaging systems under one umbrella?
 - Gnus already provides some backends for working with e-mails, news, RSS;
 - Stack Exchange;
