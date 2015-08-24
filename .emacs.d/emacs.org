@@ -21,7 +21,16 @@ Actual usecase for customization file is:
 - override some settings with a user-defined, per-host, values.
 
 Loading should be deferred and take place as late as possible.
-
+** TODO How to handle WIP items
+Manually add header argument =:tangle no= to source block. See [[http://orgmode.org/manual/Extracting-source-code.html][Extracting source code - The Org Manual]] for more details.
+Another way is to automagically not tangle source code blocks under TODO items.
+** TODO How to sync manual modifications with M-x customize-*
+- modify something with M-x customize
+- because you wanted to try them out first, just apply for current session without saving
+- lather, rinse and repeat
+- execute =customize-unsaved= to revisit your unsaved changes
+- [[http://www.emacswiki.org/emacs/CustomizingFaces][EmacsWiki：Customizing Faces]]
+- [[http://ergoemacs.org/emacs/emacs_custom_system.html][Emacs's Customization Tutorial]]
 * Backups
 By default, Emacs saves backup files (the files ending with =~=) in the current directory. Stash them all under =backups= directory in user's Emacs directory:
 #+BEGIN_SRC emacs-lisp
