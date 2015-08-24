@@ -537,7 +537,33 @@ To add link to Debian package, use =deb:= link type followed by package's name, 
         (message (format "Unable to open 'deb:%s' link: Debian package debian-el is required" package))))
     (org-add-link-type "deb" 'org-deb-open))
 #+END_SRC
-**** TODO Provide completion for package name
+**** Autocomplete package name
+Search for text using =helm-apt= and use selected search result:
+#+BEGIN_SRC emacs-lisp
+  (when (fboundp 'helm-apt)
+    (defun org-deb-complete-link (&optional arg)
+      "Complete debian packages"
+      (let (package link)
+        (setq package (helm-apt arg))
+        (setq link (concat "deb:" package)))))
+#+END_SRC
+**** Store link when in =apt-utils-mode=
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load-feature apt-utils
+    (defun org-deb-store-link ()
+      "Store a link to debian package"
+      (when (memq major-mode '(apt-utils-mode))
+        ;; this is apt-utils-mode buffer
+        (let* ((package (caar apt-utils-package-history))
+               (link (concat "deb:" package)))
+          ;; store package's description too
+          (org-store-link-props :type "deb" :link link :description nil))))
+    (add-hook 'org-store-link-functions 'org-deb-store-link))
+#+END_SRC
+**** TODO Handle history
+#+BEGIN_EXAMPLE
+  (("python-cffi" . normal-installed) ("python-cryptography" . normal-installed) ("python-openssl" . normal-installed) ("mitmproxy" . normal))
+#+END_EXAMPLE
 ** A cleaner presentation
 - all lines are prefixed for display with the necessary amount of space;
 - all headlines are prefixed with additional stars, so that the amount of indentation shifts by =org-indent-indentation-per-level= spaces per level;
