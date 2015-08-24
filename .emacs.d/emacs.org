@@ -665,6 +665,17 @@ in two
   ;; - kill the whole line including its terminating newline, C-S-k
   (global-set-key (kbd "C-S-k") 'kill-whole-line)
 #+END_SRC
+* Highlight Parenthesis
+Highlight matching brackets (including () [] {} 「」 『』 【】 〖〗 〈〉 《》 ‹› «») when cursor is on one of the bracket:
+#+BEGIN_SRC emacs-lisp
+  (show-paren-mode 1)
+  (setq show-paren-style 'parenthesis)
+#+END_SRC
+** TODO Highlight entire bracket expression
+Not sure if it makes sense to highlight an entire expression on a permanent basis:
+#+BEGIN_SRC emacs-lisp :tangle no
+  (setq show-paren-style 'expression)
+#+END_SRC
 * Lisp
 Navigate and edit LISP code with [[github:abo-abo/lispy][Oleh Krehel's lispy]] package:
 #+BEGIN_SRC emacs-lisp
