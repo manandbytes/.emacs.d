@@ -150,8 +150,8 @@ And the only case when visible line numbers really matter is when you need to ju
 #+END_SRC
 ** TODO Displaying Line and Column Numbers
 Another valid use case for visible line numbers is when presenting your content to someone else (code reviews, presentation and alike) when it just easier to point to a specific text by line number.
-* TODO Searching
-#+BEGIN_SRC emacs-lisp :tangle no
+* Searching
+#+BEGIN_SRC emacs-lisp
   (global-set-key [remap isearch-forward] 'helm-occur)
 #+END_SRC
 * Buffer management
