@@ -97,15 +97,53 @@ There are two forks of original [[emacswiki:powerline.el]] (references [[github:
       (helm-adaptive-mode 1)
       (helm-autoresize-mode 1)))
 #+END_SRC
-* TODO Displaying Line and Column Numbers
-- show absolute line number on the left fringe using =linum-mode=
-- show line number relative to the current line on the right fringe with =linum-relative-mode=
-- show on activating point-moving command only
+* Changing the Location of Point
+** ...to an absolute line number
+Showing line numbers all the time is just noise but there is a case when they might be handy - when I have an error or log message and have to jump right to this line. To make this happen, show an absolute line number on the left fringe using =linum-mode= and on activating point-moving command only:
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle linum-mode :builtin "22")
+
+  (global-unset-key (kbd "M-g g"))
+  (global-unset-key (kbd "M-g M-g"))
+
+  (global-set-key (kbd "M-g l") 'goto-line)
+  (global-set-key [remap goto-line] 'mn/goto-line)
+
+  (defun mn/goto-line ()
+    "Show line numbers temporarily, while prompting for the line number input"
+    (interactive)
+    (unwind-protect
+        (progn
+          (linum-mode 1)
+          (hl-line-mode 1)
+          (goto-line (read-number "Goto line: ")))
+      (hl-line-mode -1)
+      (linum-mode -1)))
+#+END_SRC
+** TODO ...to a relative line number
+And the only case when visible line numbers really matter is when you need to jump up to 11 lines or down to 5 lines from your current position.
+- show on activating point-moving command only;
+- show line number relative to the current line on the right fringe with =linum-relative-mode=
+#+BEGIN_SRC emacs-lisp :tangle no
   (el-get-bundle linum-relative
     :type http
     :url "https://raw.github.com/emacsmirror/emacswiki.org/master/linum-relative.el")
+#+END_SRC
+** TODO ...to a (visible) word
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "M-g w") 'avy-goto-word-or-subword-1)
+#+END_SRC
+** TODO Should I test key bindings?
+#+BEGIN_SRC emacs-lisp :tangle no
+  (ert-deftest mn/goto-line ()
+    (should (eq (global-key-binding (kbd "M-g l")) `goto-line))
+    (should (eq (global-key-binding (kbd "M-g w")) `avy-goto-word-or-subword-1)))
+#+END_SRC
+** TODO Displaying Line and Column Numbers
+Another valid use case for visible line numbers is when presenting your content to someone else (code reviews, presentation and alike) when it just easier to point to a specific text by line number.
+* TODO Searching
+#+BEGIN_SRC emacs-lisp :tangle no
+  (global-set-key [remap isearch-forward] 'helm-occur)
 #+END_SRC
 * Buffer management
 Use Helm to switch between buffers:
