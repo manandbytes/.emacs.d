@@ -228,6 +228,10 @@ Another option is to switch to the built-in GnuTLS integration.
 - Gnus already provides some backends for working with e-mails, news, RSS;
 - Stack Exchange;
 - Twitter.
+** Browsing
+   #+BEGIN_SRC emacs-lisp
+     (setq browse-url-browser-function 'browse-url-firefox)
+   #+END_SRC
 * Version control
 ** Git
 *** magit-revert-buffers is broken with outdated dash.el 		:bug:
