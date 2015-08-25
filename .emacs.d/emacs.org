@@ -31,6 +31,10 @@ Another way is to automagically not tangle source code blocks under TODO items.
 - execute =customize-unsaved= to revisit your unsaved changes
 - [[http://www.emacswiki.org/emacs/CustomizingFaces][EmacsWiki：Customizing Faces]]
 - [[http://ergoemacs.org/emacs/emacs_custom_system.html][Emacs's Customization Tutorial]]
+* Simplify 'yes/no' answers
+  #+BEGIN_SRC emacs-lisp
+    (fset 'yes-or-no-p 'y-or-n-p)
+  #+END_SRC
 * Backups
 By default, Emacs saves backup files (the files ending with =~=) in the current directory. Stash them all under =backups= directory in user's Emacs directory:
 #+BEGIN_SRC emacs-lisp
