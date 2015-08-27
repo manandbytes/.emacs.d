@@ -56,6 +56,12 @@ By default, Emacs saves backup files (the files ending with =~=) in the current 
 
   (el-get-bundle with-eval-after-load-feature)
 #+END_SRC
+Install essential Debian packages:
+#+BEGIN_SRC emacs-lisp
+  (dolist (package '(make texinfo))
+    (el-get-bundle apt-get:package))
+#+END_SRC
+
 ** Install packages over secure connection only
 #+BEGIN_SRC emacs-lisp
   (setq el-get-allow-insecure nil)
