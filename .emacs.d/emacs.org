@@ -764,6 +764,17 @@ Not sure if it makes sense to highlight an entire expression on a permanent basi
 #+BEGIN_SRC emacs-lisp :tangle no
   (setq show-paren-style 'expression)
 #+END_SRC
+* TODO ANSI colors in buffers
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load-feature compile
+    (ignore-errors
+      (require 'ansi-color)
+      (defun mn/colorize-compilation-buffer ()
+        "Apply ANSI colors to buffers in `compilation-mode'"
+        (when (eq major-mode 'compilation-mode)
+          (ansi-color-apply-on-region compilation-filter-start (point-max))))
+      (add-hook 'compilation-filter-hook 'mn/colorize-compilation-buffer)))
+#+END_SRC
 * Lisp
 Navigate and edit LISP code with [[github:abo-abo/lispy][Oleh Krehel's lispy]] package:
 #+BEGIN_SRC emacs-lisp
