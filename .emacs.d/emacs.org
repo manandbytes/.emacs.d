@@ -597,6 +597,7 @@ Search for text using =helm-apt= and use selected search result:
           (org-store-link-props :type "deb" :link link :description nil))))
     (add-hook 'org-store-link-functions 'org-deb-store-link))
 #+END_SRC
+**** TODO Export to HTML as a link to package on debian.org
 **** TODO Handle history
 #+BEGIN_EXAMPLE
   (("python-cffi" . normal-installed) ("python-cryptography" . normal-installed) ("python-openssl" . normal-installed) ("mitmproxy" . normal))
@@ -879,6 +880,8 @@ Just use simplified version of recipe:
   (dolist (hook '(org-mode-hook text-mode-hook))
     (add-hook hook 'flyspell-mode))
 #+END_SRC
+** TODO Use org-reveal in org-mode buffers
+Error is invisible as subtree remains collapsed, =org-reveal= should be used.
 * Load local customizations
 #+BEGIN_SRC emacs-lisp
   (load custom-file t)
