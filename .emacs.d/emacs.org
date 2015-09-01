@@ -431,6 +431,16 @@ Seems there is no support for anonymous access via =https://git.eclipse.org/r/a/
 - [[http://fontawesome.io/][Font Awesome, the iconic font and CSS toolkit]]
 - [[http://endlessparentheses.com/manually-choose-a-fallback-font-for-unicode.html][Manually Choose a Fallback Font for Unicode · Endless Parentheses]]
 - [[https://gist.github.com/arnested/afd421c89a68b874e1c0][Using Font Awesome in the Emacs mode line]]
+** Make parentheses less visible by dimming them
+#+BEGIN_SRC emacs-lisp :tangle no
+  (el-get-bundle paren-face
+    (with-eval-after-load-feature paren-face
+        (global-paren-face-mode 1)))
+#+END_SRC
+*** TODO Dim parentheses in other modes (i.e., Java, XML etc)
+While this face is intended to be used with Lisp modes, it also works with other major modes, just add the mode to the value of paren-face-modes.
+
+By default only parentheses are dimmed, customize option paren-face-regexp if you also want to dim brackets or braces. If you want to use a differnt regexp in different major-modes, then use a the mode hook to set the buffer local value.
 ** Default font
 #+BEGIN_SRC emacs-lisp
   (set-face-attribute 'default nil
