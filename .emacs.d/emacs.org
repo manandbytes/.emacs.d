@@ -232,6 +232,10 @@ Another option is to switch to the built-in GnuTLS integration.
    #+BEGIN_SRC emacs-lisp
      (setq browse-url-browser-function 'browse-url-firefox)
    #+END_SRC
+** Manually explore and test HTTP REST webservices
+   #+BEGIN_SRC emacs-lisp
+     (el-get-bundle restclient)
+   #+END_SRC
 * Version control
 ** Git
 *** magit-revert-buffers is broken with outdated dash.el 		:bug:
