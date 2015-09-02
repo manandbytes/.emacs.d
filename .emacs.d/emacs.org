@@ -852,16 +852,6 @@ in two
   (add-to-list 'auto-mode-alist '("\\.project$" . nxml-mode))
   (add-to-list 'auto-mode-alist '("\\.classpath$" . nxml-mode))
 
-  ; Java deployable artifacts
-  (add-to-list 'auto-mode-alist '("\\.jar$" . archive-mode))
-  (add-to-list 'auto-mode-alist '("\\.war$" . archive-mode))
-  (add-to-list 'auto-mode-alist '("\\.ear$" . archive-mode))
-  (add-to-list 'auto-mode-alist '("\\.sar$" . archive-mode))
-  ;; BeanShell files
-  (add-to-list 'auto-mode-alist '("\\.bsh$" . java-mode))
-  ;; AspectJ files
-  (add-to-list 'auto-mode-alist '("\\.aj$" . java-mode))
-
   ;; use markdown mode for *.md files
   (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
   (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
@@ -895,6 +885,64 @@ Not sure if it makes sense to highlight an entire expression on a permanent basi
         (when (eq major-mode 'compilation-mode)
           (ansi-color-apply-on-region compilation-filter-start (point-max))))
       (add-hook 'compilation-filter-hook 'mn/colorize-compilation-buffer)))
+#+END_SRC
+* Java
+#+BEGIN_SRC emacs-lisp
+  ; Java deployable artifacts
+  (add-to-list 'auto-mode-alist '("\\.jar$" . archive-mode))
+  (add-to-list 'auto-mode-alist '("\\.war$" . archive-mode))
+  (add-to-list 'auto-mode-alist '("\\.ear$" . archive-mode))
+  (add-to-list 'auto-mode-alist '("\\.sar$" . archive-mode))
+
+  ;; BeanShell files
+  (add-to-list 'auto-mode-alist '("\\.bsh$" . java-mode))
+
+  ;; AspectJ files
+  (add-to-list 'auto-mode-alist '("\\.aj$" . java-mode))
+#+END_SRC
+Debian provides a number of different JDK implementations, for now I don't care and will require a virtual package [[deb:java-sdk]] (which means 'any installed Java SDK'):
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle apt-get:java-sdk)
+#+END_SRC
+Automatically open =.class= files with =javap=:
+- [[http://nullprogram.com/blog/2012/08/01/][Viewing Java Class Files in Emacs « null program]]
+- [[https://gist.github.com/skeeto/3178747][Automatically open .class files in Emacs with javap · GitHub]]
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'file-name-handler-alist '("\\.class$" . javap-handler))
+
+  (defun javap-handler (op &rest args)
+    "Handle .class files by putting the output of javap in the buffer."
+    (cond
+     ((eq op 'get-file-buffer)
+      (let ((file (car args)))
+        (with-current-buffer (create-file-buffer file)
+          (call-process "javap" nil (current-buffer) nil "-verbose"
+                        "-classpath" (file-name-directory file)
+                        (file-name-sans-extension (file-name-nondirectory file)))
+          (setq buffer-file-name file)
+          (setq buffer-read-only t)
+          (set-buffer-modified-p nil)
+          (goto-char (point-min))
+          (java-mode)
+          (current-buffer))))
+     ((javap-handler-real op args))))
+
+  (defun javap-handler-real (operation args)
+    "Run the real handler without the javap handler installed."
+    (let ((inhibit-file-name-handlers
+           (cons 'javap-handler
+                 (and (eq inhibit-file-name-operation operation)
+                      inhibit-file-name-handlers)))
+          (inhibit-file-name-operation operation))
+      (apply operation args)))
+#+END_SRC
+** TODO Match .class files based on the content of the file
+- [[http://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html][Chapter 4. The class File Format]] describes the Java Virtual Machine class file format.
+- Each class file contains the definition of a single class or interface.
+- The first item in the ClassFile structure is the =magic= item which supplies the magic number identifying the class file format - =CAFEBABE=.
+- According to [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Choosing-Modes.html][GNU Emacs Manual: Choosing Modes]], Emacs tries to determine the major mode by looking at the text at the start of the buffer, based on the variable =magic-mode-alist=.
+#+BEGIN_SRC emacs-lisp :tangle no
+  (add-to-list 'magic-mode-alist '("^\xCA\xFE\xBA\xBE" . javap-mode))
 #+END_SRC
 * Lisp
 Navigate and edit LISP code with [[github:abo-abo/lispy][Oleh Krehel's lispy]] package:
