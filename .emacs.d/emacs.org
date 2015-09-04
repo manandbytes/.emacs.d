@@ -813,10 +813,10 @@ Split existing source code block
   (load custom-file t)
 #+END_SRC
 in two
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 #+END_SRC
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (load custom-file t)
 #+END_SRC
 * Legacy configuration
