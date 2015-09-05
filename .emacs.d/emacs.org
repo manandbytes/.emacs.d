@@ -461,6 +461,77 @@ TRAMP integration for Docker containers
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle emacs-pe/docker-tramp.el)
 #+END_SRC
+* UML Diagrams
+** PlantUML
+[[http://plantuml.com/emacs.html][PlantUML : Integration with Emacs]] mentions two ways to embed UML diagrams:
+*** Generic source code block in plantuml-mode
+#+BEGIN_SRC org
+  ,#+BEGIN_SRC plantuml :file classes.png
+    Alice -> Bob: Authentication Request
+    Bob --> Alice: Authentication Response
+  ,#+END_SRC
+#+END_SRC
+are available with =plantuml-mode=:
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle plantuml-mode
+    (with-eval-after-load-feature (org ob-plantuml plantuml-mode)
+      (add-to-list 'org-modules 'ob-plantuml)
+      (add-to-list 'org-babel-load-languages '(plantuml . t))
+      (setq org-plantuml-jar-path plantuml-jar-path)))
+#+END_SRC
+*** TODO Special block of type =_UML=
+#+BEGIN_SRC org
+  ,#+BEGIN_UML
+    Alice -> Bob: Authentication Request
+    Bob --> Alice: Authentication Response
+  ,#+END_UML
+#+END_SRC
+should be available after installing
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle org-export-blocks-format-plantuml
+    :type http
+    :url "https://raw.github.com/emacsmirror/emacswiki.org/master/org-export-blocks-format-plantuml.el")
+#+END_SRC
+While [[http://orgmode.org/worg/org-contrib/org-exp-blocks.html][org-exp-blocks.el — pre-process blocks when exporting org files]] still using =org-exp-blocks=, it should not be used anymore:
+#+BEGIN_SRC sh :dir ~/.emacs.d/el-get/org-mode :tangle no :exports results
+  git show --summary ee3b3eb42
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+commit ee3b3eb421e74339119d730a5bf896a070b2ed60
+Author: Bastien Guerry <bzg@altern.org>
+Date:   Sat Mar 2 10:26:22 2013 +0100
+
+    Remove contrib/oldexp/.
+
+    If users want to use the old exporter, they now need
+    to checkout an earlier version of Org.
+
+ delete mode 100644 contrib/oldexp/README
+ delete mode 100644 contrib/oldexp/org-ascii.el
+ delete mode 100644 contrib/oldexp/org-beamer.el
+ delete mode 100644 contrib/oldexp/org-docbook.el
+ delete mode 100644 contrib/oldexp/org-exp-bibtex.el
+ delete mode 100644 contrib/oldexp/org-exp-blocks.el
+ delete mode 100644 contrib/oldexp/org-exp.el
+ delete mode 100644 contrib/oldexp/org-export-generic.el
+ delete mode 100644 contrib/oldexp/org-freemind.el
+ delete mode 100644 contrib/oldexp/org-html.el
+ delete mode 100644 contrib/oldexp/org-icalendar.el
+ delete mode 100644 contrib/oldexp/org-jsinfo.el
+ delete mode 100644 contrib/oldexp/org-latex.el
+ delete mode 100644 contrib/oldexp/org-lparse.el
+ delete mode 100644 contrib/oldexp/org-odt.el
+ delete mode 100644 contrib/oldexp/org-publish.el
+ delete mode 100644 contrib/oldexp/org-special-blocks.el
+ delete mode 100644 contrib/oldexp/org-taskjuggler.el
+ delete mode 100644 contrib/oldexp/org-xoxo.el
+ delete mode 100644 contrib/oldexp/org2rem.el
+#+end_example
+
+*** TODO Requires =plantuml.jar= to be available                 :dependency:
+Still have to find the automagic way to manage native dependencies required by Emacs packages, like in this case, [[deb:plantuml]] Debian package provides required functionality.
 * Puppet
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle puppet-mode)
