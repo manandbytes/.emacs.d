@@ -717,6 +717,14 @@ The latter one should be used for source code blocks, i.e. =#+BEGIN_SRC sh=, and
     ("j" org-babel-previous-src-block "Prev")
     ("k" org-babel-next-src-block "Next"))
 #+END_SRC
+*** TODO Mark the results of source block evaluation with specific mode
+#+BEGIN_QUOTE
+The :wrap header argument is used to mark the results of source block evaluation. The header argument can be passed a string that will be appended to =#+BEGIN_= and =#+END_=, which will then be used to wrap the results.
+#+END_QUOTE
+#+BEGIN_SRC org
+  ,#+BEGIN_SRC sh :wrap "_SRC diff"
+  ,#+END_SRC
+#+END_SRC
 *** TODO Define initial key bindings
 *** TODO Splitting source code blocks
 Split existing source code block
