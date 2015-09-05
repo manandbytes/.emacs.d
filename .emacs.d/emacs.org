@@ -71,6 +71,22 @@ When trying out new packages, its easy to lose track of direct and indirect depe
 #+BEGIN_SRC emacs-lisp :tangle no
   (el-get-cleanup (mapcar 'el-get-source-name el-get-sources))
 #+END_SRC
+** TODO =apt-get= package type's status is poorly supported             :bug:
+=el-get-dpkg-package-status= relies on results from =dpkg -l= which knows nothing about virtual packages. As I'm mainly using [[deb:aptitude]] for package management anyway, let use it instead of =dpkg=:
+#+BEGIN_SRC emacs-lisp
+  (defun mn/el-get-aptitude-package-status (PACKAGE)
+    "Use aptitude to check if PACKAGE is installed, taking into account also virtual packages"
+    (let ((search-expr (format-spec "?or(?provides(%p), ?name(%p)) ?installed" (format-spec-make ?p PACKAGE))))
+      (when (split-string (shell-command-to-string (format "aptitude search '%s' |cat" search-expr)) "[\n\r]" t)
+        "ok")))
+
+  (advice-add #'el-get-dpkg-package-status :override #'mn/el-get-aptitude-package-status)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (el-get-dpkg-package-status "java-sdk")
+  (mn/el-get-aptitude-package-status "java-sdk")
+#+END_SRC
 * Saving and restoring desktop state between sessions
 #+BEGIN_SRC emacs-lisp
   (setq desktop-path (list user-emacs-directory))
