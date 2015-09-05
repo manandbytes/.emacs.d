@@ -657,6 +657,7 @@ All files in a default location to look for Org files will be used for agenda di
 *** Debian package
 To add link to Debian package, use =deb:= link type followed by package's name, i.e. =deb:python3-minimal=. Opening such link will show package's details with =apt-utils-show-package= (from =apt-utils= feature provided by [[deb:debian-el]] package).
 #+BEGIN_SRC emacs-lisp
+  (el-get-bundle apt-get:debian-el)
   (with-eval-after-load-feature (org)
     (defun org-deb-open (package)
       (if (require 'apt-utils nil 'noerror)
