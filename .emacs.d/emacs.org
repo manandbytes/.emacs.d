@@ -496,10 +496,16 @@ TRAMP integration for Docker containers
 are available with =plantuml-mode=:
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle plantuml-mode
-    (with-eval-after-load-feature (org ob-plantuml plantuml-mode)
+    :post-init nil
+    :prepare nil
+    (with-eval-after-load 'org
       (add-to-list 'org-modules 'ob-plantuml)
       (add-to-list 'org-babel-load-languages '(plantuml . t))
-      (setq org-plantuml-jar-path plantuml-jar-path)))
+      (let* ((jar-files (shell-command-to-string "dpkg -L plantuml |grep jar"))
+             (mn/plantuml-jar (car (split-string jar-files))))
+        (when (file-exists-p mn/plantuml-jar)
+          (setq org-plantuml-jar-path mn/plantuml-jar
+                plantuml-jar-path mn/plantuml-jar)))))
 #+END_SRC
 *** TODO Special block of type =_UML=
 #+BEGIN_SRC org
