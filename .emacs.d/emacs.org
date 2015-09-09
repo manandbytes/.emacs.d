@@ -558,6 +558,16 @@ Date:   Sat Mar 2 10:26:22 2013 +0100
  delete mode 100644 contrib/oldexp/org2rem.el
 #+end_example
 
+*** TODO Display generated images inline
+Evaluating =plantuml-mode= source code block inserts =RESULTS= block with a link to the generated file. When clicked, the image will be opened in a new buffer. To make the image visible in the same buffer inline:
+- Toggle the display of inline images (disabled by default) by pressing =C-c C-x C-v=
+- After re-evaluating a =plantuml-mode= source code block, press =C-c C-x C-M-v= to refresh the display of inline image.
+
+Under the hood, all this boils down to these functions:
+- org-redisplay-inline-images
+- org-display-inline-images
+- org-toggle-inline-images
+- org-remove-inline-images
 *** TODO Requires =plantuml.jar= to be available                 :dependency:
 Still have to find the automagic way to manage native dependencies required by Emacs packages, like in this case, [[deb:plantuml]] Debian package provides required functionality.
 * Puppet
