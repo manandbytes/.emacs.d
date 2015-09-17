@@ -1028,6 +1028,58 @@ It would be nice if Org's quote has support for the same feature during export, 
 
 *** TODO MediaWiki
 [[github:tomalexander/orgmode-mediawiki]]
+* TODO Blogging
+** Octopress/Jekyll
+*** Jekyll plugins
+[[http://jekyllrb.com/docs/plugins/#converters]]:
+#+BEGIN_QUOTE
+If you have a new markup language you’d like to use with your site, you can include it by implementing your own converter. Both the Markdown and Textile markup languages are implemented using this method.
+#+END_QUOTE
+
+[[github:eggcaker/jekyll-org]] implements Jekyll plugin that allows to write posts and pages in Org directly, without an explicit export. The main drawback is GitHub Pages disables custom Jekyll plugins.
+
+*** Org export
+There are several options to export Org document to other formats:
+- native Org export and publish features
+- [[deb:pandoc][pandoc]], which supports multiple input/output formats but it's an external dependency
+- custom extensions of native Org's export/publish
+
+Another one, [[github:yoshinari-nomura/org-octopress]], provides =ox-jekyl=, an Org exporter implementation:
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle orglue :type github :pkgname "yoshinari-nomura/orglue")
+  (el-get-bundle emacs-ctable :type github :pkgname "kiwanami/emacs-ctable")
+  (el-get-bundle org-octopress
+    :type github :pkgname "yoshinari-nomura/org-octopress"
+    :depends (org-mode orglue emacs-ctable))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle jekyll-el)
+  (el-get-bundle org-jekyll :depends (org-mode))
+  (el-get-bundle org2jekyll :depends (org-mode))
+  (el-get-bundle happyblogger
+    :type github :pkgname "bmaland/happyblogger"
+    :depends (org-mode))
+#+END_SRC
+
+#+BEGIN_EXAMPLE
++ octopress
+  + source
+    + blog   <- (1) You compose YYYY-MM-DD-title.org
+    + _posts <- (2) ox-jekyll.el exports to YYYY-MM-DD-title.html (w/ YAML)
+  + public
+    + blog   <- (3) Jekyll exports to YYYY-MM-DD-title.html (w/o YAML).
+#+END_EXAMPLE
+
+Let [[github:ardumont/org2jekyll]] export your Org-mode file to Jekyll:
+
+#+BEGIN_QUOTE
+What’s the difference with [[github:juanre/org-jekyll][org-jekyll]]?
+: You don’t need to add some alien yaml in your org-mode file. You add specific org-mode headers and this will be used to format the jekyll post.
+
+What’s the difference with [[github:bmaland/happyblogger]]?
+: Only emacs’ dependencies (org, etc…) no external ruby script.
+#+END_QUOTE
 * Legacy configuration
 #+BEGIN_SRC emacs-lisp
   ;; yes-or-no -> y-or-n
