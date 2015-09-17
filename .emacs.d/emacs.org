@@ -917,7 +917,22 @@ in two
         org-html-html5-fancy t
         org-html-htmlize-output-type 'css)
 #+END_SRC
+*** TODO Attribution for the quotation
+With [[http://www.w3.org/TR/html5/grouping-content.html#the-blockquote-element][the HTML5's blockquote element]] you could provide a link to the source of the quote like:
 
+#+BEGIN_SRC html
+  <blockquote>
+    The people recognize themselves in their commodities; they find their soul in their automobile, hi-fi set, split-level home, kitchen equipment.
+    — <cite><a href="http://en.wikipedia.org/wiki/Herbert_Marcuse">Herbert Marcuse</a></cite>
+  </blockquote>
+#+END_SRC
+
+It would be nice if Org's quote has support for the same feature during export, at least, to HTML:
+#+BEGIN_SRC org
+  ,#+BEGIN_QUOTE :link [[http://en.wikipedia.org/wiki/Herbert_Marcuse][Herbert Marcuse]]
+  The people recognize themselves in their commodities; they find their soul in their automobile, hi-fi set, split-level home, kitchen equipment.
+  ,#+END_QUOTE
+#+END_SRC
 *** TODO MediaWiki
 [[github:tomalexander/orgmode-mediawiki]]
 * Legacy configuration
