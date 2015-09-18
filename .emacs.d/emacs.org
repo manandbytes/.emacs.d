@@ -889,6 +889,7 @@ in two
   ;; disable menu bar and tool bar
   (menu-bar-mode -1)
   (tool-bar-mode -1)
+  (scroll-bar-mode -1)
 
   ;; change current buffer's font size with C-+ and C--
   (global-set-key (kbd "C-+") 'text-scale-increase)
