@@ -477,6 +477,17 @@ By default, will recognize Git repository as Gerrit one only when:
 In other words, will work with =ssh://user@git.eclipse.org:29418/equinox/rt.equinox.p2= out of the box. Working with non-anonymous HTTPS (like =https://user@git.eclipse.org/r/a/equinox/rt.equinox.p2=) will require setting =magit-gerrit-ssh-creds=.
 
 Seems there is no support for anonymous access via =https://git.eclipse.org/r/a/equinox/rt.equinox.p2=.
+** TODO git-gutter
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle git-gutter)
+#+END_SRC
+** TODO github
+- magit-view-file
+- magit-gh-pulls
+- magit-gitflow
+- magit-svn
+- gh
+- gitconfig
 * Manage a list of recently opened files
 #+BEGIN_SRC emacs-lisp
   (require 'recentf)
