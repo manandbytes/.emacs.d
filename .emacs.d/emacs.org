@@ -1009,6 +1009,12 @@ Automatically open =.class= files with =javap=:
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle android-mode)
 #+END_SRC
+* Clojure
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle queue :type github :pkgname "emacsmirror/queue"
+    :checkout "7bc5d823b226962ee01531c42df5f0d530ca6f83")
+  (el-get-bundle cider :depends (spinner queue pkg-info dash clojure-mode))
+#+END_SRC
 * Lisp
 Navigate and edit LISP code with [[github:abo-abo/lispy][Oleh Krehel's lispy]] package:
 #+BEGIN_SRC emacs-lisp
