@@ -187,6 +187,28 @@ Use Helm to switch between buffers:
     (global-set-key (kbd "C-x b") 'helm-buffers-list))
 #+END_SRC
 * Networking
+** TODO Check for network connectivity
+To check the network connectivity state, get =Connectivity= property of [[https://developer.gnome.org/NetworkManager/unstable/spec.html#org.freedesktop.NetworkManager][org.freedesktop.NetworkManager]] D-Bus interface. It returns [[https://developer.gnome.org/NetworkManager/unstable/spec.html#type-NM_CONNECTIVITY][NM_CONNECTIVITY]] enumeration:
+- NM_CONNECTIVITY_UNKNOWN = 0
+  : Network connectivity is unknown.
+- NM_CONNECTIVITY_NONE = 1
+  : The host is not connected to any network.
+- NM_CONNECTIVITY_PORTAL = 2
+  : The host is behind a captive portal and cannot reach the full Internet.
+- NM_CONNECTIVITY_LIMITED = 3
+  : The host is connected to a network, but does not appear to be able to reach the full Internet.
+- NM_CONNECTIVITY_FULL = 4
+  : The host is connected to a network, and appears to be able to reach the full Internet
+#+BEGIN_SRC emacs-lisp :tangle no
+  (require 'dbus)
+  (dbus-get-property
+   :system "org.freedesktop.NetworkManager" "/org/freedesktop/NetworkManager"
+   "org.freedesktop.NetworkManager" "Connectivity")
+#+END_SRC
+
+See [[emacswiki:GnusNetworkManager]] for experimental integration between Gnus agent and NetworkManager over D-Bus. Kill IMAP connections and unplug Gnus agent when network goes down, plug agent when network comes up.
+
+As a fallback, if D-Bus is not available, =nmcli= utility from [[deb:network-manager]] may be used for the same purpose, see [[github:nicferrier/emacs-nm][Emacs interface to Gnome's Network Manager]].
 ** Use SOCKS 5 proxy
 #+BEGIN_SRC emacs-lisp
   (require 'socks)
