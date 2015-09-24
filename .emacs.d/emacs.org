@@ -517,6 +517,12 @@ By default only parentheses are dimmed, customize option paren-face-regexp if yo
                       :height 120)
 #+END_SRC
 ** TODO Build face's attributes only once depending on system-type
+* TODO Vagrant
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle vagrant)
+  (el-get-bundle vagrant-tramp
+    (vagrant-tramp-enable))
+#+END_SRC
 * Docker
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle spotify/dockerfile-mode
