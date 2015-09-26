@@ -1066,7 +1066,7 @@ Automatically open =.class= files with =javap=:
 #+END_SRC
 ** Eclipse integration
 #+BEGIN_SRC emacs-lisp
-  (el-get-bundle eclim)
+  (el-get-bundle eclim :depends (dash popup s json))
 #+END_SRC
 * Android
 #+BEGIN_SRC emacs-lisp
