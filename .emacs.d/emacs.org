@@ -992,6 +992,14 @@ It would be nice if Org's quote has support for the same feature during export, 
   The people recognize themselves in their commodities; they find their soul in their automobile, hi-fi set, split-level home, kitchen equipment.
   ,#+END_QUOTE
 #+END_SRC
+*** TODO Pandoc
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle pandoc-mode)
+  (el-get-bundle org-pandoc
+    :depends (pandoc-mode)
+    :type github :pkgname "robtillotson/org-pandoc")
+#+END_SRC
+
 *** TODO MediaWiki
 [[github:tomalexander/orgmode-mediawiki]]
 * Legacy configuration
