@@ -1095,9 +1095,11 @@ Originally [[http://ergoemacs.org/emacs/command-frequency.html][Emacs's Command 
     (keyfreq-mode 1)
     (keyfreq-autosave-mode 1))
 #+END_SRC
-* Wrap text with punctation
+* Wrap text with punctuation
 #+BEGIN_SRC emacs-lisp
-  (el-get-bundle wrap-region :type github :pkgname "rejeep/wrap-region.el")
+  (el-get-bundle wrap-region :type github :pkgname "rejeep/wrap-region.el"
+    (with-eval-after-load 'wrap-region
+      (wrap-region-global-mode)))
 #+END_SRC
 
 * Install other packages
