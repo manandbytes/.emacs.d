@@ -1257,6 +1257,35 @@ Originally [[http://ergoemacs.org/emacs/command-frequency.html][Emacs's Command 
     (with-eval-after-load 'wrap-region
       (wrap-region-global-mode)))
 #+END_SRC
+* Making presentations
+Plain HTML/CSS presentations with:
+- [[deb:pandoc]]
+- Org
+*** TODO Illustrate with diagram
+#+BEGIN_SRC plantuml :file presentation.svg
+#+END_SRC
+
+** TODO reveal.js
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle org-reveal)
+#+END_SRC
+** TODO impress.js
+[[github:bartaz/impress.js][impress.js]] is a presentation framework based on the power of CSS3 transforms and transitions in modern browsers and inspired by the idea behind [[https://prezi.com/][prezi.com]].
+[[github:kinjo/org-impress-js.el]]
+#+BEGIN_SRC emacs-lisp :tangle no
+  (el-get-bundle org-impress-js
+    :after (progn
+             (when (featurep 'ox-html) (unload-feature 'ox-html nil))
+             (require 'ox-html))
+    :features ox-impress-js)
+#+END_SRC
+*** TODO Backward-incompatible change in recent ox-html
+#+BEGIN_QUOTE
+org-impress-js-headline: Symbol's function definition is void: org-export-get-headline-id
+#+END_QUOTE
+
+*** TODO Download original impress.js library
+For convenience, org-impress-js includes some version of impress.js. Make it possible to install original one either by downloading it directly or with with some JS package manager. May be just install [[deb:libjs-impress]].
 
 * Install other packages
 #+BEGIN_SRC emacs-lisp
