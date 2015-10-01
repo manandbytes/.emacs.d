@@ -1018,6 +1018,7 @@ It would be nice if Org's quote has support for the same feature during export, 
   The people recognize themselves in their commodities; they find their soul in their automobile, hi-fi set, split-level home, kitchen equipment.
   ,#+END_QUOTE
 #+END_SRC
+=org-html-quote-block= from =ox-html= converts Org's quote block to HTML.
 *** TODO Pandoc
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle pandoc-mode)
