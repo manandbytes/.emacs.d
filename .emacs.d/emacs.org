@@ -896,6 +896,17 @@ The latter one should be used for source code blocks, i.e. =#+BEGIN_SRC sh=, and
     ("j" org-babel-previous-src-block "Prev")
     ("k" org-babel-next-src-block "Next"))
 #+END_SRC
+*** TODO HTTP
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle ob-http :type github :pkgname "zweifisch/ob-http" :depends (s))
+#+END_SRC
+
+#+BEGIN_SRC org
+  ,#+BEGIN_SRC http :pretty
+  GET https://api.github.com/repos/zweifisch/ob-http/languages
+  Accept: application/vnd.github.moondragon+json
+  ,#+END_SRC
+#+END_SRC
 *** TODO Mark the results of source block evaluation with specific mode
 #+BEGIN_QUOTE
 The =:wrap= header argument is used to mark the results of source block evaluation. The header argument can be passed a string that will be appended to =#+BEGIN_= and =#+END_=, which will then be used to wrap the results.
