@@ -1081,6 +1081,17 @@ What’s the difference with [[github:juanre/org-jekyll][org-jekyll]]?
 What’s the difference with [[github:bmaland/happyblogger]]?
 : Only emacs’ dependencies (org, etc…) no external ruby script.
 #+END_QUOTE
+* Translate text
+** Emacs interface to Google Translate
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle google-translate)
+#+END_SRC
+** Org
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle ob-translate :type github :pkgname "krisajenkins/ob-translate" :depends google-translate)
+#+END_SRC
+** Command-line
+[[github:soimort/translate-shell][Translate Shell]] (formerly Google Translate CLI) via [[deb:translate-shell]].
 * Legacy configuration
 #+BEGIN_SRC emacs-lisp
   ;; yes-or-no -> y-or-n
