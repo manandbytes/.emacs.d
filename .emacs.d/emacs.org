@@ -1,5 +1,4 @@
 #+OPTIONS: toc:t
-#+LINK: emacswiki http://www.emacswiki.org/emacs/%s
 #+PROPERTY: header-args:sh :results output
 * Why?
 ** Github-hosted repositories
