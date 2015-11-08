@@ -734,6 +734,24 @@ All files in a default location to look for Org files will be used for agenda di
   (setq org-agenda-files `(,org-directory))
 #+END_SRC
 ** Custom link types
+*** Legacy types
+#+BEGIN_SRC emacs-lisp
+  (dolist (abbrev '(("google" . "http://www.google.com/search?q=%s")
+                    ("hotline" . "http://hotline.ua/sr?x=29&y=14&q=%s")
+                    ("debianbug" . "http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=%s")
+                    ("jsr" . "http://jcp.org/en/jsr/detail?id=%s")
+                    ("eclipsebug" . "https://bugs.eclipse.org/bugs/show_bug.cgi?id=%s")
+                    ("googleplay" . "https://play.google.com/store/apps/details?id=%s&hl=en")
+                    ("wikipedia" . "http://en.wikipedia.org/wiki/%s")))
+    (add-to-list 'org-link-abbrev-alist abbrev))
+#+END_SRC
+*** Github
+#+BEGIN_SRC emacs-lisp
+  (dolist (abbrev '(("github" . "https://github.com/%s")
+                    ("gist" . "https://gist.github.com/%s")))
+    (add-to-list 'org-link-abbrev-alist abbrev))
+#+END_SRC
+
 *** Wikisites dedicated to Emacs
 #+BEGIN_SRC emacs-lisp
   (dolist (list '(("emacswiki" . "http://www.emacswiki.org/emacs/%s")
