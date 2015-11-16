@@ -140,6 +140,7 @@ There are two forks of original [[emacswiki:powerline.el]] (references [[github:
       (helm-mode 1)
       (helm-adaptive-mode 1)
       (helm-autoresize-mode 1)))
+  (el-get-bundle helm-swoop)
 #+END_SRC
 * Changing the Location of Point
 ** ...to an absolute line number
