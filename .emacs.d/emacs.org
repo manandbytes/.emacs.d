@@ -559,12 +559,7 @@ By default only parentheses are dimmed, customize option paren-face-regexp if yo
 On Windows/Cygwin, use =Source Code Pro=:
 #+BEGIN_SRC emacs-lisp
   (when (member system-type '(windows-nt cygwin))
-    (set-face-attribute 'default nil :font "Source Code Pro-10"))
-#+END_SRC
-**** TODO More system-specific settings
-#+BEGIN_SRC emacs-lisp
-  (eq system-type 'cygwin)
-  ;; use system-configuration if more info required
+    (set-face-attribute 'default nil :family "Lucida Sans Typewriter"))
 #+END_SRC
 *** Linux
 On Debian, use =Liberation Mono=:
