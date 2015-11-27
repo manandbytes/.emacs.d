@@ -602,7 +602,7 @@ On Windows/Cygwin, use =Source Code Pro=:
 On Debian, use =Liberation Mono=:
 #+BEGIN_SRC emacs-lisp
   (when (eq system-type 'gnu/linux)
-    (set-face-attribute 'default nil :family "Liberation Mono" :height 105))
+    (set-face-attribute 'default nil :family "Liberation Mono" :height 100))
 #+END_SRC
 ** TODO Build face's attributes only once depending on system-type
 * TODO Vagrant
