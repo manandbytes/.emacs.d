@@ -297,9 +297,18 @@ Another option is to switch to the built-in GnuTLS integration.
   (setq url-mime-encoding-string "gzip, deflate")
 #+END_SRC
 ** Manually explore and test HTTP REST webservices
-   #+BEGIN_SRC emacs-lisp
-     (el-get-bundle restclient)
-   #+END_SRC
+*** TODO request.el
+[[github:tkf/emacs-request][request.el]] is a HTTP request library with multiple backends (url.el and curl CLI) that helps to avoid imposing external dependencies such as curl to users while giving richer experience for users who have it.
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle request)
+#+END_SRC
+
+*** restclient.el
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle restclient)
+#+END_SRC
+**** TODO Use restclient in Org's source code blocks
+[[github:pashky/restclient.el/pull/92][#92: Implemented a minimal ob-restclient]]
 * Version control
 ** Git
 *** magit-revert-buffers is broken with outdated dash.el 		:bug:
