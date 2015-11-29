@@ -686,6 +686,11 @@ Still have to find the automagic way to manage native dependencies required by E
    - [[github:grimradical/puppet-flymake]]
    - [[github:benprew/flymake-puppet]]
    Both =(provide 'flymake-puppet)=, use [[https://rubygems.org/gems/puppet-lint][puppet-lint]] and are based on Steve Purcell's [[github:purcell/flymake-coffee][flymake-coffe]]. For now, let use [[github:benprew/flymake-puppet]].
+* Web x.0
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle web-mode)
+#+END_SRC
+
 * Working with files
 ** Open files as another user
 #+BEGIN_SRC emacs-lisp
