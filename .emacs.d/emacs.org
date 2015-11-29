@@ -700,6 +700,11 @@ Still have to find the automagic way to manage native dependencies required by E
   (el-get-bundle web-mode)
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle js2-mode :type apt-get)
+  (el-get-bundle skewer-mode)
+#+END_SRC
+
 * Working with files
 ** Open files as another user
 #+BEGIN_SRC emacs-lisp
