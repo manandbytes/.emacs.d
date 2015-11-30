@@ -1322,6 +1322,19 @@ For convenience, org-impress-js includes some version of impress.js. Make it pos
 #+BEGIN_SRC emacs-lisp :tangle no
   (el-get 'sync)
 #+END_SRC
+* Atlassian Confluence
+** Interact with remote Confluence instance
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle confluence-el
+    :url "https://confluence-el.googlecode.com/svn/trunk/")
+#+END_SRC
+
+** Org mode exporter
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle org-confluence
+    :type github :pkgname "hgschmie/org-confluence" :depends org-mode)
+#+END_SRC
+
 * File formats
 ** systemd configuration files
 #+BEGIN_SRC emacs-lisp
