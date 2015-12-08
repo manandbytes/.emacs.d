@@ -309,6 +309,11 @@ Another option is to switch to the built-in GnuTLS integration.
 #+END_SRC
 **** TODO Use restclient in Org's source code blocks
 [[github:pashky/restclient.el/pull/92][#92: Implemented a minimal ob-restclient]]
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle ob-restclient
+    :type github :pkgname "alf/ob-restclient.el" :depends (restclient org-mode))
+#+END_SRC
+
 * Version control
 ** Git
 *** magit-revert-buffers is broken with outdated dash.el 		:bug:
