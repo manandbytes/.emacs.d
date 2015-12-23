@@ -512,14 +512,22 @@ Seems there is no support for anonymous access via =https://git.eclipse.org/r/a/
 - magit-svn
 - gh
 - gitconfig
-** TODO Mercurial
+** Mercurial
+Enable proper mode for Mercurial's configuration files:
+#+BEGIN_SRC emacs-lisp
+  (dolist (pattern '("/etc/mercurial/hgrc\\.d/.+\\.rc\\'" "/etc/mercurial/hgrc\\'" "/\\.hg/hgrc\\'" "/\\.hgrc\\'"))
+    (add-to-list 'auto-mode-alist `(,pattern . conf-mode)))
+#+END_SRC
+
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle monky :type github :pkgname "ananthakumaran/monky"
     (with-eval-after-load-feature monky
       (setq monky-process-type 'cmdserver)))
 #+END_SRC
-*** TODO Rebase mode for Hg a-la =git-rebase-mode=
-**** Define mode
+*** TODO Enable conf-mode for other configuration files
+Check =man hgrc= for supported filenames and locations, for multiple platforms.
+*** Rebase mode for Hg a-la =git-rebase-mode=
+**** TODO Define mode
 #+BEGIN_SRC emacs-lisp
   (define-derived-mode hg-histedit-mode git-rebase-mode "Hg Histedit"
     "Major mode for editing of a Hg histedit file.
@@ -529,11 +537,14 @@ Seems there is no support for anonymous access via =https://git.eclipse.org/r/a/
   documentation for histedit (e.g., by running 'hg help histedit'
   or 'hg help -e histedit' at the command line) for details.")
 
-  (defalias 'mercurial-rebase-mode 'hg-histedit-mode)
-
   (add-to-list 'auto-mode-alist '("/hg-histedit-.*\\.txt\\'" . hg-histedit-mode))
 #+END_SRC
-**** Make only a part of the buffer read-only
+**** TODO Redefine keybindings
+#+BEGIN_SRC emacs-lisp
+  ;; git-rebase-mode-map
+#+END_SRC
+
+**** TODO Make only a part of the buffer read-only
 #+BEGIN_SRC emacs-lisp
   (defun make-region-read-only (start end)
     (interactive "*r")
