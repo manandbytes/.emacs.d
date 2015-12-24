@@ -34,6 +34,13 @@ Another way is to automagically not tangle source code blocks under TODO items.
 - execute =customize-unsaved= to revisit your unsaved changes
 - [[http://www.emacswiki.org/emacs/CustomizingFaces][EmacsWiki：Customizing Faces]]
 - [[http://ergoemacs.org/emacs/emacs_custom_system.html][Emacs's Customization Tutorial]]
+* Enable server mode
+#+BEGIN_SRC emacs-lisp
+  (require 'server)
+  (unless (server-mode)
+    (server-mode))
+#+END_SRC
+
 * Simplify 'yes/no' answers
   #+BEGIN_SRC emacs-lisp
     (fset 'yes-or-no-p 'y-or-n-p)
