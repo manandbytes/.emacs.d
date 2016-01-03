@@ -756,7 +756,7 @@ Still have to find the automagic way to manage native dependencies required by E
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (el-get-bundle js2-mode :type apt-get)
+  (el-get-bundle js2-mode :type apt-get :pkgname "elpa-js2-mode")
   (el-get-bundle skewer-mode)
 #+END_SRC
 
