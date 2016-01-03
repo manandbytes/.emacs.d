@@ -1552,7 +1552,7 @@ Navigate and edit LISP code with [[github:abo-abo/lispy][Oleh Krehel's lispy]] p
 ** TODO Missing dependency lispy -> swiper 		     :bug:dependency:
 * Prolog
 #+BEGIN_SRC emacs-lisp
-  (el-get-bundle prolog-el :type apt-get :pkgname "prolog-el")
+  (el-get-bundle prolog-el :type apt-get)
 #+END_SRC
 ** Org
 #+BEGIN_SRC emacs-lisp
