@@ -1,5 +1,10 @@
 #+OPTIONS: toc:t
 #+PROPERTY: header-args:sh :results output
+* Bootstrap
+** Emacs configuration
+#+BEGIN_SRC shell
+  vcsh clone https://github.com/manandbytes/.emacs.d.git emacs
+#+END_SRC
 * Why?
 ** Github-hosted repositories
  - Org document (and [[github:github/markup#markups][a number of other formats]] as well) will be rendered as HTML (not without gotchas, though), using [[github:github/markup][GitHub Markup library]].
