@@ -71,10 +71,50 @@ By default, Emacs saves backup files (the files ending with =~=) in the current 
 
   (el-get-bundle with-eval-after-load-feature)
 #+END_SRC
-Install essential Debian packages:
+** TODO Install platform-dependent packages
+There are two flavors of platform-dependent packages:
+- Emacs package that should be installed in a platform-dependent way. In Debian, =magit= (and its dependencies) is available as [[deb:elpa-magit]].
+- non-Emacs, platform-specific package, required by Emacs package. To open =.class= files automatically with =javap=, we need a platform-specific Java SDK implementation.
+*** Platform-specific Emacs package
+Some reasons to have platform-specific Emacs package are:
+- the package is functional on a specific platform only. There is a little sense in something working with Debian's apt database when you're on the system that doesn't have =apt=;
+- you don't want to use latest (but not always greatest) upstream version of the package;
+- Emacs package requires native, platform-specific tool. =evernote-mode= requires Ruby interpreter, and it's much simplier to just install =sudo apt-get install evernote-mode= and let it drag in required Ruby implementation and all its transitive dependencies.
+
+If the native Emacs package shares the same package name with el-get's recipe:
+#+BEGIN_SRC emacs-lisp :tangle no
+  (el-get-bundle js2-mode :type apt-get)
+#+END_SRC
+
+But if doesn't, use =:pkgname= with the native package's name:
+#+BEGIN_SRC emacs-lisp :tangle no
+  (el-get-bundle seq :type apt-get :pkgname "elpa-seq")
+#+END_SRC
+
+*** Platform-specific dependency of Emacs package
+For instance, =pandoc-mode= requires platform-specific binaries of the =pandoc= tool. While there is a native Debian package, [[deb:pandoc]], neither this package provides Emacs' mode nor there is a separate package for =pandoc-mode= Emacs.
+
+Unfortunatelly, =el-get= doesn't support installation of platform-specific packages. One of the (crazy) roads is to fool =el-get= and install such packages as =:type apt-get=:
 #+BEGIN_SRC emacs-lisp :tangle no
   (dolist (package '(make texinfo))
-    (el-get-bundle apt-get:package))
+    (el-get-bundle apt-get:package :type apt-get))
+#+END_SRC
+
+*** TODO =apt-get= package type's status is poorly supported            :bug:
+=el-get-dpkg-package-status= relies on results from =dpkg -l= which knows nothing about virtual packages. As I'm mainly using [[deb:aptitude]] for package management anyway, let use it instead of =dpkg=:
+#+BEGIN_SRC emacs-lisp
+  (defun mn/el-get-aptitude-package-status (PACKAGE)
+    "Use aptitude to check if PACKAGE is installed, taking into account also virtual packages"
+    (let ((search-expr (format-spec "?or(?provides(%p), ?name(%p)) ?installed" (format-spec-make ?p PACKAGE))))
+      (when (split-string (shell-command-to-string (format "aptitude search '%s' |cat" search-expr)) "[\n\r]" t)
+        "ok")))
+
+  (advice-add #'el-get-dpkg-package-status :override #'mn/el-get-aptitude-package-status)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (el-get-dpkg-package-status "java-sdk")
+  (mn/el-get-aptitude-package-status "java-sdk")
 #+END_SRC
 
 ** Install packages over secure connection only
@@ -90,23 +130,6 @@ When trying out new packages, its easy to lose track of direct and indirect depe
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle seq :type github :pkgname "emacsmirror/seq")
   (el-get-bundle bug-hunter :depends (seq))
-#+END_SRC
-
-** TODO =apt-get= package type's status is poorly supported             :bug:
-=el-get-dpkg-package-status= relies on results from =dpkg -l= which knows nothing about virtual packages. As I'm mainly using [[deb:aptitude]] for package management anyway, let use it instead of =dpkg=:
-#+BEGIN_SRC emacs-lisp
-  (defun mn/el-get-aptitude-package-status (PACKAGE)
-    "Use aptitude to check if PACKAGE is installed, taking into account also virtual packages"
-    (let ((search-expr (format-spec "?or(?provides(%p), ?name(%p)) ?installed" (format-spec-make ?p PACKAGE))))
-      (when (split-string (shell-command-to-string (format "aptitude search '%s' |cat" search-expr)) "[\n\r]" t)
-        "ok")))
-
-  (advice-add #'el-get-dpkg-package-status :override #'mn/el-get-aptitude-package-status)
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp :tangle no
-  (el-get-dpkg-package-status "java-sdk")
-  (mn/el-get-aptitude-package-status "java-sdk")
 #+END_SRC
 * Saving and restoring desktop state between sessions
 #+BEGIN_SRC emacs-lisp
