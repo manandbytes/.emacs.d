@@ -592,15 +592,19 @@ While this face is intended to be used with Lisp modes, it also works with other
 
 By default only parentheses are dimmed, customize option paren-face-regexp if you also want to dim brackets or braces. If you want to use a differnt regexp in different major-modes, then use a the mode hook to set the buffer local value.
 ** Default font
-*** Microsoft Windows and Cygwin
-On Windows/Cygwin, use =Source Code Pro=:
+Use window-system dependent default frame parameters:
 #+BEGIN_SRC emacs-lisp
+  (setq window-system-default-frame-alist
+        '((x
+           (font . "Liberation Mono"))
+          (w32
+           (font . "Lucida Sans Typewriter"))
+          (nil)))
+#+END_SRC
+** TODO Differentiate Microsoft Windows and Cygwin
+#+BEGIN_SRC emacs-lisp :tangle no
   (when (member system-type '(windows-nt cygwin))
     (set-face-attribute 'default nil :family "Lucida Sans Typewriter"))
-#+END_SRC
-*** Linux
-On Debian, use =Liberation Mono=:
-#+BEGIN_SRC emacs-lisp
   (when (eq system-type 'gnu/linux)
     (set-face-attribute 'default nil :family "Liberation Mono" :height 100))
 #+END_SRC
