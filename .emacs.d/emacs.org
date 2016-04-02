@@ -1,9 +1,21 @@
 #+OPTIONS: toc:t
 #+PROPERTY: header-args:sh :results output
 * Bootstrap
-** Emacs configuration
+Make sure that required dependencies are in place:
+#+BEGIN_SRC shell :tangle no
+  sudo aptitude install vcsh git gnutls-bin
+#+END_SRC
+Clone Emacs configuration files:
 #+BEGIN_SRC shell
   vcsh clone https://github.com/manandbytes/.emacs.d.git emacs
+#+END_SRC
+Enable running Emacs as a systemd user service:
+#+BEGIN_SRC shell
+  systemctl enable --user emacs.service
+#+END_SRC
+Check the status of Emacs with:
+#+BEGIN_SRC shell
+  systemctl status --user emacs.service
 #+END_SRC
 * Why?
 ** Github-hosted repositories
