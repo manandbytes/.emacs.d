@@ -411,7 +411,7 @@ With el-get it is not possible to extend existing package's dependencies, so jus
 ** Magit
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle magit
-    :checkout "2.1.0"
+    :checkout "2.5.0"
     (global-set-key (kbd "C-x C-z") 'magit-status))
 
   (el-get-bundle magit-view-file)
