@@ -1105,8 +1105,10 @@ It would be nice if Org's quote has support for the same feature during export, 
     :type github :pkgname "robtillotson/org-pandoc")
 #+END_SRC
 
-*** TODO MediaWiki
-[[github:tomalexander/orgmode-mediawiki]]
+*** MediaWiki
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle orgmode-mediawiki)
+#+END_SRC
 * TODO Blogging
 ** Octopress/Jekyll
 *** Jekyll plugins
