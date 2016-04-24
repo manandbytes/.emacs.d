@@ -644,7 +644,7 @@ Use window-system dependent default frame parameters:
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle vagrant)
   (el-get-bundle vagrant-tramp
-    (vagrant-tramp-enable))
+    (vagrant-tramp-add-method))
 #+END_SRC
 * Docker
 #+BEGIN_SRC emacs-lisp
