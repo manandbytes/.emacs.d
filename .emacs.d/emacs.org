@@ -684,6 +684,11 @@ TRAMP integration for Docker containers
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle emacs-pe/docker-tramp.el)
 #+END_SRC
+* Searching
+Use =ack=, =ack-grep= but on steroids, =silversearcher-ag=:
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle ag :type apt-get :pkgname "silversearcher-ag-el")
+#+END_SRC
 * UML Diagrams
 ** PlantUML
 [[http://plantuml.com/emacs.html][PlantUML : Integration with Emacs]] mentions two ways to embed UML diagrams:
