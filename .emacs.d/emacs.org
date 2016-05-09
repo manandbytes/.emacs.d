@@ -317,6 +317,14 @@ Another option is to switch to the built-in GnuTLS integration.
 - Gnus already provides some backends for working with e-mails, news, RSS;
 - Stack Exchange;
 - Twitter.
+** Gnus
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle gnus :builtin "24")
+#+END_SRC
+*** Different identities
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle gnus-identities)
+#+END_SRC
 ** Browsing
    #+BEGIN_SRC emacs-lisp
      (setq browse-url-browser-function 'browse-url-firefox)
