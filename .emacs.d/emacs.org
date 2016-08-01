@@ -1454,6 +1454,11 @@ Originally [[http://ergoemacs.org/emacs/command-frequency.html][Emacs's Command 
     (keyfreq-mode 1)
     (keyfreq-autosave-mode 1))
 #+END_SRC
+* TODO Expand region
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle expand-region :type apt-get :pkgname "elpa-expand-region")
+#+END_SRC
+
 * Wrap text with punctuation
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle wrap-region :type github :pkgname "rejeep/wrap-region.el"
