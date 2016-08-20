@@ -337,6 +337,8 @@ Another option is to switch to the built-in GnuTLS integration.
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle gnus-identities)
 #+END_SRC
+*** TODO Remove duplicate messages
+See [[https://www.gnu.org/software/emacs/manual/html_node/gnus/Crosspost-Handling.html#Crosspost-Handling][Crosspost Handling]] and [[https://www.gnu.org/software/emacs/manual/html_node/gnus/Duplicate-Suppression.html][Duplicate Suppression]] for more details.
 ** TODO Reddit
 There are two packages to read Reddit with Gnus:
 #+BEGIN_SRC emacs-lisp
