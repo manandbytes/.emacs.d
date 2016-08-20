@@ -337,6 +337,22 @@ Another option is to switch to the built-in GnuTLS integration.
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle gnus-identities)
 #+END_SRC
+** TODO Reddit
+There are two packages to read Reddit with Gnus:
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle nnreddit :type github :pkgname "paul-issartel/nnreddit"
+    :features (nnheader nnoo gnus-group gnus-sum gnus-art gnus-util json mm-url))
+#+END_SRC
+and
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle gnus-reddit :type github :pkgname "fourier/gnus-reddit")
+#+END_SRC
+and one mode:
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle reddit-mode :type github :pkgname "death/reddit-mode"
+    :features (thingatpt json url url-http tree-mode markdown-mode))
+#+END_SRC
+
 ** Browsing
    #+BEGIN_SRC emacs-lisp
      (setq browse-url-browser-function 'browse-url-firefox)
