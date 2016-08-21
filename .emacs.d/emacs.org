@@ -451,6 +451,12 @@ With el-get it is not possible to extend existing package's dependencies, so jus
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle dash :checkout "2.11.0")
 #+END_SRC
+*** Time machine
+Step through historic versions of git controlled file:
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle git-timemachine)
+#+END_SRC
+
 ** Magit
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle magit :type apt-get :pkgname "elpa-magit")
