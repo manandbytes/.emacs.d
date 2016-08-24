@@ -530,6 +530,20 @@ Use this feature to provide more fine-grained completion for repositories and fi
     (let ((v (tramp-dissect-file-name filename)))
       (string= (tramp-file-name-method v) tramp-vcsh-method)))
 #+END_SRC
+*** TODO Vcsh source for Helm
+#+BEGIN_SRC emacs-lisp :tangle no
+  (defun vcsh-tracked-files (&optional repo)
+    "List all files tracked by vcsh."
+    (mapcar (lambda (file)
+              (cons file file))
+            (if repo
+                (split-string (shell-command-to-string (format "vcsh list-tracked %s" repo)))
+              (split-string (shell-command-to-string "vcsh list-tracked")))))
+
+  (helm :sources '((name . "vcsh")
+                   (candidates-process . vcsh-tracked-files)
+                   (volatile)))
+#+END_SRC
 *** TODO Register Vcsh as VC backend
 #+BEGIN_SRC emacs-lisp :tangle no
   (add-to-list 'vc-handled-backends 'Vcsh)
