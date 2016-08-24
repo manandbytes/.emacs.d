@@ -800,6 +800,13 @@ Still have to find the automagic way to manage native dependencies required by E
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'auto-mode-alist '("Puppetfile$" . puppet-mode))
 #+END_SRC
+** TODO Use Puppet Forge API
+[[https://forgeapi.puppetlabs.com/][The Puppet Forge API]]:
+#+BEGIN_QUOTE
+The Puppet Forge API (hereafter referred to as the Forge API) provides quick access to all the data on the Puppet Forge via a RESTful interface. Using the Forge API, you can write scripts and tools that interact with the Puppet Forge website. For example, you can use it to create custom aggregations against module metadata.
+
+Tools like the puppet module tool and librarian-puppet use the Forge API to query and install modules; additional tools, such as Geppetto or Pulp, leverage the API to manage development workflow.
+#+END_QUOTE
 ** TODO Missing flymake-puppet -> puppet-mode		     :bug:dependency:
 ** TODO grimradical/puppet-flymake vs benprew/flymake-puppet - what to chose?
    There are two modes to check Puppet manifests against the Puppetlabs style guide:
