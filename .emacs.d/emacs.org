@@ -456,7 +456,18 @@ Step through historic versions of git controlled file:
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle git-timemachine)
 #+END_SRC
-
+*** Git configuration files
+[[github:magit/git-modes]], provides few extra modes Emacs major modes for various Git configuration files:
+- gitattributes-mode, will be available for =.gitattributes=, =.git/info/attributes=, and =git/attributes= files;
+- gitconfig-mode, enables the mode for =.gitconfig=, =.git/config=, =git/config=, and =.gitmodules= files;
+- gitignore-mode, enables the mode for =.gitignore=, =.git/info/exclude=, and =git/ignore= files.
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle git-modes)
+#+END_SRC
+**** TODO Use =conf-mode= as a fall-back
+#+BEGIN_SRC emacs-lisp :tangle no
+  (add-to-list 'auto-mode-alist '("/\\.gitconfig$" . conf-mode))
+#+END_SRC
 ** Magit
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle magit :type apt-get :pkgname "elpa-magit")
