@@ -591,13 +591,27 @@ Seems there is no support for anonymous access via =https://git.eclipse.org/r/a/
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle git-gutter)
 #+END_SRC
-** TODO github
-- magit-view-file
-- magit-gh-pulls
-- magit-gitflow
+** TODO Integration with GitHub
+Number of integrations has been built on top of [[github:sigma/gh.el]], GitHub API library for Emacs:
+*** gh.el-based integrations
+- [[github:sigma/magit-gh-pulls]], Magit plugin for dealing with GitHub pull requests
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle magit-gh-pulls)
+#+END_SRC
+- [[github:domtronn/magit-gh-issues.el]], Magit plugin which allows users to see, open, comment and label GitHub issues
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle magit-gh-issues :type github :pkgname "domtronn/magit-gh-issues.el")
+#+END_SRC
+- [[github:jtatarik/magit-gitflow]], Magit plugin for [[github:petervanderdoes/gitflow-avh]], AVH Edition of the git extensions to provide high-level repository operations for Vincent Driessen's [[http://nvie.com/posts/a-successful-git-branching-model/][branching model]]: 
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle magit-gitflow)
+#+END_SRC
+*** Other
+- [[github:jtamagnan/ghi.el]], Emacs interface for =ghi= command-line tool. [[github:stephencelis/ghi]] is available as [[deb:ghi]].
+- [[deb:github-cli]], command-line interface to the GitHub Issues API
+
+** Misc
 - magit-svn
-- gh
-- gitconfig
 ** Mercurial
 Enable proper mode for Mercurial's configuration files:
 #+BEGIN_SRC emacs-lisp
