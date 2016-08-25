@@ -243,6 +243,11 @@ Use Helm to switch between buffers:
   (el-get-bundle helm
     (global-set-key (kbd "C-x b") 'helm-buffers-list))
 #+END_SRC
+** Close buffer with =Ctrl-F4=
+#+BEGIN_SRC emacs-lisp
+  (global-unset-key (kbd "C-x k"))
+  (global-set-key (kbd "<C-f4>") 'kill-buffer)
+#+END_SRC
 * Networking
 ** TODO Check for network connectivity
 To check the network connectivity state, get =Connectivity= property of [[https://developer.gnome.org/NetworkManager/unstable/spec.html#org.freedesktop.NetworkManager][org.freedesktop.NetworkManager]] D-Bus interface. It returns [[https://developer.gnome.org/NetworkManager/unstable/spec.html#type-NM_CONNECTIVITY][NM_CONNECTIVITY]] enumeration:
