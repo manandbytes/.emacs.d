@@ -449,7 +449,7 @@ index 43e0349..76a8e75 100644
 
 With el-get it is not possible to extend existing package's dependencies, so just amend receipe for =dash=:
 #+BEGIN_SRC emacs-lisp
-  (el-get-bundle dash :checkout "2.11.0")
+  (el-get-bundle dash :type apt-get :pkgname "dash-el")
 #+END_SRC
 *** Time machine
 Step through historic versions of git controlled file:
