@@ -473,10 +473,14 @@ Step through historic versions of git controlled file:
   (el-get-bundle git-timemachine)
 #+END_SRC
 *** Git configuration files
-[[github:magit/git-modes]], provides few extra modes Emacs major modes for various Git configuration files:
-- gitattributes-mode, will be available for =.gitattributes=, =.git/info/attributes=, and =git/attributes= files;
-- gitconfig-mode, enables the mode for =.gitconfig=, =.git/config=, =git/config=, and =.gitmodules= files;
-- gitignore-mode, enables the mode for =.gitignore=, =.git/info/exclude=, and =git/ignore= files.
+[[github:magit/git-modes]] provides few extra modes Emacs major modes for various Git configuration files:
+
+| Mode               | Enabled automagically for files                               |
+|--------------------+---------------------------------------------------------------|
+| gitattributes-mode | =.gitattributes=, =.git/info/attributes= and =git/attributes= |
+| gitconfig-mode     | =.gitconfig=, =.git/config=, =git/config= and =.gitmodules=   |
+| gitignore-mode     | =.gitignore=, =.git/info/exclude= and =git/ignore=            |
+
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle git-modes)
 #+END_SRC
