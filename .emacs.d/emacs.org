@@ -833,7 +833,7 @@ Use window-system dependent default frame parameters:
 #+BEGIN_SRC emacs-lisp
   (setq window-system-default-frame-alist
         '((x
-           (font . "Liberation Mono"))
+           (font . "Hack-11"))
           (w32
            (font . "Lucida Sans Typewriter"))
           (nil)))
