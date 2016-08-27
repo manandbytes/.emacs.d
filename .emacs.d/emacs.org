@@ -1459,12 +1459,15 @@ Originally [[http://ergoemacs.org/emacs/command-frequency.html][Emacs's Command 
   (el-get-bundle expand-region :type apt-get :pkgname "elpa-expand-region")
 #+END_SRC
 
-* Wrap text with punctuation
+* TODO Wrap text with punctuation
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle wrap-region :type github :pkgname "rejeep/wrap-region.el"
     (with-eval-after-load 'wrap-region
       (wrap-region-global-mode)))
 #+END_SRC
+- [[http://pragmaticemacs.com/emacs/wrap-text-in-custom-characters/][Wrap text in custom characters | Pragmatic Emacs]]
+- [[http://pragmaticemacs.com/emacs/wrap-text-in-an-org-mode-block/][Wrap text in an org-mode block | Pragmatic Emacs]]
+- [[https://emacs.stackexchange.com/questions/10029/org-mode-how-to-create-an-org-mode-markup-keybinding][key bindings - Org-Mode: How to create an "org mode markup" keybinding? - Emacs Stack Exchange]]
 * Making presentations
 Plain HTML/CSS presentations with:
 - [[deb:pandoc]]
