@@ -133,6 +133,22 @@ Unfortunatelly, =el-get= doesn't support installation of platform-specific packa
 #+BEGIN_SRC emacs-lisp
   (setq el-get-allow-insecure nil)
 #+END_SRC
+*** TODO Add unit tests
+**** Secure
+#+BEGIN_SRC emacs-lisp :tangle no
+  (ert-deftest el-get-insecure-check-url-secure ()
+    (should-not (el-get-insecure-check "ag" "https://example.com/"))
+    (should-not (el-get-insecure-check "ag" "ssh://example.com/"))
+    (should-not (el-get-insecure-check "ag" "user@ftp://example.com/")))
+#+END_SRC
+**** Insecure
+#+BEGIN_SRC emacs-lisp :tangle no
+  (ert-deftest el-get-insecure-check-url-insecure ()
+    (should-error (el-get-insecure-check "ag" "git+ssh://example.com/"))
+    (should-error (el-get-insecure-check "ag" "bzr+ssh://example.com/"))
+    (should-error (el-get-insecure-check "ag" "sftp://example.com/"))
+    (should-error (el-get-insecure-check "ag" "ftp://user@example.com/")))
+#+END_SRC
 ** TODO Removing unnecessary packages
 When trying out new packages, its easy to lose track of direct and indirect dependencies of (now) unused packages that could and should be removed, see issues [[github:dimitri/el-get/issues/1782][Removing unnecessary packages]] and [[github:dimitri/el-get/issues/1849][Feature request: el-get-autoremove]].
 #+BEGIN_SRC emacs-lisp :tangle no
