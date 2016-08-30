@@ -650,7 +650,8 @@ Number of integrations has been built on top of [[github:sigma/gh.el]], GitHub A
 #+END_SRC
 *** Other
 - [[github:jtamagnan/ghi.el]], Emacs interface for =ghi= command-line tool. [[github:stephencelis/ghi]] is available as [[deb:ghi]].
-- [[deb:github-cli]], command-line interface to the GitHub Issues API
+- [[deb:github-cli]], command-line interface to the GitHub Issues API.
+- [[github:emacsmirror/yagist]], Yet Another Emacs integration for gist.github.com.
 
 ** Misc
 - magit-svn
