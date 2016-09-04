@@ -123,7 +123,7 @@ Error (el-get): while installing projectile: el-get: *apt-get install elpa-proje
 #+END_SRC
 
 #+RESULTS:
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 ((("el-get-package-def" :name ag :type apt-get :pkgname "silversearcher-ag-el" :after nil :depends
    (s dash))
   ("el-get dpkg status" . t)
@@ -163,7 +163,7 @@ Error (el-get): while installing projectile: el-get: *apt-get install elpa-proje
 #+END_SRC
 
 #+RESULTS:
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 ("install ok installed" "install ok installed")
 #+END_SRC
 
@@ -182,7 +182,7 @@ Error (el-get): while installing projectile: el-get: *apt-get install elpa-proje
 #+END_SRC
 
 #+RESULTS:
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 ((:name projectile :type apt-get :pkgname "elpa-projectile" :after nil :depends
 	(pkg-info dash))
  (:name ag :type apt-get :pkgname "silversearcher-ag-el" :after nil :depends
