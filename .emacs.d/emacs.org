@@ -109,7 +109,7 @@ Error (el-get): while installing ag: el-get: *apt-get install silversearcher-ag-
 Error (el-get): while installing projectile: el-get: *apt-get install elpa-projectile* Could not install package projectile.
 #+END_QUOTE
 
-#+BEGIN_SRC emacs-lisp :tangle no :results org code :var packages='("ag" "projectile" "seq" "prolog-el")'
+#+BEGIN_SRC emacs-lisp :tangle no :results org code :var packages='("ag" "projectile" "seq" "prolog-el" "helm-projectile")'
   (mapcar (lambda (package)
             (let* ((source (el-get-package-def package))
                    (dpkg-package (or (plist-get source :pkgname)
@@ -147,6 +147,12 @@ Error (el-get): while installing projectile: el-get: *apt-get install elpa-proje
   ("el-get status file"
    (status "installed" recipe
 	   (:name prolog-el :type apt-get :pkgname "prolog-el" :after nil)))
+  ("raw dpkg status" . "install ok installed"))
+ (("el-get-package-def" :name helm-projectile :type apt-get :pkgname "elpa-helm-projectile" :after nil :depends
+   (cl-lib dash helm projectile))
+  ("el-get dpkg status" . t)
+  ("el-get status file"
+   (status "required" recipe nil))
   ("raw dpkg status" . "install ok installed")))
 #+END_SRC
 
@@ -1001,6 +1007,11 @@ Tools like the puppet module tool and librarian-puppet use the Forge API to quer
           (message (concat "File name set to " sudo-name)))))
     (add-hook 'find-file-hooks 'mn/sudo-mode-line-function)
     (add-hook 'dired-mode-hook 'mn/sudo-mode-line-function))
+#+END_SRC
+** TODO Projectile
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle projectile :type apt-get :pkgname "elpa-projectile")
+  (el-get-bundle helm-projectile :type apt-get :pkgname "elpa-helm-projectile")
 #+END_SRC
 * Org
 #+BEGIN_SRC emacs-lisp
