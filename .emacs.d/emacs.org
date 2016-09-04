@@ -102,6 +102,86 @@ But if doesn't, use =:pkgname= with the native package's name:
 #+BEGIN_SRC emacs-lisp :tangle no
   (el-get-bundle seq :type apt-get :pkgname "elpa-seq")
 #+END_SRC
+**** TODO Don't reinstall packages of =:type apt-get=
+On startup, =el-get= every time tries to reinstall some packages:
+#+BEGIN_QUOTE
+Error (el-get): while installing ag: el-get: *apt-get install silversearcher-ag-el* Could not install package ag.
+Error (el-get): while installing projectile: el-get: *apt-get install elpa-projectile* Could not install package projectile.
+#+END_QUOTE
+
+#+BEGIN_SRC emacs-lisp :tangle no :results org code :var packages='("ag" "projectile" "seq" "prolog-el")'
+  (mapcar (lambda (package)
+            (let* ((source (el-get-package-def package))
+                   (dpkg-package (or (plist-get source :pkgname)
+                                     (el-get-as-string package))))
+              (list (cons "el-get-package-def" source)
+                    (cons "el-get dpkg status" (el-get-dpkg-package-installed-p dpkg-package))
+                    (cons "el-get status file" (list (cdr (assq (el-get-as-symbol package) (el-get-read-status-file)))))
+                    (cons "raw dpkg status" (car (process-lines "dpkg-query" "--show" "--showformat=${Status}\n"
+                                                                dpkg-package))))))
+          packages)
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC emacs-lisp
+((("el-get-package-def" :name ag :type apt-get :pkgname "silversearcher-ag-el" :after nil :depends
+   (s dash))
+  ("el-get dpkg status" . t)
+  ("el-get status file"
+   (status "required" recipe nil))
+  ("raw dpkg status" . "install ok installed"))
+ (("el-get-package-def" :name projectile :type apt-get :pkgname "elpa-projectile" :after nil :depends
+   (pkg-info dash))
+  ("el-get dpkg status" . t)
+  ("el-get status file"
+   (status "required" recipe nil))
+  ("raw dpkg status" . "install ok installed"))
+ (("el-get-package-def" :name seq :type apt-get :pkgname "elpa-seq" :after nil)
+  ("el-get dpkg status" . t)
+  ("el-get status file"
+   (status "installed" recipe
+	   (:name seq :description "Sequence manipulation library for Emacs" :builtin "25" :type apt-get :pkgname "elpa-seq")))
+  ("raw dpkg status" . "install ok installed"))
+ (("el-get-package-def" :name prolog-el :type apt-get :pkgname "prolog-el" :after nil)
+  ("el-get dpkg status" . t)
+  ("el-get status file"
+   (status "installed" recipe
+	   (:name prolog-el :type apt-get :pkgname "prolog-el" :after nil)))
+  ("raw dpkg status" . "install ok installed")))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle no :results org code :var packages='("elpa-projectile" "silversearcher-ag-el")'
+  (mapcar (lambda (package)
+            (car (process-lines "dpkg-query" "--show" "--showformat=${Status}\n" package)))
+          packages)
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC emacs-lisp
+("install ok installed" "install ok installed")
+#+END_SRC
+
+#+BEGIN_SRC sh :results pp :var packages="silversearcher-ag-el elpa-projectile"
+  dpkg-query --show --showformat='${Status}\n' $packages
+#+END_SRC
+
+#+RESULTS:
+: install ok installed
+: install ok installed
+
+#+BEGIN_SRC emacs-lisp :var packages='("projectile" "ag")' :results org code
+  (mapcar (lambda (package)
+            (el-get-package-def package))
+          packages)
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_SRC emacs-lisp
+((:name projectile :type apt-get :pkgname "elpa-projectile" :after nil :depends
+	(pkg-info dash))
+ (:name ag :type apt-get :pkgname "silversearcher-ag-el" :after nil :depends
+	(s dash)))
+#+END_SRC
 
 *** Platform-specific dependency of Emacs package
 For instance, =pandoc-mode= requires platform-specific binaries of the =pandoc= tool. While there is a native Debian package, [[deb:pandoc]], neither this package provides Emacs' mode nor there is a separate package for =pandoc-mode= Emacs.
