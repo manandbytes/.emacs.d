@@ -242,7 +242,7 @@ When trying out new packages, its easy to lose track of direct and indirect depe
 #+END_SRC
 ** Hunt down errors in init files
 #+BEGIN_SRC emacs-lisp
-  (el-get-bundle seq :type github :pkgname "emacsmirror/seq")
+  (el-get-bundle seq :type apt-get :pkgname "elpa-seq")
   (el-get-bundle bug-hunter :depends (seq))
 #+END_SRC
 * Saving and restoring desktop state between sessions
