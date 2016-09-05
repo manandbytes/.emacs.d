@@ -342,7 +342,7 @@ Another valid use case for visible line numbers is when presenting your content 
 * Buffer management
 Use Helm to switch between buffers:
 #+BEGIN_SRC emacs-lisp
-  (el-get-bundle helm
+  (with-eval-after-load-feature helm-buffers
     (global-set-key (kbd "C-x b") 'helm-buffers-list))
 #+END_SRC
 ** Close buffer with =Ctrl-F4=
