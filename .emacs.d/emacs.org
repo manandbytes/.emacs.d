@@ -109,7 +109,7 @@ Error (el-get): while installing ag: el-get: *apt-get install silversearcher-ag-
 Error (el-get): while installing projectile: el-get: *apt-get install elpa-projectile* Could not install package projectile.
 #+END_QUOTE
 
-#+BEGIN_SRC emacs-lisp :tangle no :results org code :var packages='("ag" "projectile" "seq" "prolog-el" "helm-projectile")'
+#+BEGIN_SRC emacs-lisp :tangle no :results org code :var packages='("ag" "projectile" "seq" "prolog-el" "helm" "helm-projectile")'
   (mapcar (lambda (package)
             (let* ((source (el-get-package-def package))
                    (dpkg-package (or (plist-get source :pkgname)
@@ -139,21 +139,41 @@ Error (el-get): while installing projectile: el-get: *apt-get install elpa-proje
  (("el-get-package-def" :name seq :type apt-get :pkgname "elpa-seq" :after nil)
   ("el-get dpkg status" . t)
   ("el-get status file"
-   (status "installed" recipe
-	   (:name seq :description "Sequence manipulation library for Emacs" :builtin "25" :type apt-get :pkgname "elpa-seq")))
+   (status "required" recipe nil))
   ("raw dpkg status" . "install ok installed"))
  (("el-get-package-def" :name prolog-el :type apt-get :pkgname "prolog-el" :after nil)
   ("el-get dpkg status" . t)
   ("el-get status file"
-   (status "installed" recipe
-	   (:name prolog-el :type apt-get :pkgname "prolog-el" :after nil)))
+   (status "required" recipe nil))
   ("raw dpkg status" . "install ok installed"))
- (("el-get-package-def" :name helm-projectile :type apt-get :pkgname "elpa-helm-projectile" :after nil :depends
-   (cl-lib dash helm projectile))
+ (("el-get-package-def" :name helm :type apt-get :pkgname "elpa-helm" :after nil :features
+   ("helm-config"))
   ("el-get dpkg status" . t)
   ("el-get status file"
-   (status "required" recipe nil))
-  ("raw dpkg status" . "install ok installed")))
+   (status "installed" recipe
+	   (:name helm :after nil :features
+		  ("helm-config")
+		  :description "Emacs incremental completion and narrowing framework" :type github :pkgname "emacs-helm/helm" :autoloads "helm-autoloads" :build
+		  (("make"))
+		  :build/darwin
+		  `(("make" ,(format "EMACS_COMMAND=%s" el-get-emacs)))
+		  :build/windows-nt
+		  (let
+		      ((generated-autoload-file
+			(expand-file-name "helm-autoloads.el"))
+		       \
+		       (backup-inhibited t))
+		  (update-directory-autoloads default-directory)
+		  nil)
+	   :post-init
+	   (helm-mode))))
+ ("raw dpkg status" . "install ok installed"))
+(("el-get-package-def" :name helm-projectile :type apt-get :pkgname "elpa-helm-projectile" :after nil :depends
+(cl-lib dash helm projectile))
+("el-get dpkg status" . t)
+("el-get status file"
+(status "required" recipe nil))
+("raw dpkg status" . "install ok installed")))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle no :results org code :var packages='("elpa-projectile" "silversearcher-ag-el")'
