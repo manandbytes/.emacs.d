@@ -175,7 +175,7 @@ Error (el-get): while installing projectile: el-get: *apt-get install elpa-proje
 : install ok installed
 : install ok installed
 
-#+BEGIN_SRC emacs-lisp :var packages='("projectile" "ag")' :results org code
+#+BEGIN_SRC emacs-lisp :var packages='("projectile" "ag")' :results org code :tangle no
   (mapcar (lambda (package)
             (el-get-package-def package))
           packages)
