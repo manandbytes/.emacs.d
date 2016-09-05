@@ -283,7 +283,7 @@ There are two forks of original [[emacswiki:powerline.el]] (references [[github:
 
 * Helm
 #+BEGIN_SRC emacs-lisp
-  (el-get-bundle helm
+  (el-get-bundle helm :type apt-get :pkgname "elpa-helm"
     (with-eval-after-load-feature (helm-command)
       (setq helm-M-x-fuzzy-match t))
     (helm-mode 1)
