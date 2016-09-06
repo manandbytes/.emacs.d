@@ -83,6 +83,11 @@ By default, Emacs saves backup files (the files ending with =~=) in the current 
 
   (el-get-bundle with-eval-after-load-feature)
 #+END_SRC
+** Having troubles? Be verbose!
+#+BEGIN_SRC emacs-lisp
+  (setq-default el-get-verbose 't
+                messages-buffer-max-lines 10000)
+#+END_SRC
 ** TODO Install platform-dependent packages
 There are two flavors of platform-dependent packages:
 - Emacs package that should be installed in a platform-dependent way. In Debian, =magit= (and its dependencies) is available as [[deb:elpa-magit]].
