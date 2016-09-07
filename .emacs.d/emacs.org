@@ -1564,6 +1564,11 @@ Navigate and edit LISP code with [[github:abo-abo/lispy][Oleh Krehel's lispy]] p
   (el-get-bundle lispy :checkout "0.26.0")
   (add-hook 'emacs-lisp-mode-hook '(lambda () (lispy-mode 1)))
 #+END_SRC
+
+Toggle echo area display of Lisp objects at point (ElDoc mode):
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'emacs-lisp-mode-hook '(lambda () (eldoc-mode 1)))
+#+END_SRC
 ** TODO Missing dependency lispy -> swiper 		     :bug:dependency:
 * Prolog
 #+BEGIN_SRC emacs-lisp
