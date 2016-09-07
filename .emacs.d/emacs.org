@@ -516,7 +516,8 @@ and one mode:
 [[github:pashky/restclient.el/pull/92][#92: Implemented a minimal ob-restclient]]
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle ob-restclient
-    :type github :pkgname "alf/ob-restclient.el" :depends (restclient org-mode))
+    :type github :pkgname "alf/ob-restclient.el" :depends (restclient org-mode)
+    (add-to-list 'org-babel-load-languages '(restclient . t)))
 #+END_SRC
 
 * Version control
