@@ -1569,6 +1569,13 @@ Toggle echo area display of Lisp objects at point (ElDoc mode):
 #+BEGIN_SRC emacs-lisp
   (add-hook 'emacs-lisp-mode-hook '(lambda () (eldoc-mode 1)))
 #+END_SRC
+When a buffer which major mode is derived from number of Lisp modes has been saved, check for unbalanced parentheses:
+#+BEGIN_SRC emacs-lisp
+  (defun mn/check-parens-in-lisp-mode ()
+    (when (derived-mode-p '(lisp-mode lisp-interaction-mode emacs-lisp-mode))
+      check-parens))
+  (add-hook 'after-save-hook 'mn/check-parens-in-lisp-mode)
+#+END_SRC
 ** TODO Missing dependency lispy -> swiper 		     :bug:dependency:
 * Prolog
 #+BEGIN_SRC emacs-lisp
