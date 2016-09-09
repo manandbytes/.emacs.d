@@ -853,11 +853,21 @@ Use window-system dependent default frame parameters:
     (vagrant-tramp-add-method))
 #+END_SRC
 * Docker
+** Manage Docker images and containers
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle docker
+    :depends (json-mode tablist docker-tramp dash s magit))
+#+END_SRC
+
+*** TODO Missing dependencies
+- json-mode
+- tablist
+** =Dockerfile=
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle spotify/dockerfile-mode
     (add-to-list 'auto-mode-alist '("Dockerfile" . dockerfile-mode)))
 #+END_SRC
-TRAMP integration for Docker containers
+** TRAMP integration
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle docker-tramp)
 #+END_SRC
