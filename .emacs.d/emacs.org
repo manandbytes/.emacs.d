@@ -1408,9 +1408,6 @@ What’s the difference with [[github:bmaland/happyblogger]]?
 [[github:soimort/translate-shell][Translate Shell]] (formerly Google Translate CLI) via [[deb:translate-shell]].
 * Legacy configuration
 #+BEGIN_SRC emacs-lisp
-  ;; yes-or-no -> y-or-n
-  (fset 'yes-or-no-p 'y-or-n-p)
-
   ;; disable menu bar and tool bar
   (menu-bar-mode -1)
   (tool-bar-mode -1)
