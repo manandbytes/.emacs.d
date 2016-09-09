@@ -859,7 +859,7 @@ Use window-system dependent default frame parameters:
 #+END_SRC
 TRAMP integration for Docker containers
 #+BEGIN_SRC emacs-lisp
-  (el-get-bundle emacs-pe/docker-tramp.el)
+  (el-get-bundle docker-tramp)
 #+END_SRC
 * Searching
 Use =ack=, =ack-grep= but on steroids, =silversearcher-ag=:
