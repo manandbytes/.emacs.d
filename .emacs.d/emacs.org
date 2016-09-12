@@ -1042,6 +1042,14 @@ Tools like the puppet module tool and librarian-puppet use the Forge API to quer
   (el-get-bundle projectile :type apt-get :pkgname "elpa-projectile")
   (el-get-bundle helm-projectile :type apt-get :pkgname "elpa-helm-projectile")
 #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq projectile-mode-line
+        '(:eval
+          (if (file-remote-p default-directory)
+              " Projectile"
+            (format " P[%s]" (projectile-project-name)))))
+#+END_SRC
+
 * Org
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle org-mode
