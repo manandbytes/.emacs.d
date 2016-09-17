@@ -755,7 +755,8 @@ Number of integrations has been built on top of [[github:sigma/gh.el]], GitHub A
 #+END_SRC
 - [[github:domtronn/magit-gh-issues.el]], Magit plugin which allows users to see, open, comment and label GitHub issues
 #+BEGIN_SRC emacs-lisp
-  (el-get-bundle magit-gh-issues :type github :pkgname "domtronn/magit-gh-issues.el")
+  (el-get-bundle magit-gh-issues :type github :pkgname "domtronn/magit-gh-issues.el"
+    :depends (auto-complete))
 #+END_SRC
 - [[github:jtatarik/magit-gitflow]], Magit plugin for [[github:petervanderdoes/gitflow-avh]], AVH Edition of the git extensions to provide high-level repository operations for Vincent Driessen's [[http://nvie.com/posts/a-successful-git-branching-model/][branching model]]: 
 #+BEGIN_SRC emacs-lisp
