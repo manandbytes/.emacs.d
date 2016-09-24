@@ -368,9 +368,13 @@ Use Helm to switch between buffers:
     (global-set-key (kbd "C-x b") 'helm-buffers-list))
 #+END_SRC
 ** Close buffer with =Ctrl-F4=
+By default, the command =kill-buffer= prompts for buffer to kill. I rarely want to kill a different buffer than the one I am looking at, so kill the current buffer without prompting (unless there are unsaved changes):
 #+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "<C-f4>") 'kill-this-buffer)
+#+END_SRC
+As a fallback, leave old keybinding =C-x k=. Can be removed with:
+#+BEGIN_SRC emacs-lisp :tangle no
   (global-unset-key (kbd "C-x k"))
-  (global-set-key (kbd "<C-f4>") 'kill-buffer)
 #+END_SRC
 * Networking
 ** TODO Check for network connectivity
