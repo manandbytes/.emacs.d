@@ -114,7 +114,7 @@ Error (el-get): while installing ag: el-get: *apt-get install silversearcher-ag-
 Error (el-get): while installing projectile: el-get: *apt-get install elpa-projectile* Could not install package projectile.
 #+END_QUOTE
 
-#+BEGIN_SRC emacs-lisp :tangle no :results org code :var packages='("ag" "projectile" "seq" "prolog-el" "helm" "helm-projectile")'
+#+BEGIN_SRC emacs-lisp :tangle no :results pp :wrap "SRC emacs-lisp :tangle no" :var packages='("ag" "projectile" "seq" "prolog-el" "helm" "helm-projectile")'
   (mapcar (lambda (package)
             (let* ((source (el-get-package-def package))
                    (dpkg-package (or (plist-get source :pkgname)
@@ -133,46 +133,58 @@ Error (el-get): while installing projectile: el-get: *apt-get install elpa-proje
    (s dash))
   ("el-get dpkg status" . t)
   ("el-get status file"
-   (status "installed" recipe
-	   (:name ag :type apt-get :pkgname "silversearcher-ag-el" :after nil :depends
-		  (s dash))))
+   (status "required" recipe nil))
   ("raw dpkg status" . "install ok installed"))
  (("el-get-package-def" :name projectile :type apt-get :pkgname "elpa-projectile" :after nil :depends
-   (pkg-info dash))
+   (pkg-info))
   ("el-get dpkg status" . t)
   ("el-get status file"
    (status "installed" recipe
-	   (:name projectile :type apt-get :pkgname "elpa-projectile" :after nil :depends
-		  (pkg-info dash))))
+	   (:name projectile :after nil :depends
+		  (pkg-info)
+		  :description "Project navigation and management library for Emacs." :type github :pkgname "bbatsov/projectile")))
   ("raw dpkg status" . "install ok installed"))
  (("el-get-package-def" :name seq :type apt-get :pkgname "elpa-seq" :after nil)
   ("el-get dpkg status" . t)
   ("el-get status file"
-   (status "installed" recipe
-	   (:name seq :description "Sequence manipulation library for Emacs" :builtin "25" :type apt-get :pkgname "elpa-seq")))
+   (status "required" recipe nil))
   ("raw dpkg status" . "install ok installed"))
  (("el-get-package-def" :name prolog-el :type apt-get :after nil)
   ("el-get dpkg status" . t)
   ("el-get status file"
-   (status "installed" recipe
-	   (:name prolog-el :type apt-get :pkgname "prolog-el" :after nil)))
+   (status "required" recipe nil))
   ("raw dpkg status" . "install ok installed"))
  (("el-get-package-def" :name helm :type apt-get :pkgname "elpa-helm" :after nil :features
    ("helm-config"))
   ("el-get dpkg status" . t)
   ("el-get status file"
    (status "installed" recipe
-	   (:name helm :type apt-get :pkgname "elpa-helm" :after nil :features
-		  ("helm-config"))))
-  ("raw dpkg status" . "install ok installed"))
- (("el-get-package-def" :name helm-projectile :type apt-get :pkgname "elpa-helm-projectile" :after nil :depends
-   (cl-lib dash helm projectile))
-  ("el-get dpkg status" . t)
-  ("el-get status file"
-   (status "installed" recipe
-	   (:name helm-projectile :type apt-get :pkgname "elpa-helm-projectile" :after nil :depends
-		  (cl-lib dash helm projectile))))
-  ("raw dpkg status" . "install ok installed")))
+	   (:name helm :after nil :features
+		  ("helm-config")
+		  :description "Emacs incremental completion and narrowing framework" :type github :pkgname "emacs-helm/helm" :autoloads "helm-autoloads" :build
+		  (("make"))
+		  :build/darwin
+		  `(("make" ,(format "EMACS_COMMAND=%s" el-get-emacs)))
+		  :build/windows-nt
+		  (let
+		      ((generated-autoload-file
+			(expand-file-name "helm-autoloads.el"))
+		       \
+		       (backup-inhibited t))
+		  (update-directory-autoloads default-directory)
+		  nil)
+	   :post-init
+	   (helm-mode))))
+ ("raw dpkg status" . "install ok installed"))
+(("el-get-package-def" :name helm-projectile :type apt-get :pkgname "elpa-helm-projectile" :after nil :depends
+(cl-lib helm projectile))
+("el-get dpkg status" . t)
+("el-get status file"
+(status "installed" recipe
+(:name helm-projectile :after nil :depends
+(cl-lib helm projectile)
+:description "Helm integration for Projectile." :type github :pkgname "bbatsov/helm-projectile")))
+("raw dpkg status" . "install ok installed")))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle no :results org code :var packages='("elpa-projectile" "silversearcher-ag-el")'
@@ -216,7 +228,31 @@ Unfortunatelly, =el-get= doesn't support installation of platform-specific packa
   (dolist (package '(make texinfo))
     (el-get-bundle apt-get:package :type apt-get))
 #+END_SRC
+*** TODO Elpa packages in Debian break el-get
+Expected location of the package =:type apt-get= files is under =el-get-apt-get-base= directory. Unfortunatelly, some elpa packages in Debian break this expectation by placing files:
+- under =elpa-src= directory
+- into a versioned package-specific subdirectory like =helm-projectile-0.14.0=.
+#+BEGIN_SRC emacs-lisp :tangle no :exports both :results pp :var packages='(dash seq helm magit helm-projectile) :wrap "SRC emacs-lisp :tangle no"
+  (mapcar (lambda (package)
+            (let* ((apt-get-pkgname (plist-get (el-get-package-def package) :pkgname))
+                   (pkg-el-files (split-string (shell-command-to-string (format "dpkg --listfiles %s | grep '.el$'" apt-get-pkgname))))
+                   (pkg-el-dirs (delete-dups (mapcar 'file-name-directory pkg-el-files))))
+              (remove nil (mapcar (lambda (dir)
+                                    (when (and (file-in-directory-p dir el-get-apt-get-base)
+                                               (not (file-equal-p dir el-get-apt-get-base)))
+                                      dir))
+                                  pkg-el-dirs))))
+          packages)
+#+END_SRC
 
+#+RESULTS:
+#+BEGIN_SRC emacs-lisp :tangle no
+(("/usr/share/emacs/site-lisp/dash-el/")
+ ("/usr/share/emacs/site-lisp/elpa-src/seq-2.16/")
+ ("/usr/share/emacs/site-lisp/elpa-src/helm-2.1.0/")
+ ("/usr/share/emacs/site-lisp/elpa-src/magit-2.8.0/")
+ ("/usr/share/emacs/site-lisp/elpa-src/helm-projectile-0.14.0/"))
+#+END_SRC
 ** Install packages over secure connection only
 #+BEGIN_SRC emacs-lisp
   (setq el-get-allow-insecure nil)
