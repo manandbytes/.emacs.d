@@ -186,40 +186,6 @@ Error (el-get): while installing projectile: el-get: *apt-get install elpa-proje
 :description "Helm integration for Projectile." :type github :pkgname "bbatsov/helm-projectile")))
 ("raw dpkg status" . "install ok installed")))
 #+END_SRC
-
-#+BEGIN_SRC emacs-lisp :tangle no :results org code :var packages='("elpa-projectile" "silversearcher-ag-el")'
-  (mapcar (lambda (package)
-            (car (process-lines "dpkg-query" "--show" "--showformat=${Status}\n" package)))
-          packages)
-#+END_SRC
-
-#+RESULTS:
-#+BEGIN_SRC emacs-lisp :tangle no
-("install ok installed" "install ok installed")
-#+END_SRC
-
-#+BEGIN_SRC sh :results pp :var packages="silversearcher-ag-el elpa-projectile"
-  dpkg-query --show --showformat='${Status}\n' $packages
-#+END_SRC
-
-#+RESULTS:
-: install ok installed
-: install ok installed
-
-#+BEGIN_SRC emacs-lisp :var packages='("projectile" "ag")' :results org code :tangle no
-  (mapcar (lambda (package)
-            (el-get-package-def package))
-          packages)
-#+END_SRC
-
-#+RESULTS:
-#+BEGIN_SRC emacs-lisp :tangle no
-((:name projectile :type apt-get :pkgname "elpa-projectile" :after nil :depends
-	(pkg-info dash))
- (:name ag :type apt-get :pkgname "silversearcher-ag-el" :after nil :depends
-	(s dash)))
-#+END_SRC
-
 *** Platform-specific dependency of Emacs package
 For instance, =pandoc-mode= requires platform-specific binaries of the =pandoc= tool. While there is a native Debian package, [[deb:pandoc]], neither this package provides Emacs' mode nor there is a separate package for =pandoc-mode= Emacs.
 
