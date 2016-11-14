@@ -468,24 +468,6 @@ and one mode:
   (setq url-mime-language-string "en-US,en;q=0.5")
   (setq url-mime-encoding-string "gzip, deflate")
 #+END_SRC
-** Manually explore and test HTTP REST webservices
-*** TODO request.el
-[[github:tkf/emacs-request][request.el]] is a HTTP request library with multiple backends (url.el and curl CLI) that helps to avoid imposing external dependencies such as curl to users while giving richer experience for users who have it.
-#+BEGIN_SRC emacs-lisp
-  (el-get-bundle request)
-#+END_SRC
-
-*** restclient.el
-#+BEGIN_SRC emacs-lisp
-  (el-get-bundle restclient)
-#+END_SRC
-**** TODO Use restclient in Org's source code blocks
-[[github:pashky/restclient.el/pull/92][#92: Implemented a minimal ob-restclient]]
-#+BEGIN_SRC emacs-lisp
-  (el-get-bundle ob-restclient
-    :type github :pkgname "alf/ob-restclient.el" :depends (restclient org-mode)
-    (add-to-list 'org-babel-load-languages '(restclient . t)))
-#+END_SRC
 
 * Version control
 ** Git
@@ -1334,6 +1316,24 @@ It would be nice if Org's quote has support for the same feature during export, 
 *** MediaWiki
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle orgmode-mediawiki)
+#+END_SRC
+* Manually explore and test HTTP REST webservices
+*** TODO request.el
+[[github:tkf/emacs-request][request.el]] is a HTTP request library with multiple backends (url.el and curl CLI) that helps to avoid imposing external dependencies such as curl to users while giving richer experience for users who have it.
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle request)
+#+END_SRC
+
+*** restclient.el
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle restclient)
+#+END_SRC
+**** TODO Use restclient in Org's source code blocks
+[[github:pashky/restclient.el/pull/92][#92: Implemented a minimal ob-restclient]]
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle ob-restclient
+    :type github :pkgname "alf/ob-restclient.el" :depends (restclient org-mode)
+    (add-to-list 'org-babel-load-languages '(restclient . t)))
 #+END_SRC
 * TODO Blogging
 ** Octopress/Jekyll
