@@ -1523,6 +1523,58 @@ Automatically open =.class= files with =javap=:
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle android-mode)
 #+END_SRC
+** TODO F-Droid CLI client
+[[deb:fdroidcl]] is a command line client that talks to connected devices via ADB.
+*** List F-Droid packages
+=fdroidcl-packages= will show list of F-Droid packages in a separate buffer:
+#+BEGIN_SRC elisp :results none
+  (require 'tablist)
+
+  (defun fdroidcl-packages ()
+    "List F-Droid packages."
+    (interactive)
+    (pop-to-buffer "*F-Droid packages*")
+    (fdroidcl-packages-mode)
+    (tablist-revert))
+
+  (define-derived-mode fdroidcl-packages-mode tablist-mode "F-Droid Packages"
+    "Major mode for working with a list of applications available
+    through F-Droid command-line client 'fdroidcl'"
+    (setq tabulated-list-format [("ID" 24 t)
+                                 ("Name" 32 t)
+                                 ("Version" 7 nil :right-align t)
+                                 ("Number" 7 nil :right-align t)
+                                 ("Description" 2 nil)])
+    (setq tabulated-list-padding 2)
+    (setq tabulated-list-sort-key (cons "Name" nil))
+    (add-hook 'tabulated-list-revert-hook 'fdroidcl-packages-refresh nil t)
+    (tabulated-list-init-header)
+    (tablist-minor-mode))
+
+  (defun fdroidcl-packages-refresh ()
+    "Refresh list of F-Droid packages."
+    (setq tabulated-list-entries (list-fdroidcl-packages)))
+
+  (defun list-fdroidcl-packages ()
+    "Returns list of F-Droid packages suitable for
+  `tabulated-list-entries'."
+    (mapcar #'fdroidcl-package-parse (fdroidcl-packages-entries)))
+
+  (defun fdroidcl-package-parse (package)
+    "Convert a single package description to a
+  `tabulated-list-entries' entry."
+    (list
+     (nth 0 package)
+     (apply #'vector (mapcar #'string-trim package))))
+
+  (defun fdroidcl-packages-entries ()
+    "Get packages with 'fdroidcl search'."
+    (let* ((fdroidcl-search "fdroidcl search")
+           (fdroidcl-search-results (shell-command-to-string fdroidcl-search))
+           (fdroidcl-packages (s-match-strings-all "^\\([^\s]+\\)[\s]+\\([^\n]+\\) - \\(.+\\) (\\(.+\\))\n[\s]\\{4\\}\\(.*\\)\n"
+                                                   fdroidcl-search-results)))
+      (mapcar 'cdr fdroidcl-packages)))
+#+END_SRC
 * Clojure
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle queue :type github :pkgname "emacsmirror/queue"
