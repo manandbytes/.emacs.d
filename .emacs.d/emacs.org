@@ -504,9 +504,13 @@ and one mode:
 #+END_SRC
 
 ** Browsing
-   #+BEGIN_SRC emacs-lisp
-     (setq browse-url-browser-function 'browse-url-firefox)
-   #+END_SRC
+Debian ships two flavors of Mozilla Firefox: [[deb:firefox][Firefox for desktop]] and [[deb:firefox-esr][Firefox Extended Support Release (ESR)]]. See [[https://www.mozilla.org/en-US/firefox/organizations/faq/][Who should use Mozilla Firefox ESR?]] for more info.
+#+BEGIN_SRC emacs-lisp
+  (req-package browse-url
+    :custom
+    (browse-url-browser-function 'browse-url-firefox)
+    (browse-url-firefox-program "firefox-esr"))
+#+END_SRC
 *** Privacy
 #+BEGIN_SRC emacs-lisp
   (setq url-user-agent "")
