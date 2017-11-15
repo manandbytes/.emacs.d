@@ -1037,8 +1037,7 @@ Tools like the puppet module tool and librarian-puppet use the Forge API to quer
 
 * Org
 #+BEGIN_SRC emacs-lisp
-  (el-get-bundle org-mode
-    :checkout "release_8.3.1" :checksum "003a0f10695f035e844d844eacb1a86a6d2df934"
+  (el-get-bundle org-mode :type apt-get :pkgname "elpa-org"
 
     (global-set-key (kbd "C-c .") 'org-time-stamp) ;; insert timestamp everywhere with 'C-c .'
     (global-set-key (kbd "C-c b") 'org-switchb) ;; switch between org buffers with 'C-c b'
