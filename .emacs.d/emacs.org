@@ -277,6 +277,10 @@ There are two forks of original [[emacswiki:powerline.el]] (references [[github:
     (helm-mode 1)
     (helm-adaptive-mode 1)
     (helm-autoresize-mode 1))
+
+  (use-package helm
+    :bind (("M-x" . helm-M-x)))
+
   (el-get-bundle helm-swoop)
 #+END_SRC
 * Changing the Location of Point
@@ -330,8 +334,8 @@ Another valid use case for visible line numbers is when presenting your content 
 * Buffer management
 Use Helm to switch between buffers:
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load-feature helm-buffers
-    (global-set-key (kbd "C-x b") 'helm-buffers-list))
+  (use-package helm-buffers
+    :bind ("C-x b" . helm-buffers-list))
 #+END_SRC
 ** Close buffer with =Ctrl-F4=
 By default, the command =kill-buffer= prompts for buffer to kill. I rarely want to kill a different buffer than the one I am looking at, so kill the current buffer without prompting (unless there are unsaved changes):
