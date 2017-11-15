@@ -1519,6 +1519,11 @@ Automatically open =.class= files with =javap=:
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle eclim :depends (dash popup s json))
 #+END_SRC
+** Gradle
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle gradle-mode)
+  (el-get-bundle gradle-el :type github :pkgname "vhallac/gradle-el")
+#+END_SRC
 * Android
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle android-mode)
