@@ -1550,7 +1550,7 @@ Automatically open =.class= files with =javap=:
 [[deb:fdroidcl]] is a command line client that talks to connected devices via ADB.
 *** List F-Droid packages
 =fdroidcl-packages= will show list of F-Droid packages in a separate buffer:
-#+BEGIN_SRC elisp :results none
+#+BEGIN_SRC emacs-lisp :results none
   (require 'tablist)
 
   (defun fdroidcl-packages ()
