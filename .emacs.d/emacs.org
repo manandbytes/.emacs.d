@@ -560,6 +560,11 @@ Step through historic versions of git controlled file:
 #+BEGIN_SRC emacs-lisp :tangle no
   (add-to-list 'auto-mode-alist '("/\\.gitconfig$" . conf-mode))
 #+END_SRC
+
+*** TODO Misc
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle helm-ls-git)
+#+END_SRC
 ** Magit
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle magit :type apt-get :pkgname "elpa-magit")
@@ -739,6 +744,10 @@ Enable proper mode for Mercurial's configuration files:
   (el-get-bundle monky :type github :pkgname "ananthakumaran/monky"
     (with-eval-after-load-feature monky
       (setq monky-process-type 'cmdserver)))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle helm-ls-hg)
 #+END_SRC
 *** TODO Enable conf-mode for other configuration files
 Check =man hgrc= for supported filenames and locations, for multiple platforms.
