@@ -598,6 +598,11 @@ When committing, show a diff at the bottom of the commit buffer just to remind m
     (add-to-list 'magit-commit-arguments "--verbose"))
 #+END_SRC
 *** TODO Why upgrading to 2.2.0
+*** Support for Org links to Magit buffers
+#+BEGIN_SRC emacs-lisp
+  (el-get-bundle orgit :type github :pkgname "jkitchin/orgit")
+#+END_SRC
+
 ** Integrate Vcsh and Magit
    - open directory [[/vcsh:emacs:.emacs.d/]] or a file [[/vcsh:emacs:.emacs.d/init.el]]
    - =M-x magit-status=
