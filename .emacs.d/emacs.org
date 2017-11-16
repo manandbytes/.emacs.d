@@ -1138,6 +1138,10 @@ Show broken links to local files with special face, =org-warning=:
                     ("gist" . "https://gist.github.com/%s")))
     (add-to-list 'org-link-abbrev-alist abbrev))
 #+END_SRC
+*** Gitlab
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'org-link-abbrev-alist '("gitlab" . "https://gitlab.com/%s"))
+#+END_SRC
 
 *** Wikisites dedicated to Emacs
 #+BEGIN_SRC emacs-lisp
