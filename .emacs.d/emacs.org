@@ -1086,6 +1086,17 @@ All files in a default location to look for Org files will be used for agenda di
   (setq org-agenda-files `(,org-directory))
 #+END_SRC
 ** Custom link types
+*** Local files
+Show broken links to local files with special face, =org-warning=:
+#+BEGIN_SRC emacs-lisp
+  (org-link-set-parameters
+   "file"
+   :face (lambda (path)
+           (when (not (file-remote-p path))
+             (if (file-exists-p path) 'org-link
+               'org-warning))))
+#+END_SRC
+
 *** Legacy types
 #+BEGIN_SRC emacs-lisp
   (dolist (abbrev '(("google" . "http://www.google.com/search?q=%s")
