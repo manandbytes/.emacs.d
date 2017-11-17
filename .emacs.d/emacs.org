@@ -1749,14 +1749,13 @@ org-impress-js-headline: Symbol's function definition is void: org-export-get-he
 *** TODO Download original impress.js library
 For convenience, org-impress-js includes some version of impress.js. Make it possible to install original one either by downloading it directly or with with some JS package manager. May be just install [[deb:libjs-impress]].
 
-* TODO Travis CI
+* Travis CI
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle org-link-travis
     :pkgname "manandbytes/org-link-travis"
-    :depends (org-mode)
-    (org-add-link-type "travis-build" 'org-link-travis/open-build-link))
+    :depends (org-mode))
 #+END_SRC
-
+** TODO Switch from 'org-add-link-type to 'org-link-set-parameters
 ** TODO More advanced ways to interact with Travis CI
 - [[https://docs.travis-ci.com/api][Travis CI API]] is the API used by the official Travis CI web interface, so everything the web UI is able to do can also be accomplished via the API. There are different API endpoints for Travis CI for open source, Travis Pro and Travis Enterprise.
 - [[github:travis-ci/travis.rb][Travis CI Client (CLI and Ruby library)]]
