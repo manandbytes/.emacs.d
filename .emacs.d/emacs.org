@@ -1122,14 +1122,16 @@ To add link to Debian package, use =deb:= link type followed by package's name, 
       (if (require 'apt-utils nil 'noerror)
           (apt-utils-show-package-1 package t nil)
         (message (format "Unable to open 'deb:%s' link: Debian package debian-el is required" package))))
-    (org-add-link-type "deb"
-                       'org-deb-open
-                       (lambda (path desc backend)
-                         (format "<a href=\"https://tracker.debian.org/pkg/%s\">%s</a>" path path))))
+
+    (org-link-set-parameters
+     "deb"
+     :follow 'org-deb-open
+     :export (lambda (path desc backend)
+               (format "<a href=\"https://tracker.debian.org/pkg/%s\">%s</a>" path path))))
 #+END_SRC
 **** Autocomplete package name
 Search for text using =helm-apt= and use selected search result:
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (when (fboundp 'helm-apt)
     (defun org-deb-complete-link (&optional arg)
       "Complete debian packages"
