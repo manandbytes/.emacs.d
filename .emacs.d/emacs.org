@@ -1552,6 +1552,7 @@ Automatically open =.class= files with =javap=:
 =fdroidcl-packages= will show list of F-Droid packages in a separate buffer:
 #+BEGIN_SRC emacs-lisp :results none
   (require 'tablist)
+  (require 's)
 
   (defun fdroidcl-packages ()
     "List F-Droid packages."
