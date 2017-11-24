@@ -71,6 +71,25 @@ By default, Emacs saves backup files (the files ending with =~=) in the current 
   (setq backup-directory-alist `((".*" . ,mn/backup-directory)))
 #+END_SRC
 * Package management
+** ELPA
+: ELPA
+: the Emacs Lisp Package Archive
+The [[https://elpa.gnu.org/][GNU ELPA repository]] contains FSF-sanctioned Emacs packages.
+#+BEGIN_SRC emacs-lisp
+  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")))
+#+END_SRC
+
+** Melpa
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'package-archives '(("melpa" . "https://melpa.org/packages/")))
+  (add-to-list 'package-archives '(("melpa-stable" . "https://stable.melpa.org/packages/")))
+#+END_SRC
+
+** Marmalade
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
+#+END_SRC
+
 ** Bootstrapping el-get
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
