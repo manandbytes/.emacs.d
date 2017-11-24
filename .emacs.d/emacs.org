@@ -1145,7 +1145,19 @@ To add link to Debian package, use =deb:= link type followed by package's name, 
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle apt-get:debian-el)
 #+END_SRC
-
+**** Autocomplete package name
+Search for text using =helm-apt= and use selected search result:
+#+BEGIN_SRC emacs-lisp
+  (defun org-deb-complete-link (&optional arg)
+    "Complete debian packages"
+    (concat "deb:"
+            (completing-read (if arg
+                                 (format "Choose Debian package (%s): " arg)
+                               "Choose Debian package: ")
+                             'apt-utils-choose-package-completion
+                             nil t arg)))
+#+END_SRC
+**** Integrate pieces together
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load-feature (org)
     (defun org-deb-open (package)
@@ -1156,18 +1168,9 @@ To add link to Debian package, use =deb:= link type followed by package's name, 
     (org-link-set-parameters
      "deb"
      :follow 'org-deb-open
+     :complete 'org-deb-complete-link
      :export (lambda (path desc backend)
                (format "<a href=\"https://tracker.debian.org/pkg/%s\">%s</a>" path path))))
-#+END_SRC
-**** Autocomplete package name
-Search for text using =helm-apt= and use selected search result:
-#+BEGIN_SRC emacs-lisp :tangle no
-  (when (fboundp 'helm-apt)
-    (defun org-deb-complete-link (&optional arg)
-      "Complete debian packages"
-      (let (package link)
-        (setq package (helm-apt arg))
-        (setq link (concat "deb:" package)))))
 #+END_SRC
 **** Store link when in =apt-utils-mode=
 #+BEGIN_SRC emacs-lisp
