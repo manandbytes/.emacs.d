@@ -398,7 +398,7 @@ As a fallback, if D-Bus is not available, =nmcli= utility from [[deb:network-man
 ** Use SOCKS 5 proxy
 #+BEGIN_SRC emacs-lisp
   (require 'socks)
-  (setq socks-server '("Default server" "localhost" 9050 5)
+  (setq socks-server '("Default server" "127.0.0.1" 9050 5)
         url-gateway-method 'socks)
 #+END_SRC
 ** TODO Set proxies conditionally
