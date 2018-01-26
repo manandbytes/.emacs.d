@@ -115,6 +115,12 @@ The [[https://elpa.gnu.org/][GNU ELPA repository]] contains FSF-sanctioned Emacs
 
   (el-get-bundle with-eval-after-load-feature)
 #+END_SRC
+
+** TODO Enable =req-package=
+#+BEGIN_SRC emacs-lisp
+  (package-install 'req-package)
+  (use-package req-package)
+#+END_SRC
 ** Having troubles? Be verbose!
 #+BEGIN_SRC emacs-lisp
   (setq-default el-get-verbose 't
@@ -1847,3 +1853,7 @@ Error is invisible as subtree remains collapsed, =org-reveal= should be used.
 * Tips and tricks
 ** Show the log
 The buffer *Messages* is an Emacs' log with a lot of information about whats going on under the hood. The dumb way to swith to this buffer is to treat it as any other buffer and =M-x switch-to-buffer= and select it. Using a default keybinding =C-h e= will show this buffer but without switching to it.
+* Finalize
+#+BEGIN_SRC emacs-lisp
+  (req-package-finish)
+#+END_SRC
