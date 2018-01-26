@@ -90,6 +90,14 @@ The [[https://elpa.gnu.org/][GNU ELPA repository]] contains FSF-sanctioned Emacs
   (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
 #+END_SRC
 
+** Enable =use-package=
+#+BEGIN_SRC emacs-lisp
+  (eval-when-compile
+    (require 'use-package))
+  (require 'diminish)
+  (require 'bind-key)
+#+END_SRC
+
 ** Bootstrapping el-get
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
