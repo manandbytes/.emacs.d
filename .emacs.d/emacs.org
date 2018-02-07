@@ -1261,10 +1261,10 @@ Press =Ctrl-C r= to quickly create:
     (setq org-capture-templates
           '(("t" "Task" entry
              (file "NewTasks.org")
-             "* TODO %?\n%U\n%a" :prepend t)
+             "* TODO %?\n%U\n%a\n" :prepend t)
             ("n" "Note" entry
              (file+headline "NewNotes.org" "")
-             "* %?\n%U\n%a" :prepend t))))
+             "* %?\n%U\n%a\n" :prepend t))))
   (global-set-key (kbd "C-c r") 'org-capture)
 #+END_SRC
 *** Capturing the web
