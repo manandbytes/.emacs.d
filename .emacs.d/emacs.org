@@ -717,9 +717,9 @@ quickly navigate between conflicts and choose which to keep:
 #+END_SRC
 *** TODO Describe default key bindings
 *** TODO Enable for files with complete conflict markers
-** Integrate Magit and Gerrit Code Review
+** TODO Integrate Magit and Gerrit Code Review
 [[https://www.gerritcodereview.com/][Google Gerrit]] provides web based code review and repository management for the Git version control system.
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (el-get-bundle magit-gerrit)
 #+END_SRC
 *** TODO Configuration
