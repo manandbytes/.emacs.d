@@ -81,8 +81,8 @@ The [[https://elpa.gnu.org/][GNU ELPA repository]] contains FSF-sanctioned Emacs
 
 ** Melpa
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'package-archives '(("melpa" . "https://melpa.org/packages/")))
-  (add-to-list 'package-archives '(("melpa-stable" . "https://stable.melpa.org/packages/")))
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+  (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 #+END_SRC
 
 ** Marmalade
