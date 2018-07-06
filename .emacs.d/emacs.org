@@ -687,15 +687,18 @@ Use this feature to provide more fine-grained completion for repositories and fi
       (string= (tramp-file-name-method v) tramp-vcsh-method)))
 #+END_SRC
 *** TODO Vcsh source for Helm
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp
   (defun vcsh-tracked-files (&optional repo)
     "List all files tracked by vcsh."
     (mapcar (lambda (file)
               (cons file file))
-            (if repo
-                (split-string (shell-command-to-string (format "vcsh list-tracked %s" repo)))
-              (split-string (shell-command-to-string "vcsh list-tracked")))))
+            (let ((default-directory "~/"))
+              (if repo
+                  (split-string (shell-command-to-string (format "vcsh list-tracked %s" repo)))
+                (split-string (shell-command-to-string "vcsh list-tracked"))))))
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp :tangle no
   (helm :sources '((name . "vcsh")
                    (candidates-process . vcsh-tracked-files)
                    (volatile)))
@@ -710,12 +713,12 @@ Use this feature to provide more fine-grained completion for repositories and fi
   (provide 'vc-vcsh)
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp :results pp output :tangle no :dir ~
-  (split-string (shell-command-to-string "vcsh list-tracked"))
+#+BEGIN_SRC emacs-lisp :results pp :tangle no :dir ~
+  (split-string (shell-command-to-string "vcsh list-tracked bash"))
 #+END_SRC
 
 #+RESULTS:
-: ("/home/mn/.bash_logout" "/home/mn/.bashrc" "/home/mn/.config/byobu/status" "/home/mn/.config/byobu/statusrc" "/home/mn/.config/byobu/.tmux.conf" "/home/mn/.config/systemd/user/emacs.service" "/home/mn/.config/tmux/inx" "/home/mn/.config/tmux/xless" "/home/mn/.emacs.d/custom.el" "/home/mn/.emacs.d/emacs.org" "/home/mn/.emacs.d/init.el" "/home/mn/.profile" "/home/mn/.tmux.conf")
+: ("/home/mn/.bash_aliases" "/home/mn/.bash_logout" "/home/mn/.bashrc" "/home/mn/.config/byobu/status" "/home/mn/.config/byobu/statusrc" "/home/mn/.config/byobu/.tmux.conf" "/home/mn/.config/gnome-session/sessions/gnome-i3.desktop" "/home/mn/.config/gnome-session/sessions/gnome-i3.session" "/home/mn/.config/i3/config" "/home/mn/.config/i3status/config" "/home/mn/.config/liquidpromptrc" "/home/mn/.config/rofi/config" "/home/mn/.config/tmux/inx" "/home/mn/.config/tmux/xless" "/home/mn/.profile" "/home/mn/.ssh/config" "/home/mn/.tmux.conf")
 ** Resolving conflicts
 For files with conflict markers, enable SMerge, a minor mode to
 quickly navigate between conflicts and choose which to keep:
