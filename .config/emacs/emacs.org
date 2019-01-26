@@ -1122,17 +1122,23 @@ Tools like the puppet module tool and librarian-puppet use the Forge API to quer
     (add-hook 'find-file-hooks 'mn/sudo-mode-line-function)
     (add-hook 'dired-mode-hook 'mn/sudo-mode-line-function))
 #+END_SRC
-** TODO Projectile
-#+BEGIN_SRC emacs-lisp
+
+** Projects
+
+*** TODO Emacs built-in project support
+#+begin_src emacs-lisp
+  (el-get-bundle project :builtin "29")
+#+end_src
+
+*** TODO Projectile
+#+begin_src emacs-lisp
   (el-get-bundle projectile :type apt-get :pkgname "elpa-projectile")
-  (use-package projectile
+  (req-package projectile
+    :bind-keymap ("C-c p" . projectile-command-map)
+    :custom ((projectile-mode-line-prefix " P")
+             (projectile-switch-project-action #'projectile-commander "Show commander when switching project"))
     :config
-    (setq projectile-mode-line
-          '(:eval
-            (if (file-remote-p default-directory)
-                " Projectile"
-              (format " P[%s]" (projectile-project-name)))))
-    (projectile-global-mode 1))
+    (projectile-mode))
 
   (el-get-bundle helm-projectile :type apt-get :pkgname "elpa-helm-projectile")
   (use-package helm-projectile
@@ -1142,7 +1148,7 @@ Tools like the puppet module tool and librarian-puppet use the Forge API to quer
 
   (el-get-bundle helm-ag)
   (use-package helm-ag)
-#+END_SRC
+#+end_src
 
 * Org
 #+BEGIN_SRC emacs-lisp
