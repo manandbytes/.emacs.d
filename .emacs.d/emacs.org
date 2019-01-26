@@ -21,6 +21,11 @@ Check the status of Emacs with:
 ** Github-hosted repositories
  - Org document (and [[github:github/markup#markups][a number of other formats]] as well) will be rendered as HTML (not without gotchas, though), using [[github:github/markup][GitHub Markup library]].
  - Commits and pull requests that include prose documents have the ability to represent those documents with source and rendered views, see [[https://help.github.com/articles/rendering-differences-in-prose-documents/][Rendering differences in prose documents]].
+** Android clients
+- [[github:matburt/mobileorg-android]]
+- [[github:wizmer/syncorg]]
+- [[github:orgzly/orgzly-android]]
+- [[github:kvj/mobileorg-android]]
 * TODO What to read
 - [[http://www.bookshelf.jp/texi/org/org.html][The Org Manual @ bookshelf.jp]]
 - [[http://home.fnal.gov/~neilsen/notebook/orgExamples/org-examples.html][Emacs org-mode examples and cookbook]] by Eric H. Neilsen, Jr.
