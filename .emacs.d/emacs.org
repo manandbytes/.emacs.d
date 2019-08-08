@@ -839,6 +839,13 @@ Check =man hgrc= for supported filenames and locations, for multiple platforms.
         recentf-save-file (expand-file-name ".recentf" user-emacs-directory))
   (recentf-mode 1)
 #+END_SRC
+* Look and Feel
+** Disable bars
+#+BEGIN_SRC emacs-lisp
+  (dolist (mode-to-disable '(menu-bar-mode tool-bar-mode scroll-bar-mode))
+    (when (functionp mode-to-disable)
+      (funcall mode-to-disable '-1)))
+#+END_SRC
 * Fonts
 ** TODO Use font Awesome in the mode line
 - [[http://fontawesome.io/][Font Awesome, the iconic font and CSS toolkit]]
@@ -1497,11 +1504,6 @@ What’s the difference with [[github:bmaland/happyblogger]]?
 [[github:soimort/translate-shell][Translate Shell]] (formerly Google Translate CLI) via [[deb:translate-shell]].
 * Legacy configuration
 #+BEGIN_SRC emacs-lisp
-  ;; disable menu bar and tool bar
-  (menu-bar-mode -1)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1)
-
   ;; change current buffer's font size with C-+ and C--
   (global-set-key (kbd "C-+") 'text-scale-increase)
   (global-set-key (kbd "C--") 'text-scale-decrease)
