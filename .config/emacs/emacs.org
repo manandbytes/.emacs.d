@@ -105,7 +105,8 @@ The [[https://elpa.gnu.org/][GNU ELPA repository]] contains FSF-sanctioned Emacs
 
 ** Bootstrapping el-get
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+  (require 'f)
+  (add-to-list 'load-path (f-join user-emacs-directory "el-get" "el-get"))
   (unless (require 'el-get nil 'noerror)
     (with-current-buffer
         (url-retrieve-synchronously
@@ -540,7 +541,7 @@ Reverting buffers fails due to undefined function =-non-nil=:
 #+END_SRC
 
 While this change would work, it turned out that I just had an old version of [[github:magnars/dash.el][dash.el]], one of the Magit's dependencies, without function =-non-nil=:
-#+BEGIN_SRC sh :dir "~/.emacs.d/el-get/dash" :results format org
+#+BEGIN_SRC sh :dir "~/.config/emacs/el-get/dash" :results format org
   git log -S-non-nil --patch --summary -- *.el
 #+END_SRC
 
@@ -946,7 +947,7 @@ should be available after installing
     :url "https://raw.github.com/emacsmirror/emacswiki.org/master/org-export-blocks-format-plantuml.el")
 #+END_SRC
 While [[http://orgmode.org/worg/org-contrib/org-exp-blocks.html][org-exp-blocks.el — pre-process blocks when exporting org files]] still using =org-exp-blocks=, it should not be used anymore:
-#+BEGIN_SRC sh :dir ~/.emacs.d/el-get/org-mode :tangle no :exports results
+#+BEGIN_SRC sh :dir ~/.config/emacs/el-get/org-mode :tangle no :exports results
   git show --summary ee3b3eb42
 #+END_SRC
 
