@@ -1,0 +1,18 @@
+[Desktop Entry]
+Categories=Office;Development;Utility;TextEditor
+Comment=Connect to an Emacs server using emacsclient
+Encoding=UTF-8
+Exec=emacsclient --create-frame --no-wait --alternate-editor="" %F
+GenericName=Connect to an Emacs server
+Icon=emacs
+Keywords=Text;Editor;
+MimeType=text/*;application/x-shellscript
+Name=Emacs client (GUI)
+NoDisplay=false
+StartupNotify=true
+StartupWMClass=Emacs
+Terminal=false
+Type=Application
+Version=1.0
+X-GNOME-FullName=Connect to an Emacs server
+X-MultipleArgs=false

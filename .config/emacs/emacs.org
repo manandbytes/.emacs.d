@@ -56,6 +56,38 @@ Another way is to automagically not tangle source code blocks under TODO items.
 - execute =customize-unsaved= to revisit your unsaved changes
 - [[http://www.emacswiki.org/emacs/CustomizingFaces][EmacsWiki：Customizing Faces]]
 - [[http://ergoemacs.org/emacs/emacs_custom_system.html][Emacs's Customization Tutorial]]
+
+* The XDG Base Directory Specification
+
+- https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+- https://wiki.archlinux.org/title/XDG_Base_Directory
+- https://wiki.archlinux.org/title/Talk:XDG_Base_Directory
+
+** Integrate Emacs Client
+
+*** Provide .desktop file
+
+#+begin_src conf-desktop :tangle ~/.local/share/applications/emacs-client.desktop
+  [Desktop Entry]
+  Categories=Office;Development;Utility;TextEditor
+  Comment=Connect to an Emacs server using emacsclient
+  Encoding=UTF-8
+  Exec=emacsclient --create-frame --no-wait --alternate-editor="" %F
+  GenericName=Connect to an Emacs server
+  Icon=emacs
+  Keywords=Text;Editor;
+  MimeType=text/*;application/x-shellscript
+  Name=Emacs client (GUI)
+  NoDisplay=false
+  StartupNotify=true
+  StartupWMClass=Emacs
+  Terminal=false
+  Type=Application
+  Version=1.0
+  X-GNOME-FullName=Connect to an Emacs server
+  X-MultipleArgs=false
+#+end_src
+
 * Enable server mode
 #+BEGIN_SRC emacs-lisp
   (require 'server)
