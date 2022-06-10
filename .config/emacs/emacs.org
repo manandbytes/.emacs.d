@@ -108,24 +108,44 @@ By default, Emacs saves backup files (the files ending with =~=) in the current 
   (setq backup-directory-alist `((".*" . ,mn/backup-directory)))
 #+END_SRC
 * Package management
-** ELPA
-: ELPA
-: the Emacs Lisp Package Archive
-The [[https://elpa.gnu.org/][GNU ELPA repository]] contains FSF-sanctioned Emacs packages.
-#+BEGIN_SRC emacs-lisp
-  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")))
-#+END_SRC
 
-** Melpa
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-  (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
-#+END_SRC
+#+name: package-archives-table
+| id           | enabled | description                                                                                                                   | priority |
+|--------------+---------+-------------------------------------------------------------------------------------------------------------------------------+----------|
+| [[https://elpa.gnu.org/packages/][gnu]]          | y       | The [[https://elpa.gnu.org/][GNU Emacs Lisp Package Archive repository]], contains FSF-sanctioned Emacs packages                                         |       90 |
+| [[https://elpa.nongnu.org/nongnu/][nongnu]]       | y       | NonGNU ELPA is a [[https://www.gnu.org/philosophy/free-sw.html][free software]] Emacs Lisp Package Archive (ELPA) with extensions to [[https://www.gnu.org/software/emacs/][GNU Emacs]] Archive                         |       70 |
+| [[https://marmalade-repo.org/packages/][marmalade]]    |         |                                                                                                                               |          |
+| [[https://melpa.org/packages/][melpa]]        | y       | [[https://melpa.org/packages/][Milkypostman’s Emacs Lisp Package Archive]], built from the latest package source code                                          |       80 |
+| [[https://stable.melpa.org/packages/][melpa-stable]] | y       | [[https://melpa.org/packages/][Milkypostman’s Emacs Lisp Package Archive]], built from the latest tagged code in those repositories, where version tags exist. |        0 |
 
-** Marmalade
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
-#+END_SRC
+#+begin_src emacs-lisp :var table=package-archives-table :results code :tangle no :exports both
+  (let* ((enabled-archives (remove-if (lambda (row) (not (equal (nth 1 row) "y"))) table))
+         (archives-as-link (mapcar (lambda (row) (nth 0 row)) enabled-archives))
+         (archives-list (mapcar (lambda (archive-as-link)
+                                  (with-temp-buffer
+                                    ;; https://orgmode.org/worg/dev/org-element-api.html
+                                    (insert archive-as-link)
+                                    (org-mode)
+                                    (org-element-contents (org-element-parse-buffer))
+                                    (let* ((oe-context (org-element-context))
+                                           (archive-id (buffer-substring-no-properties
+                                                        (org-element-property :contents-begin oe-context)
+                                                        (org-element-property :contents-end oe-context)))
+                                           (archive-url (org-element-property :raw-link oe-context)))
+                                      (cons archive-id archive-url))))
+                                archives-as-link))
+         (archives (sort archives-list (lambda (i1 i2) (string-lessp (car i1) (car i2))))))
+    `(setq package-archives ',archives))
+#+end_src
+
+#+RESULTS:
+#+begin_src emacs-lisp
+(setq package-archives
+      '(("gnu" . "https://elpa.gnu.org/packages/")
+	("melpa" . "https://melpa.org/packages/")
+	("melpa-stable" . "https://stable.melpa.org/packages/")
+	("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+#+end_src
 
 ** Enable =use-package=
 #+BEGIN_SRC emacs-lisp
