@@ -114,7 +114,6 @@ By default, Emacs saves backup files (the files ending with =~=) in the current 
 |--------------+---------+-------------------------------------------------------------------------------------------------------------------------------+----------|
 | [[https://elpa.gnu.org/packages/][gnu]]          | y       | The [[https://elpa.gnu.org/][GNU Emacs Lisp Package Archive repository]], contains FSF-sanctioned Emacs packages                                         |       90 |
 | [[https://elpa.nongnu.org/nongnu/][nongnu]]       | y       | NonGNU ELPA is a [[https://www.gnu.org/philosophy/free-sw.html][free software]] Emacs Lisp Package Archive (ELPA) with extensions to [[https://www.gnu.org/software/emacs/][GNU Emacs]] Archive                         |       70 |
-| [[https://marmalade-repo.org/packages/][marmalade]]    |         |                                                                                                                               |          |
 | [[https://melpa.org/packages/][melpa]]        | y       | [[https://melpa.org/packages/][Milkypostman’s Emacs Lisp Package Archive]], built from the latest package source code                                          |       80 |
 | [[https://stable.melpa.org/packages/][melpa-stable]] | y       | [[https://melpa.org/packages/][Milkypostman’s Emacs Lisp Package Archive]], built from the latest tagged code in those repositories, where version tags exist. |        0 |
 
