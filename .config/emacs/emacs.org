@@ -30,6 +30,12 @@ Check the status of Emacs with:
 - [[http://www.bookshelf.jp/texi/org/org.html][The Org Manual @ bookshelf.jp]]
 - [[http://home.fnal.gov/~neilsen/notebook/orgExamples/org-examples.html][Emacs org-mode examples and cookbook]] by Eric H. Neilsen, Jr.
 - [[http://www.howardism.org/Technical/Emacs/literate-devops.html][Literate DevOps]] by [[http://www.howardabrams.com/][Howard Abrams]]
+
+* Enable lexical binding
+#+begin_src emacs-lisp
+  ;; -*- lexical-binding: t -*-
+#+end_src
+
 * Customization
 Emacs provides a convenient way to browse, change and save settings via =M-x customize=. By default, it saves these settings to an initialization file, =~/.emacs.d/init.el=. To keep initialization file clean and simple, customizations must go to a separate file:
 #+BEGIN_SRC emacs-lisp
