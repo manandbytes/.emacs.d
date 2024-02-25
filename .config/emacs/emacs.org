@@ -115,6 +115,9 @@ By default, Emacs saves backup files (the files ending with =~=) in the current 
 #+END_SRC
 * Package management
 
+- [[info:emacs#Package Installation]]
+- [[help:package-archive-priorities]]
+
 #+name: package-archives-table
 | id                                                   | enabled | description                                                                                                                   | priority |
 |------------------------------------------------------+---------+-------------------------------------------------------------------------------------------------------------------------------+----------|
@@ -125,23 +128,31 @@ By default, Emacs saves backup files (the files ending with =~=) in the current 
 | [[https://stable.melpa.org/packages/][melpa-stable]] | n       | Milkypostman’s Emacs Lisp Package Archive, built from the latest tagged code in those repositories, where version tags exist. |        0 |
 
 #+begin_src emacs-lisp :var table=package-archives-table :results code :tangle no :exports both
-  (let* ((enabled-archives (remove-if (lambda (row) (not (equal (nth 1 row) "y"))) table))
-         (archives-as-link (mapcar (lambda (row) (nth 0 row)) enabled-archives))
-         (archives-list (mapcar (lambda (archive-as-link)
+  (let* ((enabled-archives (remove-if (lambda (row)
+                                        (not (equal (nth 1 row) "y"))) table))
+         (archives-list (mapcar (lambda (row)
                                   (with-temp-buffer
                                     ;; https://orgmode.org/worg/dev/org-element-api.html
-                                    (insert archive-as-link)
+                                    (insert (nth 0 row))
                                     (org-mode)
                                     (org-element-contents (org-element-parse-buffer))
                                     (let* ((oe-context (org-element-context))
                                            (archive-id (buffer-substring-no-properties
                                                         (org-element-property :contents-begin oe-context)
                                                         (org-element-property :contents-end oe-context)))
-                                           (archive-url (org-element-property :raw-link oe-context)))
-                                      (cons archive-id archive-url))))
-                                archives-as-link))
-         (archives (sort archives-list (lambda (i1 i2) (string-lessp (car i1) (car i2))))))
-    `(setq package-archives ',archives))
+                                           (archive-url (org-element-property :raw-link oe-context))
+                                           (archive-priority (if (integerp (nth 3 row)) (nth 3 row) 0)))
+                                      (list :id archive-id :url archive-url :priority archive-priority))))
+                                enabled-archives))
+         (archives (mapcar
+                    (lambda (list) (cons (plist-get list :id) (plist-get list :url)))
+                    (sort archives-list (lambda (i1 i2)
+                                          (string-lessp (plist-get i1 :id) (plist-get i2 :id))))))
+         (archives-priorities (mapcar
+                               (lambda (list) (cons (plist-get list :id) (plist-get list :priority)))
+                               archives-list)))
+    `(setq package-archives ',archives
+           package-archive-priorities ',archives-priorities))
 #+end_src
 
 #+RESULTS:
@@ -150,7 +161,9 @@ By default, Emacs saves backup files (the files ending with =~=) in the current 
       '(("gnu" . "https://elpa.gnu.org/packages/")
 	("gnu-devel" . "https://elpa.gnu.org/devel/")
 	("melpa" . "https://melpa.org/packages/")
-	("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+	("nongnu" . "https://elpa.nongnu.org/nongnu/"))
+      package-archive-priorities
+      '(("gnu" . 90) ("gnu-devel" . 0) ("melpa" . 80) ("nongnu" . 70)))
 #+end_src
 
 ** Enable =use-package=
