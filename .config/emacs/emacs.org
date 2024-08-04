@@ -2,21 +2,21 @@
 #+PROPERTY: header-args:sh :results output
 * Bootstrap
 Make sure that required dependencies are in place:
-#+BEGIN_SRC shell :tangle no
+#+begin_src shell :tangle no
   sudo aptitude install vcsh git gnutls-bin
-#+END_SRC
+#+end_src
 Clone Emacs configuration files:
-#+BEGIN_SRC shell
+#+begin_src shell
   vcsh clone https://github.com/manandbytes/.emacs.d.git emacs
-#+END_SRC
+#+end_src
 Enable running Emacs as a systemd user service:
-#+BEGIN_SRC shell
+#+begin_src shell
   systemctl enable --user emacs.service
-#+END_SRC
+#+end_src
 Check the status of Emacs with:
-#+BEGIN_SRC shell
+#+begin_src shell
   systemctl status --user emacs.service
-#+END_SRC
+#+end_src
 * Why?
 ** Github-hosted repositories
  - Org document (and [[github:github/markup#markups][a number of other formats]] as well) will be rendered as HTML (not without gotchas, though), using [[github:github/markup][GitHub Markup library]].
@@ -38,9 +38,9 @@ Check the status of Emacs with:
 
 * Customization
 Emacs provides a convenient way to browse, change and save settings via =M-x customize=. By default, it saves these settings to an initialization file, =~/.emacs.d/init.el=. To keep initialization file clean and simple, customizations must go to a separate file:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-#+END_SRC
+#+end_src
 ** TODO Refine workflow
 Check these resources for more info:
 - [[emacswiki:CategoryCustomize]]
@@ -95,24 +95,24 @@ Another way is to automagically not tangle source code blocks under TODO items.
 #+end_src
 
 * Enable server mode
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (require 'server)
   (unless (server-mode)
     (server-mode))
-#+END_SRC
+#+end_src
 
 * Simplify 'yes/no' answers
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (fset 'yes-or-no-p 'y-or-n-p)
-  #+END_SRC
+  #+end_src
 * Backups
 By default, Emacs saves backup files (the files ending with =~=) in the current directory. Stash them all under =backups= directory in user's Emacs directory:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (defvar mn/backup-directory (expand-file-name "backups" user-emacs-directory))
   (if (not (file-exists-p mn/backup-directory))
           (make-directory mn/backup-directory t))
   (setq backup-directory-alist `((".*" . ,mn/backup-directory)))
-#+END_SRC
+#+end_src
 * Package management
 
 - [[info:emacs#Package Installation]]
@@ -172,15 +172,15 @@ By default, Emacs saves backup files (the files ending with =~=) in the current 
 #+end_src
 
 ** Enable =use-package=
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (eval-when-compile
     (require 'use-package))
   (require 'diminish)
   (require 'bind-key)
-#+END_SRC
+#+end_src
 
 ** Bootstrapping el-get
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (require 'f)
   (add-to-list 'load-path (f-join user-emacs-directory "el-get" "el-get"))
   (unless (require 'el-get nil 'noerror)
@@ -191,18 +191,18 @@ By default, Emacs saves backup files (the files ending with =~=) in the current 
       (eval-print-last-sexp)))
 
   (el-get-bundle with-eval-after-load-feature)
-#+END_SRC
+#+end_src
 
 ** TODO Enable =req-package=
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (package-install 'req-package)
   (use-package req-package)
-#+END_SRC
+#+end_src
 ** Having troubles? Be verbose!
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq-default el-get-verbose 't
                 messages-buffer-max-lines 10000)
-#+END_SRC
+#+end_src
 ** TODO Install platform-dependent packages
 There are two flavors of platform-dependent packages:
 - Emacs package that should be installed in a platform-dependent way. In Debian, =magit= (and its dependencies) is available as [[deb:elpa-magit]].
@@ -214,14 +214,14 @@ Some reasons to have platform-specific Emacs package are:
 - Emacs package requires native, platform-specific tool. =evernote-mode= requires Ruby interpreter, and it's much simplier to just install =sudo apt-get install evernote-mode= and let it drag in required Ruby implementation and all its transitive dependencies.
 
 If the native Emacs package shares the same package name with el-get's recipe:
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (el-get-bundle js2-mode :type apt-get)
-#+END_SRC
+#+end_src
 
 But if doesn't, use =:pkgname= with the native package's name:
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (el-get-bundle seq :type apt-get :pkgname "elpa-seq")
-#+END_SRC
+#+end_src
 **** TODO Don't reinstall packages of =:type apt-get=
 On startup, =el-get= every time tries to reinstall some packages:
 #+BEGIN_QUOTE
@@ -229,7 +229,7 @@ Error (el-get): while installing ag: el-get: *apt-get install silversearcher-ag-
 Error (el-get): while installing projectile: el-get: *apt-get install elpa-projectile* Could not install package projectile.
 #+END_QUOTE
 
-#+BEGIN_SRC emacs-lisp :tangle no :results pp :wrap "SRC emacs-lisp :tangle no" :var packages='("ag" "projectile" "seq" "prolog-el" "helm" "helm-projectile")'
+#+begin_src emacs-lisp :tangle no :results pp :wrap "SRC emacs-lisp :tangle no" :var packages='("ag" "projectile" "seq" "prolog-el" "helm" "helm-projectile")'
   (mapcar (lambda (package)
             (let* ((source (el-get-package-def package))
                    (dpkg-package (or (plist-get source :pkgname)
@@ -240,10 +240,10 @@ Error (el-get): while installing projectile: el-get: *apt-get install elpa-proje
                     (cons "raw dpkg status" (car (process-lines "dpkg-query" "--show" "--showformat=${Status}\n"
                                                                 dpkg-package))))))
           packages)
-#+END_SRC
+#+end_src
 
 #+RESULTS:
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
 ((("el-get-package-def" :name ag :type apt-get :pkgname "silversearcher-ag-el" :after nil :depends
    (s dash))
   ("el-get dpkg status" . t)
@@ -300,20 +300,20 @@ Error (el-get): while installing projectile: el-get: *apt-get install elpa-proje
 (cl-lib helm projectile)
 :description "Helm integration for Projectile." :type github :pkgname "bbatsov/helm-projectile")))
 ("raw dpkg status" . "install ok installed")))
-#+END_SRC
+#+end_src
 *** Platform-specific dependency of Emacs package
 For instance, =pandoc-mode= requires platform-specific binaries of the =pandoc= tool. While there is a native Debian package, [[deb:pandoc]], neither this package provides Emacs' mode nor there is a separate package for =pandoc-mode= Emacs.
 
 Unfortunatelly, =el-get= doesn't support installation of platform-specific packages. One of the (crazy) roads is to fool =el-get= and install such packages as =:type apt-get=:
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (dolist (package '(make texinfo))
     (el-get-bundle apt-get:package :type apt-get))
-#+END_SRC
+#+end_src
 *** TODO Elpa packages in Debian break el-get
 Expected location of the package =:type apt-get= files is under =el-get-apt-get-base= directory. Unfortunatelly, some elpa packages in Debian break this expectation by placing files:
 - under =elpa-src= directory
 - into a versioned package-specific subdirectory like =helm-projectile-0.14.0=.
-#+BEGIN_SRC emacs-lisp :tangle no :exports both :results pp :var packages='(dash seq helm magit helm-projectile) :wrap "SRC emacs-lisp :tangle no"
+#+begin_src emacs-lisp :tangle no :exports both :results pp :var packages='(dash seq helm magit helm-projectile) :wrap "SRC emacs-lisp :tangle no"
   (mapcar (lambda (package)
             (let* ((apt-get-pkgname (plist-get (el-get-package-def package) :pkgname))
                    (pkg-el-files (split-string (shell-command-to-string (format "dpkg --listfiles %s | grep '.el$'" apt-get-pkgname))))
@@ -324,68 +324,68 @@ Expected location of the package =:type apt-get= files is under =el-get-apt-get-
                                       dir))
                                   pkg-el-dirs))))
           packages)
-#+END_SRC
+#+end_src
 
 #+RESULTS:
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
 (("/usr/share/emacs/site-lisp/dash-el/")
  ("/usr/share/emacs/site-lisp/elpa-src/seq-2.16/")
  ("/usr/share/emacs/site-lisp/elpa-src/helm-2.1.0/")
  ("/usr/share/emacs/site-lisp/elpa-src/magit-2.8.0/")
  ("/usr/share/emacs/site-lisp/elpa-src/helm-projectile-0.14.0/"))
-#+END_SRC
+#+end_src
 ** Install packages over secure connection only
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq el-get-allow-insecure nil)
-#+END_SRC
+#+end_src
 ** TODO Removing unnecessary packages
 When trying out new packages, its easy to lose track of direct and indirect dependencies of (now) unused packages that could and should be removed, see issues [[github:dimitri/el-get/issues/1782][Removing unnecessary packages]] and [[github:dimitri/el-get/issues/1849][Feature request: el-get-autoremove]].
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (el-get-cleanup (mapcar 'el-get-source-name el-get-sources))
-#+END_SRC
+#+end_src
 ** Hunt down errors in init files
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle seq :type apt-get :pkgname "elpa-seq")
   (el-get-bundle bug-hunter :depends (seq))
-#+END_SRC
+#+end_src
 * Saving and restoring desktop state between sessions
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq desktop-path (list user-emacs-directory))
   (setq desktop-dirname user-emacs-directory)
-#+END_SRC
+#+end_src
 By default, all the buffers in the desktop are restored at one go and may take quite some time. Do not restore immediately any buffers and let them be restored lazily, when Emacs is idle:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq desktop-restore-eager 0)
-#+END_SRC
+#+end_src
 And finally enable desktop mode:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (desktop-save-mode 1)
-#+END_SRC
+#+end_src
 * TODO Mode line
 - [[github:Malabarba/smart-mode-line]]
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle smart-mode-line
     (with-eval-after-load-feature smart-mode-line
       (add-to-list 'custom-safe-themes "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e")
       (if after-init-time (sml/setup)
         (add-hook 'after-init-hook 'sml/setup))
       (sml/apply-theme 'automatic)))
-#+END_SRC
+#+end_src
 
 There are two forks of original [[emacswiki:powerline.el]] (references [[github:yuanotes/powerline]], now unavailable):
 - [[github:milkypostman/powerline]] receiving updates from time to time, at least;
 - [[github:jonathanchu/emacs-powerline]] seems abandoned with latest commit on <2014-12-04 Thu> (or it is feature-complete, just works and needs no updates to fix bugs and add new features).
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle emacs-powerline
     (defadvice load-theme
         (after theme-reset-powerline (theme &optional no-confirm no-enable) activate)
       (el-get-reload 'emacs-powerline)))
-#+END_SRC
+#+end_src
 
 * Helm
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle helm :type apt-get :pkgname "elpa-helm"
     (with-eval-after-load-feature (helm-command)
       (setq helm-M-x-fuzzy-match t))
@@ -397,18 +397,18 @@ There are two forks of original [[emacswiki:powerline.el]] (references [[github:
     :bind (("M-x" . helm-M-x)))
 
   (el-get-bundle helm-swoop)
-#+END_SRC
+#+end_src
 ** Faces
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package helm
     :config
     (custom-set-faces
      '(helm-source-header ((t (:weight bold :height 1.1))))))
-#+END_SRC
+#+end_src
 * Changing the Location of Point
 ** ...to an absolute line number
 Showing line numbers all the time is just noise but there is a case when they might be handy - when I have an error or log message and have to jump right to this line. To make this happen, show an absolute line number on the left fringe using =linum-mode= and on activating point-moving command only:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle linum-mode :builtin "22")
 
   (global-unset-key (kbd "M-g g"))
@@ -427,47 +427,47 @@ Showing line numbers all the time is just noise but there is a case when they mi
           (goto-line (read-number "Goto line: ")))
       (hl-line-mode -1)
       (linum-mode -1)))
-#+END_SRC
+#+end_src
 ** TODO ...to a relative line number
 And the only case when visible line numbers really matter is when you need to jump up to 11 lines or down to 5 lines from your current position.
 - show on activating point-moving command only;
 - show line number relative to the current line on the right fringe with =linum-relative-mode=
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (el-get-bundle linum-relative
     :type http
     :url "https://raw.github.com/emacsmirror/emacswiki.org/master/linum-relative.el")
-#+END_SRC
+#+end_src
 ** TODO ...to a (visible) word
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (global-set-key (kbd "M-g w") 'avy-goto-word-or-subword-1)
-#+END_SRC
+#+end_src
 ** TODO Should I test key bindings?
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (ert-deftest mn/goto-line ()
     (should (eq (global-key-binding (kbd "M-g l")) `goto-line))
     (should (eq (global-key-binding (kbd "M-g w")) `avy-goto-word-or-subword-1)))
-#+END_SRC
+#+end_src
 ** TODO Displaying Line and Column Numbers
 Another valid use case for visible line numbers is when presenting your content to someone else (code reviews, presentation and alike) when it just easier to point to a specific text by line number.
 * Searching
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (global-set-key [remap isearch-forward] 'helm-occur)
-#+END_SRC
+#+end_src
 * Buffer management
 Use Helm to switch between buffers:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package helm-buffers
     :bind ("C-x b" . helm-buffers-list))
-#+END_SRC
+#+end_src
 ** Close buffer with =Ctrl-F4=
 By default, the command =kill-buffer= prompts for buffer to kill. I rarely want to kill a different buffer than the one I am looking at, so kill the current buffer without prompting (unless there are unsaved changes):
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (global-set-key (kbd "<C-f4>") 'kill-this-buffer)
-#+END_SRC
+#+end_src
 As a fallback, leave old keybinding =C-x k=. Can be removed with:
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (global-unset-key (kbd "C-x k"))
-#+END_SRC
+#+end_src
 * Networking
 ** TODO Check for network connectivity
 To check the network connectivity state, get =Connectivity= property of [[https://developer.gnome.org/NetworkManager/unstable/spec.html#org.freedesktop.NetworkManager][org.freedesktop.NetworkManager]] D-Bus interface. It returns [[https://developer.gnome.org/NetworkManager/unstable/spec.html#type-NM_CONNECTIVITY][NM_CONNECTIVITY]] enumeration:
@@ -481,22 +481,22 @@ To check the network connectivity state, get =Connectivity= property of [[https:
   : The host is connected to a network, but does not appear to be able to reach the full Internet.
 - NM_CONNECTIVITY_FULL = 4
   : The host is connected to a network, and appears to be able to reach the full Internet
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (require 'dbus)
   (dbus-get-property
    :system "org.freedesktop.NetworkManager" "/org/freedesktop/NetworkManager"
    "org.freedesktop.NetworkManager" "Connectivity")
-#+END_SRC
+#+end_src
 
 See [[emacswiki:GnusNetworkManager]] for experimental integration between Gnus agent and NetworkManager over D-Bus. Kill IMAP connections and unplug Gnus agent when network goes down, plug agent when network comes up.
 
 As a fallback, if D-Bus is not available, =nmcli= utility from [[deb:network-manager]] may be used for the same purpose, see [[github:nicferrier/emacs-nm][Emacs interface to Gnome's Network Manager]].
 ** Use SOCKS 5 proxy
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (require 'socks)
   (setq socks-server '("Default server" "127.0.0.1" 9050 5)
         url-gateway-method 'socks)
-#+END_SRC
+#+end_src
 ** TODO Set proxies conditionally
 ** TODO Check [[info:emacs-gnutls][Emacs GnuTLS]]
 #+BEGIN_QUOTE
@@ -504,31 +504,31 @@ The GnuTLS library is an optional add-on for Emacs. Through it, any Emacs Lisp p
 #+END_QUOTE
 ** TODO Review =tls-program= variable
 Default list of commands is dangerous as it uses =--insecure= flag when invoking =gnutls-cli= program:
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   ("gnutls-cli --insecure -p %p %h"
    "gnutls-cli --insecure -p %p %h --protocols ssl3"
    "openssl s_client -connect %h:%p -no_ssl2 -ign_eof")
-#+END_SRC
+#+end_src
 * Communications
 ** Encryption
 Toggle automatic file encryption/decryption
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (auto-encryption-mode 1)
-#+END_SRC
+#+end_src
 ** Authentication sources
 I'm not using =.netrc=, just =.authinfo= but encrypted instead of being it in clear-text:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq auth-sources '("~/.authinfo.gpg"))
-#+END_SRC
+#+end_src
 *** TODO Secret Service API
 [[info:auth#Secret%20Service%20API][Secret Service API]]
 ** Stack Exchange
 [[github:vermiculus/sx.el][SX]] provides a versatile experience for the Stack Exchange network within Emacs itself.
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle markdown-mode :type github :pkgname "jrblevin/markdown-mode")
   (el-get-bundle let-alist :url "https://raw.githubusercontent.com/emacsmirror/let-alist/master/let-alist.el")
   (el-get-bundle sx)
-#+END_SRC
+#+end_src
 *** TODO Allows insecure TLS communication
 Check if [[https://www.reddit.com/r/emacs/comments/3g1u2d/emacs_gnutlscli_invocations_called_with_insecure/][Emacs' gnutls-cli invocations called with --insecure flag? : emacs]] is still apply:
 #+BEGIN_QUOTE
@@ -540,7 +540,7 @@ When using the stackexchange client for Emacs, I notice this every time in the *
 #+END_QUOTE
 Another option is to switch to the built-in GnuTLS integration.
 ** Twitter
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle twittering-mode
     (setq twittering-oauth-use-ssl t
           twittering-use-master-password t
@@ -549,47 +549,47 @@ Another option is to switch to the built-in GnuTLS integration.
       (add-hook 'twittering-mode-init-hook
                 (lambda ()
                   (set-face-attribute twittering-uri-face nil :inherit `link)))))
-#+END_SRC
+#+end_src
 ** TODO Integrate different messaging systems under one umbrella?
 - Gnus already provides some backends for working with e-mails, news, RSS;
 - Stack Exchange;
 - Twitter.
 ** Gnus
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle gnus :builtin "24")
-#+END_SRC
+#+end_src
 *** Different identities
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle gnus-identities)
-#+END_SRC
+#+end_src
 *** TODO Remove duplicate messages
 See [[https://www.gnu.org/software/emacs/manual/html_node/gnus/Crosspost-Handling.html#Crosspost-Handling][Crosspost Handling]] and [[https://www.gnu.org/software/emacs/manual/html_node/gnus/Duplicate-Suppression.html][Duplicate Suppression]] for more details.
 ** TODO Reddit
 There are two packages to read Reddit with Gnus:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle nnreddit :type github :pkgname "paul-issartel/nnreddit"
     :features (nnheader nnoo gnus-group gnus-sum gnus-art gnus-util json mm-url))
-#+END_SRC
+#+end_src
 and
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle gnus-reddit :type github :pkgname "fourier/gnus-reddit")
-#+END_SRC
+#+end_src
 and one mode:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle reddit-mode :type github :pkgname "death/reddit-mode"
     :features (thingatpt json url url-http tree-mode markdown-mode))
-#+END_SRC
+#+end_src
 
 ** Browsing
 Debian ships two flavors of Mozilla Firefox: [[deb:firefox][Firefox for desktop]] and [[deb:firefox-esr][Firefox Extended Support Release (ESR)]]. See [[https://www.mozilla.org/en-US/firefox/organizations/faq/][Who should use Mozilla Firefox ESR?]] for more info.
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (req-package browse-url
     :custom
     (browse-url-browser-function 'browse-url-firefox)
     (browse-url-firefox-program "firefox-esr"))
-#+END_SRC
+#+end_src
 *** Privacy
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq url-user-agent "")
   (setq url-privacy-level 'paranoid)
   (url-setup-privacy-info)
@@ -597,13 +597,13 @@ Debian ships two flavors of Mozilla Firefox: [[deb:firefox][Firefox for desktop]
   (setq url-mime-charset-string nil)
   (setq url-mime-language-string "en-US,en;q=0.5")
   (setq url-mime-encoding-string "gzip, deflate")
-#+END_SRC
+#+end_src
 
 * Version control
 ** Git
 *** magit-revert-buffers is broken with outdated dash.el 		:bug:
 Reverting buffers fails due to undefined function =-non-nil=:
-#+BEGIN_SRC diff
+#+begin_src diff
   @@ -678,8 +678,7 @@ When called interactively then the revert is forced."
                (let ((cnt (length buffers)))
                  (when (> cnt 0)
@@ -614,15 +614,15 @@ Reverting buffers fails due to undefined function =-non-nil=:
                    (if (> cnt 0)
                        (pcase magit-revert-buffers
                          (`t
-#+END_SRC
+#+end_src
 
 While this change would work, it turned out that I just had an old version of [[github:magnars/dash.el][dash.el]], one of the Magit's dependencies, without function =-non-nil=:
-#+BEGIN_SRC sh :dir "~/.config/emacs/el-get/dash" :results format org
+#+begin_src sh :dir "~/.config/emacs/el-get/dash" :results format org
   git log -S-non-nil --patch --summary -- *.el
-#+END_SRC
+#+end_src
 
 #+RESULTS:
-#+BEGIN_SRC diff
+#+begin_src diff
 commit 3adad97d371be9a875f48f8d926c437a7d6c7f6b
 Author: Matus Goljer <dota.keys@gmail.com>
 Date:   Mon Aug 11 13:53:09 2014 +0200
@@ -652,17 +652,17 @@ index 43e0349..76a8e75 100644
                               "-keep"
                               "--keep"
                               "-map-indexed"
-#+END_SRC
+#+end_src
 
 With el-get it is not possible to extend existing package's dependencies, so just amend receipe for =dash=:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle dash :type apt-get :pkgname "dash-el")
-#+END_SRC
+#+end_src
 *** Time machine
 Step through historic versions of git controlled file:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle git-timemachine)
-#+END_SRC
+#+end_src
 *** Git configuration files
 [[github:magit/git-modes]] provides few extra modes Emacs major modes for various Git configuration files:
 
@@ -672,41 +672,41 @@ Step through historic versions of git controlled file:
 | gitconfig-mode     | =.gitconfig=, =.git/config=, =git/config= and =.gitmodules=   |
 | gitignore-mode     | =.gitignore=, =.git/info/exclude= and =git/ignore=            |
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle git-modes)
-#+END_SRC
+#+end_src
 **** TODO Use =conf-mode= as a fall-back
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (add-to-list 'auto-mode-alist '("/\\.gitconfig$" . conf-mode))
-#+END_SRC
+#+end_src
 
 *** TODO Misc
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle helm-ls-git)
-#+END_SRC
+#+end_src
 ** Magit
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle magit :type apt-get :pkgname "elpa-magit")
   (global-set-key (kbd "C-x C-z") 'magit-status)
 
   (el-get-bundle magit-view-file)
-#+END_SRC
+#+end_src
 
 When committing, show a diff at the bottom of the commit buffer just to remind me of what is going to be committed:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (with-eval-after-load-feature (magit-commit)
     (add-to-list 'magit-commit-arguments "--verbose"))
-#+END_SRC
+#+end_src
 *** TODO Why upgrading to 2.2.0
 *** Support for Org links to Magit buffers
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle orgit :type github :pkgname "jkitchin/orgit")
-#+END_SRC
+#+end_src
 
 ** Integrate Vcsh and Magit
    - open directory [[/vcsh:emacs:.emacs.d/]] or a file [[/vcsh:emacs:.emacs.d/init.el]]
    - =M-x magit-status=
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (eval-after-load "tramp"
     '(progn
        (defconst tramp-vcsh-method "vcsh"
@@ -724,12 +724,12 @@ When committing, show a diff at the bottom of the commit buffer just to remind m
          "List all repositories"
          (mapcar (lambda (x) (list nil x)) (split-string (shell-command-to-string "vcsh list"))))
        (tramp-set-completion-function tramp-vcsh-method '((tramp-parse-vcsh "")))))
-#+END_SRC
+#+end_src
 *** TODO Improve filename completion
 Vcsh provides a list of all files tracked by all repositories:
-#+BEGIN_SRC sh :dir ~
+#+begin_src sh :dir ~
   vcsh list-tracked
-#+END_SRC
+#+end_src
 
 #+RESULTS:
 #+begin_example
@@ -749,9 +749,9 @@ Vcsh provides a list of all files tracked by all repositories:
 #+end_example
 
 or a specific one:
-#+BEGIN_SRC sh :dir ~
+#+begin_src sh :dir ~
 vcsh list-tracked emacs
-#+END_SRC
+#+end_src
 
 #+RESULTS:
 : /home/mn/.config/systemd/user/emacs.service
@@ -761,7 +761,7 @@ vcsh list-tracked emacs
 
 Use this feature to provide more fine-grained completion for repositories and files.
 
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (defconst tramp-vcsh-file-name-handler-alist
     '((expand-file-name . tramp-vcsh-handle-expand-file-name)))
 
@@ -772,9 +772,9 @@ Use this feature to provide more fine-grained completion for repositories and fi
     "Check if it's a filename for VCSH."
     (let ((v (tramp-dissect-file-name filename)))
       (string= (tramp-file-name-method v) tramp-vcsh-method)))
-#+END_SRC
+#+end_src
 *** TODO Vcsh source for Helm
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (defun vcsh-tracked-files (&optional repo)
     "List all files tracked by vcsh."
     (mapcar (lambda (file)
@@ -783,33 +783,33 @@ Use this feature to provide more fine-grained completion for repositories and fi
               (if repo
                   (split-string (shell-command-to-string (format "vcsh list-tracked %s" repo)))
                 (split-string (shell-command-to-string "vcsh list-tracked"))))))
-#+END_SRC
+#+end_src
 
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (helm :sources '((name . "vcsh")
                    (candidates-process . vcsh-tracked-files)
                    (volatile)))
-#+END_SRC
+#+end_src
 *** TODO Register Vcsh as VC backend
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (add-to-list 'vc-handled-backends 'Vcsh)
-#+END_SRC
-#+BEGIN_SRC emacs-lisp :results silent :tangle no
+#+end_src
+#+begin_src emacs-lisp :results silent :tangle no
   (defvar vc-vcsh-master-templates nil "Templates for Vcsh")
 
   (provide 'vc-vcsh)
-#+END_SRC
+#+end_src
 
-#+BEGIN_SRC emacs-lisp :results pp :tangle no :dir ~
+#+begin_src emacs-lisp :results pp :tangle no :dir ~
   (split-string (shell-command-to-string "vcsh list-tracked bash"))
-#+END_SRC
+#+end_src
 
 #+RESULTS:
 : ("/home/mn/.bash_aliases" "/home/mn/.bash_logout" "/home/mn/.bashrc" "/home/mn/.config/byobu/status" "/home/mn/.config/byobu/statusrc" "/home/mn/.config/byobu/.tmux.conf" "/home/mn/.config/gnome-session/sessions/gnome-i3.desktop" "/home/mn/.config/gnome-session/sessions/gnome-i3.session" "/home/mn/.config/i3/config" "/home/mn/.config/i3status/config" "/home/mn/.config/liquidpromptrc" "/home/mn/.config/rofi/config" "/home/mn/.config/tmux/inx" "/home/mn/.config/tmux/xless" "/home/mn/.profile" "/home/mn/.ssh/config" "/home/mn/.tmux.conf")
 ** Resolving conflicts
 For files with conflict markers, enable SMerge, a minor mode to
 quickly navigate between conflicts and choose which to keep:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (defun sm-try-smerge ()
     (interactive)
     (save-excursion
@@ -817,14 +817,14 @@ quickly navigate between conflicts and choose which to keep:
       (when (re-search-forward "^<<<<<<< " nil t)
         (smerge-mode 1))))
   (add-hook 'find-file-hook 'sm-try-smerge t)
-#+END_SRC
+#+end_src
 *** TODO Describe default key bindings
 *** TODO Enable for files with complete conflict markers
 ** TODO Integrate Magit and Gerrit Code Review
 [[https://www.gerritcodereview.com/][Google Gerrit]] provides web based code review and repository management for the Git version control system.
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (el-get-bundle magit-gerrit)
-#+END_SRC
+#+end_src
 *** TODO Configuration
 By default, will recognize Git repository as Gerrit one only when:
 - there is remote with name =origin=;
@@ -834,25 +834,25 @@ In other words, will work with =ssh://user@git.eclipse.org:29418/equinox/rt.equi
 
 Seems there is no support for anonymous access via =https://git.eclipse.org/r/a/equinox/rt.equinox.p2=.
 ** TODO git-gutter
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle git-gutter)
-#+END_SRC
+#+end_src
 ** TODO Integration with GitHub
 Number of integrations has been built on top of [[github:sigma/gh.el]], GitHub API library for Emacs:
 *** gh.el-based integrations
 - [[github:sigma/magit-gh-pulls]], Magit plugin for dealing with GitHub pull requests
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle magit-gh-pulls)
-#+END_SRC
+#+end_src
 - [[github:domtronn/magit-gh-issues.el]], Magit plugin which allows users to see, open, comment and label GitHub issues
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle magit-gh-issues :type github :pkgname "domtronn/magit-gh-issues.el"
     :depends (auto-complete))
-#+END_SRC
+#+end_src
 - [[github:jtatarik/magit-gitflow]], Magit plugin for [[github:petervanderdoes/gitflow-avh]], AVH Edition of the git extensions to provide high-level repository operations for Vincent Driessen's [[http://nvie.com/posts/a-successful-git-branching-model/][branching model]]: 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle magit-gitflow)
-#+END_SRC
+#+end_src
 *** Other
 - [[github:jtamagnan/ghi.el]], Emacs interface for =ghi= command-line tool. [[github:stephencelis/ghi]] is available as [[deb:ghi]].
 - [[deb:github-cli]], command-line interface to the GitHub Issues API.
@@ -862,25 +862,25 @@ Number of integrations has been built on top of [[github:sigma/gh.el]], GitHub A
 - magit-svn
 ** Mercurial
 Enable proper mode for Mercurial's configuration files:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (dolist (pattern '("/etc/mercurial/hgrc\\.d/.+\\.rc\\'" "/etc/mercurial/hgrc\\'" "/\\.hg/hgrc\\'" "/\\.hgrc\\'"))
     (add-to-list 'auto-mode-alist `(,pattern . conf-mode)))
-#+END_SRC
+#+end_src
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle monky :type github :pkgname "ananthakumaran/monky"
     (with-eval-after-load-feature monky
       (setq monky-process-type 'cmdserver)))
-#+END_SRC
+#+end_src
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle helm-ls-hg)
-#+END_SRC
+#+end_src
 *** TODO Enable conf-mode for other configuration files
 Check =man hgrc= for supported filenames and locations, for multiple platforms.
 *** Rebase mode for Hg a-la =git-rebase-mode=
 **** TODO Define mode
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (define-derived-mode hg-histedit-mode git-rebase-mode "Hg Histedit"
     "Major mode for editing of a Hg histedit file.
 
@@ -890,14 +890,14 @@ Check =man hgrc= for supported filenames and locations, for multiple platforms.
   or 'hg help -e histedit' at the command line) for details.")
 
   (add-to-list 'auto-mode-alist '("/hg-histedit-.*\\.txt\\'" . hg-histedit-mode))
-#+END_SRC
+#+end_src
 **** TODO Redefine keybindings
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   ;; git-rebase-mode-map
-#+END_SRC
+#+end_src
 
 **** TODO Make only a part of the buffer read-only
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (defun make-region-read-only (start end)
     (interactive "*r")
     (let ((inhibit-read-only t))
@@ -907,96 +907,96 @@ Check =man hgrc= for supported filenames and locations, for multiple platforms.
     (interactive "*r")
     (let ((inhibit-read-only t))
       (put-text-property start end 'read-only nil)))
-#+END_SRC
+#+end_src
 
 * Manage a list of recently opened files
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (require 'recentf)
   (setq recentf-max-menu-items 100
         recentf-save-file (expand-file-name ".recentf" user-emacs-directory))
   (recentf-mode 1)
-#+END_SRC
+#+end_src
 * Look and Feel
 ** Disable bars
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (dolist (mode-to-disable '(menu-bar-mode tool-bar-mode scroll-bar-mode))
     (when (functionp mode-to-disable)
       (funcall mode-to-disable '-1)))
-#+END_SRC
+#+end_src
 * Fonts
 ** TODO Use font Awesome in the mode line
 - [[http://fontawesome.io/][Font Awesome, the iconic font and CSS toolkit]]
 - [[http://endlessparentheses.com/manually-choose-a-fallback-font-for-unicode.html][Manually Choose a Fallback Font for Unicode · Endless Parentheses]]
 - [[https://gist.github.com/arnested/afd421c89a68b874e1c0][Using Font Awesome in the Emacs mode line]]
 ** Make parentheses less visible by dimming them
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle paren-face
     (with-eval-after-load-feature paren-face
       (global-paren-face-mode 1)))
-#+END_SRC
+#+end_src
 *** TODO Dim parentheses in other modes (i.e., Java, XML etc)
 While this face is intended to be used with Lisp modes, it also works with other major modes, just add the mode to the value of paren-face-modes.
 
 By default only parentheses are dimmed, customize option paren-face-regexp if you also want to dim brackets or braces. If you want to use a differnt regexp in different major-modes, then use a the mode hook to set the buffer local value.
 ** Default font
 Use window-system dependent default frame parameters:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq window-system-default-frame-alist
         '((x
            (font . "Hack 8"))
           (w32
            (font . "Lucida Sans Typewriter"))
           (nil)))
-#+END_SRC
+#+end_src
 ** TODO Differentiate Microsoft Windows and Cygwin
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (when (member system-type '(windows-nt cygwin))
     (set-face-attribute 'default nil :family "Lucida Sans Typewriter"))
   (when (eq system-type 'gnu/linux)
     (set-face-attribute 'default nil :family "Liberation Mono" :height 100))
-#+END_SRC
+#+end_src
 ** TODO Build face's attributes only once depending on system-type
 * TODO Vagrant
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle vagrant)
   (el-get-bundle vagrant-tramp
     (vagrant-tramp-add-method))
-#+END_SRC
+#+end_src
 * Docker
 ** Manage Docker images and containers
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle docker)
-#+END_SRC
+#+end_src
 
 *** TODO Missing dependencies
 - json-mode
 - tablist
 ** =Dockerfile=
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle spotify/dockerfile-mode
     (add-to-list 'auto-mode-alist '("Dockerfile" . dockerfile-mode)))
-#+END_SRC
+#+end_src
 ** TRAMP integration
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle docker-tramp)
-#+END_SRC
+#+end_src
 * Searching
 Use =ack=, =ack-grep= but on steroids, =silversearcher-ag=:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle ag :type apt-get :pkgname "silversearcher-ag-el")
-#+END_SRC
+#+end_src
 * UML Diagrams
 ** PlantUML
 [[http://plantuml.com/emacs.html][PlantUML : Integration with Emacs]] mentions two ways to embed UML diagrams:
 *** Generic source code block in plantuml-mode
-#+BEGIN_SRC org
-  ,#+BEGIN_SRC plantuml :file classes.png
+#+begin_src org
+  ,#+begin_src plantuml :file classes.png
     Alice -> Bob: Authentication Request
     Bob --> Alice: Authentication Response
-  ,#+END_SRC
-#+END_SRC
+  ,#+end_src
+#+end_src
 are available with =plantuml-mode=:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle plantuml-mode
     :post-init nil
     :prepare nil
@@ -1008,24 +1008,24 @@ are available with =plantuml-mode=:
         (when (file-exists-p mn/plantuml-jar)
           (setq org-plantuml-jar-path mn/plantuml-jar
                 plantuml-jar-path mn/plantuml-jar)))))
-#+END_SRC
+#+end_src
 *** TODO Special block of type =_UML=
-#+BEGIN_SRC org
+#+begin_src org
   ,#+BEGIN_UML
     Alice -> Bob: Authentication Request
     Bob --> Alice: Authentication Response
   ,#+END_UML
-#+END_SRC
+#+end_src
 should be available after installing
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle org-export-blocks-format-plantuml
     :type http
     :url "https://raw.github.com/emacsmirror/emacswiki.org/master/org-export-blocks-format-plantuml.el")
-#+END_SRC
+#+end_src
 While [[http://orgmode.org/worg/org-contrib/org-exp-blocks.html][org-exp-blocks.el — pre-process blocks when exporting org files]] still using =org-exp-blocks=, it should not be used anymore:
-#+BEGIN_SRC sh :dir ~/.config/emacs/el-get/org-mode :tangle no :exports results
+#+begin_src sh :dir ~/.config/emacs/el-get/org-mode :tangle no :exports results
   git show --summary ee3b3eb42
-#+END_SRC
+#+end_src
 
 #+RESULTS:
 #+begin_example
@@ -1073,15 +1073,15 @@ Under the hood, all this boils down to these functions:
 *** TODO Requires =plantuml.jar= to be available                 :dependency:
 Still have to find the automagic way to manage native dependencies required by Emacs packages, like in this case, [[deb:plantuml]] Debian package provides required functionality.
 * Puppet
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle puppet-mode)
   (el-get-bundle flymake-puppet)
-#+END_SRC
+#+end_src
 
 [[github:librarian-puppet][librarian-puppet]], a manager for the Puppet modules, uses files =Puppetfile=, =Modulefile= or =metadata.json= as a source of modules' dependencies:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (add-to-list 'auto-mode-alist '("Puppetfile$" . puppet-mode))
-#+END_SRC
+#+end_src
 ** TODO Use Puppet Forge API
 [[https://forgeapi.puppetlabs.com/][The Puppet Forge API]]:
 #+BEGIN_QUOTE
@@ -1096,18 +1096,18 @@ Tools like the puppet module tool and librarian-puppet use the Forge API to quer
    - [[github:benprew/flymake-puppet]]
    Both =(provide 'flymake-puppet)=, use [[https://rubygems.org/gems/puppet-lint][puppet-lint]] and are based on Steve Purcell's [[github:purcell/flymake-coffee][flymake-coffe]]. For now, let use [[github:benprew/flymake-puppet]].
 * Web x.0
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle web-mode)
-#+END_SRC
+#+end_src
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle js2-mode :type apt-get :pkgname "elpa-js2-mode")
   (el-get-bundle skewer-mode)
-#+END_SRC
+#+end_src
 
 * Working with files
 ** Open files as another user
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (with-eval-after-load-feature 'tramp
     (defun mn/sudo-mode-line-function ()
       (when (string-match "^/su\\(do\\)?:" default-directory)
@@ -1146,7 +1146,7 @@ Tools like the puppet module tool and librarian-puppet use the Forge API to quer
           (message (concat "File name set to " sudo-name)))))
     (add-hook 'find-file-hooks 'mn/sudo-mode-line-function)
     (add-hook 'dired-mode-hook 'mn/sudo-mode-line-function))
-#+END_SRC
+#+end_src
 
 ** Projects
 
@@ -1176,7 +1176,7 @@ Tools like the puppet module tool and librarian-puppet use the Forge API to quer
 #+end_src
 
 * Org
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle org-mode :type apt-get :pkgname "elpa-org"
 
     (global-set-key (kbd "C-c .") 'org-time-stamp) ;; insert timestamp everywhere with 'C-c .'
@@ -1189,56 +1189,56 @@ Tools like the puppet module tool and librarian-puppet use the Forge API to quer
       (setq org-clock-persist t)
       (org-clock-persistence-insinuate)))
   (org-reload)
-#+END_SRC
+#+end_src
 ** TODO Don't tolerate trailing whitespace in Org files
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (add-hook 'org-mode-hook
             '(add-hook 'before-save-hook 'delete-trailing-whitespace))
-#+END_SRC
+#+end_src
 ** Agenda
 Define a keyboard shortcut to dispatch agenda commands to collect entries to the agenda buffer:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (global-set-key (kbd "C-c a") 'org-agenda)
-#+END_SRC
+#+end_src
 
 Pressing =C-c a a= shows the agenda view with current tasks at hands, with minimal distractions:
 - starts on the current day;
 - shows current day only;
 - ignores scheduled but not finished items.
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq org-agenda-start-on-weekday nil
         org-agenda-span 'day
         org-scheduled-past-days 0)
-#+END_SRC
+#+end_src
 
 Strike-through DONE agenda items:
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (set-face-attribute 'org-agenda-done nil :strike-through t)
-   #+END_SRC
+   #+end_src
 
 Highlight the agenda line under cursor:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (add-hook 'org-agenda-mode-hook (lambda () (hl-line-mode 1)))
-#+END_SRC
+#+end_src
 
 All files in a default location to look for Org files will be used for agenda display:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq org-agenda-files `(,org-directory))
-#+END_SRC
+#+end_src
 ** Custom link types
 *** Local files
 Show broken links to local files with special face, =org-warning=:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (org-link-set-parameters
    "file"
    :face (lambda (path)
            (when (not (file-remote-p path))
              (if (file-exists-p path) 'org-link
                'org-warning))))
-#+END_SRC
+#+end_src
 
 *** Legacy types
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (dolist (abbrev '(("google" . "http://www.google.com/search?q=%s")
                     ("hotline" . "http://hotline.ua/sr?x=29&y=14&q=%s")
                     ("debianbug" . "http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=%s")
@@ -1247,32 +1247,32 @@ Show broken links to local files with special face, =org-warning=:
                     ("googleplay" . "https://play.google.com/store/apps/details?id=%s&hl=en")
                     ("wikipedia" . "http://en.wikipedia.org/wiki/%s")))
     (add-to-list 'org-link-abbrev-alist abbrev))
-#+END_SRC
+#+end_src
 *** Github
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (dolist (abbrev '(("github" . "https://github.com/%s")
                     ("gist" . "https://gist.github.com/%s")))
     (add-to-list 'org-link-abbrev-alist abbrev))
-#+END_SRC
+#+end_src
 *** Gitlab
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (add-to-list 'org-link-abbrev-alist '("gitlab" . "https://gitlab.com/%s"))
-#+END_SRC
+#+end_src
 
 *** Wikisites dedicated to Emacs
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (dolist (list '(("emacswiki" . "http://www.emacswiki.org/emacs/%s")
                   ("wikemacs" . "https://wikemacs.org/wiki/%s")))
     (add-to-list 'org-link-abbrev-alist list))
-#+END_SRC
+#+end_src
 *** Debian package
 To add link to Debian package, use =deb:= link type followed by package's name, i.e. =deb:python3-minimal=. Opening such link will show package's details with =apt-utils-show-package= (from =apt-utils= feature provided by [[deb:debian-el]] package).
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle apt-get:debian-el)
-#+END_SRC
+#+end_src
 **** Autocomplete package name
 Search for text using =helm-apt= and use selected search result:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (defun org-deb-complete-link (&optional arg)
     "Complete debian packages"
     (concat "deb:"
@@ -1281,9 +1281,9 @@ Search for text using =helm-apt= and use selected search result:
                                "Choose Debian package: ")
                              'apt-utils-choose-package-completion
                              nil t arg)))
-#+END_SRC
+#+end_src
 **** Integrate pieces together
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (with-eval-after-load-feature (org)
     (defun org-deb-open (package)
       (if (require 'apt-utils nil 'noerror)
@@ -1296,9 +1296,9 @@ Search for text using =helm-apt= and use selected search result:
      :complete 'org-deb-complete-link
      :export (lambda (path desc backend)
                (format "<a href=\"https://tracker.debian.org/pkg/%s\">%s</a>" path path))))
-#+END_SRC
+#+end_src
 **** Store link when in =apt-utils-mode=
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (with-eval-after-load-feature apt-utils
     (defun org-deb-store-link ()
       "Store a link to debian package"
@@ -1309,7 +1309,7 @@ Search for text using =helm-apt= and use selected search result:
           ;; store package's description too
           (org-store-link-props :type "deb" :link link :description nil))))
     (add-hook 'org-store-link-functions 'org-deb-store-link))
-#+END_SRC
+#+end_src
 **** TODO Export to HTML as a link to package on debian.org
 **** TODO Handle history
 #+BEGIN_EXAMPLE
@@ -1321,12 +1321,12 @@ Search for text using =helm-apt= and use selected search result:
 - all headline stars but the last one are made invisible;
 - enable [[info:emacs#Visual%20Line%20Mode][Visual Line Mode]].
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (add-hook 'org-mode-hook (lambda ()
                              (setq org-indent-indentation-per-level 1)
                              (org-indent-mode 1)
                              (visual-line-mode 1)))
-#+END_SRC
+#+end_src
 Other ways to achieve almost the same are:
 - for all files by customizing the variable =org-startup-indented=
 - for individual files using property =#+STARTUP: indent=
@@ -1334,7 +1334,7 @@ Other ways to achieve almost the same are:
 Fix little inconveniences when viewing differences between org-mode buffers.
 *** Comparing using Ediff mode
 For each diff selection, that portion of the tree for each buffer is expanded. When moving to a new diff, the previous portion of the tree is collapsed and the area surrounding the new diff location is expanded:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (with-eval-after-load-feature (ediff-init org)
     (add-hook 'ediff-select-hook 'mn/ediff-org-unfold-tree)
     (add-hook 'ediff-unselect-hook 'mn/ediff-org-fold-tree)
@@ -1356,10 +1356,10 @@ For each diff selection, that portion of the tree for each buffer is expanded. W
       (mn/ediff-org-showhide ediff-buffer-A 'hide-sublevels 1)
       (mn/ediff-org-showhide ediff-buffer-B 'hide-sublevels 1)
       (mn/ediff-org-showhide ediff-buffer-C 'hide-sublevels 1)))
-#+END_SRC
+#+end_src
 *** Jumping from Magit-provided diff
 Unfold point of interest after switching to org-mode buffer from the diff section, i.e. from magit-status-mode:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (with-eval-after-load-feature (org magit-diff)
     (defun mn/org-reveal-magit-diff-visit-file (FILE &optional OTHER-WINDOW FORCE-WORKTREE)
       "When switching to buffer in `org-mode', show more context with `org-reveal'. See `magit-diff-visit-file'"
@@ -1367,12 +1367,12 @@ Unfold point of interest after switching to org-mode buffer from the diff sectio
           (org-reveal)))
 
     (advice-add #'magit-diff-visit-file :after #'mn/org-reveal-magit-diff-visit-file))
-#+END_SRC
+#+end_src
 ** Capture
 Press =Ctrl-C r= to quickly create:
 - task
 - note
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (with-eval-after-load 'org-capture
     (setq org-capture-templates
           '(("t" "Task" entry
@@ -1382,18 +1382,18 @@ Press =Ctrl-C r= to quickly create:
              (file+headline "NewNotes.org" "")
              "* %?\n%U\n%a\n" :prepend t))))
   (global-set-key (kbd "C-c r") 'org-capture)
-#+END_SRC
+#+end_src
 *** Capturing the web
 - Mozilla Firefox as a web browser
 - [[https://addons.mozilla.org/firefox/addon/org-mode-capture/][Org-mode Capture extension]] for Firefox that takes notes and registers bookmarks in Org-mode with [[http://orgmode.org/worg/org-contrib/org-protocol.html][org-protocol]]
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (require 'org-protocol)
   (add-to-list 'org-modules 'org-protocol)
   (require 'org-capture)
   (add-to-list 'org-capture-templates
                '("w" "Web citation" entry (file+headline "NewNotes.org" "")
                  "* %c\n%U\n\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE"))
-#+END_SRC
+#+end_src
 **** TODO Refine the flow
 - =:prepend= to insert newly captured information at the top of the file
 - =:immediate-finish= not offer to edit the information, just file it away immediately
@@ -1406,9 +1406,9 @@ Another option is [[github:kuanyui/copy-as-org-mode]] which allows to copy the c
 - Right click on a link and copy it as Org.
 - Right click on an image and copy it as Org.
 ** Working with source code blocks
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq org-src-fontify-natively t)
-#+END_SRC
+#+end_src
 *** Create source code block
 - use =org-babel-demarcate-block= (bound to =C-c C-v d= by default) outside of a code block
 - type =<s= followed by =Tab=
@@ -1430,105 +1430,105 @@ in two
   ,#+end_src
 #+end_example
 *** Shell
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (require 'ob-shell)
   (add-to-list 'org-babel-load-languages '(shell . t))
-#+END_SRC
+#+end_src
 By default,
 src_emacs-lisp{(pp org-babel-shell-names)} {{{results(=("sh" "bash" "csh" "ash" "dash" "ksh" "mksh" "posh")=)}}}
 are supported. To change these, use =org-babel-shell-names=:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (add-to-list 'org-babel-shell-names "zsh")
-#+END_SRC
+#+end_src
 adds the [[http://www.zsh.org/][Z shell]] to the list of names of shell supported by Babel shell code blocks.
 
 There are two (at least) modes to work with shell code snippets:
 - =shell-mode=, major mode for interacting with an inferior shell
 - =sh-mode= (=shell-script-mode= is an alias), major mode for editing shell scripts
 
-The latter one should be used for source code blocks, i.e. =#+BEGIN_SRC sh=, and add it to the list of languages which can be evaluated:
+The latter one should be used for source code blocks, i.e. =#+begin_src sh=, and add it to the list of languages which can be evaluated:
 *** TODO Navigation between blocks
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle hydra)
   (defhydra hydra-org-src-block ()
     "Navigate through source code blocks"
     ("j" org-babel-previous-src-block "Prev")
     ("k" org-babel-next-src-block "Next"))
-#+END_SRC
+#+end_src
 *** TODO HTTP
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle ob-http :type github :pkgname "zweifisch/ob-http" :depends (s))
-#+END_SRC
+#+end_src
 
-#+BEGIN_SRC org
-  ,#+BEGIN_SRC http :pretty
+#+begin_src org
+  ,#+begin_src http :pretty
   GET https://api.github.com/repos/zweifisch/ob-http/languages
   Accept: application/vnd.github.moondragon+json
-  ,#+END_SRC
-#+END_SRC
+  ,#+end_src
+#+end_src
 *** TODO Mark the results of source block evaluation with specific mode
 #+BEGIN_QUOTE
 The =:wrap= header argument is used to mark the results of source block evaluation. The header argument can be passed a string that will be appended to =#+BEGIN_= and =#+END_=, which will then be used to wrap the results.
 #+END_QUOTE
-#+BEGIN_SRC org
-  ,#+BEGIN_SRC sh :wrap "_SRC diff"
-  ,#+END_SRC
-#+END_SRC
+#+begin_src org
+  ,#+begin_src sh :wrap "_SRC diff"
+  ,#+end_src
+#+end_src
 *** TODO Define initial key bindings
 ** Exporting
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq org-html-head-include-default-style nil
         org-html-head-include-scripts nil
         org-html-html5-fancy t
         org-html-htmlize-output-type 'css)
-#+END_SRC
+#+end_src
 *** TODO Attribution for the quotation
 With [[http://www.w3.org/TR/html5/grouping-content.html#the-blockquote-element][the HTML5's blockquote element]] you could provide a link to the source of the quote like:
 
-#+BEGIN_SRC html
+#+begin_src html
   <blockquote>
     The people recognize themselves in their commodities; they find their soul in their automobile, hi-fi set, split-level home, kitchen equipment.
     — <cite><a href="http://en.wikipedia.org/wiki/Herbert_Marcuse">Herbert Marcuse</a></cite>
   </blockquote>
-#+END_SRC
+#+end_src
 
 It would be nice if Org's quote has support for the same feature during export, at least, to HTML:
-#+BEGIN_SRC org
+#+begin_src org
   ,#+BEGIN_QUOTE :link [[http://en.wikipedia.org/wiki/Herbert_Marcuse][Herbert Marcuse]]
   The people recognize themselves in their commodities; they find their soul in their automobile, hi-fi set, split-level home, kitchen equipment.
   ,#+END_QUOTE
-#+END_SRC
+#+end_src
 =org-html-quote-block= from =ox-html= converts Org's quote block to HTML.
 *** TODO Pandoc
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle pandoc-mode)
   (el-get-bundle org-pandoc
     :depends (pandoc-mode)
     :type github :pkgname "robtillotson/org-pandoc")
-#+END_SRC
+#+end_src
 
 *** MediaWiki
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle orgmode-mediawiki)
-#+END_SRC
+#+end_src
 * Manually explore and test HTTP REST webservices
 *** TODO request.el
 [[github:tkf/emacs-request][request.el]] is a HTTP request library with multiple backends (url.el and curl CLI) that helps to avoid imposing external dependencies such as curl to users while giving richer experience for users who have it.
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle request)
-#+END_SRC
+#+end_src
 
 *** restclient.el
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle restclient)
-#+END_SRC
+#+end_src
 **** TODO Use restclient in Org's source code blocks
 [[github:pashky/restclient.el/pull/92][#92: Implemented a minimal ob-restclient]]
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle ob-restclient
     :type github :pkgname "alf/ob-restclient.el" :depends (restclient org-mode)
     (add-to-list 'org-babel-load-languages '(restclient . t)))
-#+END_SRC
+#+end_src
 * TODO Blogging
 ** Octopress/Jekyll
 *** Jekyll plugins
@@ -1546,22 +1546,22 @@ There are several options to export Org document to other formats:
 - custom extensions of native Org's export/publish
 
 Another one, [[github:yoshinari-nomura/org-octopress]], provides =ox-jekyl=, an Org exporter implementation:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle orglue :type github :pkgname "yoshinari-nomura/orglue")
   (el-get-bundle emacs-ctable :type github :pkgname "kiwanami/emacs-ctable")
   (el-get-bundle org-octopress
     :type github :pkgname "yoshinari-nomura/org-octopress"
     :depends (org-mode orglue emacs-ctable))
-#+END_SRC
+#+end_src
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle jekyll-el)
   (el-get-bundle org-jekyll :depends (org-mode))
   (el-get-bundle org2jekyll :depends (org-mode))
   (el-get-bundle happyblogger
     :type github :pkgname "bmaland/happyblogger"
     :depends (org-mode))
-#+END_SRC
+#+end_src
 
 #+BEGIN_EXAMPLE
 + octopress
@@ -1583,17 +1583,17 @@ What’s the difference with [[github:bmaland/happyblogger]]?
 #+END_QUOTE
 * Translate text
 ** Emacs interface to Google Translate
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle google-translate)
-#+END_SRC
+#+end_src
 ** Org
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle ob-translate :type github :pkgname "krisajenkins/ob-translate" :depends google-translate)
-#+END_SRC
+#+end_src
 ** Command-line
 [[github:soimort/translate-shell][Translate Shell]] (formerly Google Translate CLI) via [[deb:translate-shell]].
 * Legacy configuration
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   ;; change current buffer's font size with C-+ and C--
   (global-set-key (kbd "C-+") 'text-scale-increase)
   (global-set-key (kbd "C--") 'text-scale-decrease)
@@ -1623,20 +1623,20 @@ What’s the difference with [[github:bmaland/happyblogger]]?
   ;; - kill the rest of the current line, C-k by default
   ;; - kill the whole line including its terminating newline, C-S-k
   (global-set-key (kbd "C-S-k") 'kill-whole-line)
-#+END_SRC
+#+end_src
 * Highlight Parenthesis
 Highlight matching brackets (including () [] {} 「」 『』 【】 〖〗 〈〉 《》 ‹› «») when cursor is on one of the bracket:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (show-paren-mode 1)
   (setq show-paren-style 'parenthesis)
-#+END_SRC
+#+end_src
 ** TODO Highlight entire bracket expression
 Not sure if it makes sense to highlight an entire expression on a permanent basis:
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (setq show-paren-style 'expression)
-#+END_SRC
+#+end_src
 * TODO ANSI colors in buffers
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (with-eval-after-load-feature compile
     (ignore-errors
       (require 'ansi-color)
@@ -1645,9 +1645,9 @@ Not sure if it makes sense to highlight an entire expression on a permanent basi
         (when (eq major-mode 'compilation-mode)
           (ansi-color-apply-on-region compilation-filter-start (point-max))))
       (add-hook 'compilation-filter-hook 'mn/colorize-compilation-buffer)))
-#+END_SRC
+#+end_src
 * Java
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   ; Java deployable artifacts
   (add-to-list 'auto-mode-alist '("\\.jar$" . archive-mode))
   (add-to-list 'auto-mode-alist '("\\.war$" . archive-mode))
@@ -1659,15 +1659,15 @@ Not sure if it makes sense to highlight an entire expression on a permanent basi
 
   ;; AspectJ files
   (add-to-list 'auto-mode-alist '("\\.aj$" . java-mode))
-#+END_SRC
+#+end_src
 Debian provides a number of different JDK implementations, for now I don't care and will require a virtual package [[deb:java-sdk]] (which means 'any installed Java SDK'):
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (el-get-bundle apt-get:java-sdk)
-#+END_SRC
+#+end_src
 Automatically open =.class= files with =javap=:
 - [[http://nullprogram.com/blog/2012/08/01/][Viewing Java Class Files in Emacs « null program]]
 - [[https://gist.github.com/skeeto/3178747][Automatically open .class files in Emacs with javap · GitHub]]
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (add-to-list 'file-name-handler-alist '("\\.class$" . javap-handler))
 
   (defun javap-handler (op &rest args)
@@ -1695,43 +1695,43 @@ Automatically open =.class= files with =javap=:
                       inhibit-file-name-handlers)))
           (inhibit-file-name-operation operation))
       (apply operation args)))
-#+END_SRC
+#+end_src
 ** TODO Match .class files based on the content of the file
 - [[http://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html][Chapter 4. The class File Format]] describes the Java Virtual Machine class file format.
 - Each class file contains the definition of a single class or interface.
 - The first item in the ClassFile structure is the =magic= item which supplies the magic number identifying the class file format - =CAFEBABE=.
 - According to [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Choosing-Modes.html][GNU Emacs Manual: Choosing Modes]], Emacs tries to determine the major mode by looking at the text at the start of the buffer, based on the variable =magic-mode-alist=.
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (add-to-list 'magic-mode-alist '("^\xCA\xFE\xBA\xBE" . javap-mode))
-#+END_SRC
+#+end_src
 ** Eclipse integration
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle eclim :depends (dash popup s json))
-#+END_SRC
+#+end_src
 ** Gradle
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle gradle-mode)
   (el-get-bundle gradle-el :type github :pkgname "vhallac/gradle-el")
-#+END_SRC
+#+end_src
 ** Language Server Protocol
 *** [[github:emacs-lsp/lsp-mode][GitHub - emacs-lsp/lsp-mode: Emacs client for the Language Server Protocol]]
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle lsp-mode :type github :pkgname "emacs-lsp/lsp-mode")
-  #+END_SRC
+  #+end_src
 *** [[github:emacs-lsp/lsp-java][GitHub - emacs-lsp/lsp-java]]
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
   (el-get-bundle lsp-java :type github :pkgname "emacs-lsp/lsp-java"
     :depends (lsp-mode))
-#+END_SRC
+#+end_src
 * Android
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle android-mode)
-#+END_SRC
+#+end_src
 ** TODO F-Droid CLI client
 [[deb:fdroidcl]] is a command line client that talks to connected devices via ADB.
 *** List F-Droid packages
 =fdroidcl-packages= will show list of F-Droid packages in a separate buffer:
-#+BEGIN_SRC emacs-lisp :results none
+#+begin_src emacs-lisp :results none
   (require 'tablist)
   (require 's)
 
@@ -1779,61 +1779,61 @@ Automatically open =.class= files with =javap=:
            (fdroidcl-packages (s-match-strings-all "^\\([^\s]+\\)[\s]+\\([^\n]+\\) - \\(.+\\) (\\(.+\\))\n[\s]\\{4\\}\\(.*\\)\n"
                                                    fdroidcl-search-results)))
       (mapcar 'cdr fdroidcl-packages)))
-#+END_SRC
+#+end_src
 * Clojure
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle queue :type github :pkgname "emacsmirror/queue"
     :checkout "7bc5d823b226962ee01531c42df5f0d530ca6f83")
   (el-get-bundle cider :depends (spinner queue pkg-info dash clojure-mode))
-#+END_SRC
+#+end_src
 * Lisp
 Navigate and edit LISP code with [[github:abo-abo/lispy][Oleh Krehel's lispy]] package:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle swiper)
   (el-get-bundle avy)
   (el-get-bundle iedit :type http :url "https://raw.githubusercontent.com/emacsmirror/emacswiki.org/master/iedit.el")
   (el-get-bundle lispy :checkout "0.26.0")
   (add-hook 'emacs-lisp-mode-hook '(lambda () (lispy-mode 1)))
-#+END_SRC
+#+end_src
 
 Toggle echo area display of Lisp objects at point (ElDoc mode):
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (add-hook 'emacs-lisp-mode-hook '(lambda () (eldoc-mode 1)))
-#+END_SRC
+#+end_src
 When a buffer which major mode is derived from number of Lisp modes has been saved, check for unbalanced parentheses:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (defun mn/check-parens-in-lisp-mode ()
     (when (derived-mode-p '(lisp-mode lisp-interaction-mode emacs-lisp-mode))
       check-parens))
   (add-hook 'after-save-hook 'mn/check-parens-in-lisp-mode)
-#+END_SRC
+#+end_src
 ** TODO Missing dependency lispy -> swiper 		     :bug:dependency:
 * Prolog
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle prolog-el :type apt-get)
-#+END_SRC
+#+end_src
 ** Org
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle ob-prolog :depends prolog-el :type github :pkgname "ljos/ob-prolog")
-#+END_SRC
+#+end_src
 * Commands, frequency of use
 Originally [[http://ergoemacs.org/emacs/command-frequency.html][Emacs's Command Frequency Statistics]] by Xah Lee, had been replaced with [[github:dacap/keyfreq]]:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle keyfreq
     (keyfreq-mode 1)
     (keyfreq-autosave-mode 1))
-#+END_SRC
+#+end_src
 * TODO Expand region
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle expand-region :type apt-get :pkgname "elpa-expand-region")
-#+END_SRC
+#+end_src
 
 * TODO Wrap text with punctuation
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle wrap-region :type github :pkgname "rejeep/wrap-region.el"
     (with-eval-after-load 'wrap-region
       (wrap-region-global-mode)))
-#+END_SRC
+#+end_src
 - [[http://pragmaticemacs.com/emacs/wrap-text-in-custom-characters/][Wrap text in custom characters | Pragmatic Emacs]]
 - [[http://pragmaticemacs.com/emacs/wrap-text-in-an-org-mode-block/][Wrap text in an org-mode block | Pragmatic Emacs]]
 - [[https://emacs.stackexchange.com/questions/10029/org-mode-how-to-create-an-org-mode-markup-keybinding][key bindings - Org-Mode: How to create an "org mode markup" keybinding? - Emacs Stack Exchange]]
@@ -1842,23 +1842,23 @@ Plain HTML/CSS presentations with:
 - [[deb:pandoc]]
 - Org
 *** TODO Illustrate with diagram
-#+BEGIN_SRC plantuml :file presentation.svg
-#+END_SRC
+#+begin_src plantuml :file presentation.svg
+#+end_src
 
 ** TODO reveal.js
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle org-reveal)
-#+END_SRC
+#+end_src
 ** TODO impress.js
 [[github:bartaz/impress.js][impress.js]] is a presentation framework based on the power of CSS3 transforms and transitions in modern browsers and inspired by the idea behind [[https://prezi.com/][prezi.com]].
 [[github:kinjo/org-impress-js.el]]
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (el-get-bundle org-impress-js
     :after (progn
              (when (featurep 'ox-html) (unload-feature 'ox-html nil))
              (require 'ox-html))
     :features ox-impress-js)
-#+END_SRC
+#+end_src
 *** TODO Backward-incompatible change in recent ox-html
 #+BEGIN_QUOTE
 org-impress-js-headline: Symbol's function definition is void: org-export-get-headline-id
@@ -1868,88 +1868,88 @@ org-impress-js-headline: Symbol's function definition is void: org-export-get-he
 For convenience, org-impress-js includes some version of impress.js. Make it possible to install original one either by downloading it directly or with with some JS package manager. May be just install [[deb:libjs-impress]].
 
 * Travis CI
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle org-link-travis
     :pkgname "manandbytes/org-link-travis"
     :depends (org-mode))
-#+END_SRC
+#+end_src
 ** TODO Switch from 'org-add-link-type to 'org-link-set-parameters
 ** TODO More advanced ways to interact with Travis CI
 - [[https://docs.travis-ci.com/api][Travis CI API]] is the API used by the official Travis CI web interface, so everything the web UI is able to do can also be accomplished via the API. There are different API endpoints for Travis CI for open source, Travis Pro and Travis Enterprise.
 - [[github:travis-ci/travis.rb][Travis CI Client (CLI and Ruby library)]]
 * Install other packages
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle nhexl-mode :type github :pkgname "emacsmirror/nhexl-mode")
 
   (el-get-bundle crontab-mode
     :checksum f68206c1d10de68ba0685ce4cb14741c7ca7c648
     (add-to-list 'auto-mode-alist '("\\.cron\\(tab\\)?\\'" . crontab-mode))
     (add-to-list 'auto-mode-alist '("cron\\(tab\\)?\\."    . crontab-mode)))
-#+END_SRC
+#+end_src
 ** Install and configure packages
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (el-get 'sync)
-#+END_SRC
+#+end_src
 * Atlassian Confluence
 ** Interact with remote Confluence instance
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle confluence-el
     :url "https://confluence-el.googlecode.com/svn/trunk/")
-#+END_SRC
+#+end_src
 
 ** Org mode exporter
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle org-confluence
     :type github :pkgname "hgschmie/org-confluence" :depends org-mode)
-#+END_SRC
+#+end_src
 
 * File formats
 ** systemd configuration files
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (add-to-list 'auto-mode-alist '("\\.service$" . conf-mode))
-#+END_SRC
+#+end_src
 *** TODO Use for other file extensions and locations
 - =.target=, =.socket=, =.link= and some others are valid systemd configuration files' extensions;
 - files are in [[file:/usr/lib/systemd]], [[file:/lib/systemd]] and some other places.
 ** TODO YAML
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle yaml-mode)
   (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
-#+END_SRC
+#+end_src
 ** TODO Torrent
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
   (el-get-bundle torrent
     :type http
     :url "https://github.com/kensanata/elisp/raw/master/torrent.el")
-#+END_SRC
+#+end_src
 ** EPUB
 [[wikipedia:EPUB][.EPUB files]] are just plain ZIP archives, so treat them as such:
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (eval-after-load 'files
     '(progn
        (add-to-list 'auto-mode-alist '("\\.epub$" . archive-mode))))
   (eval-after-load 'mule
     '(progn
        (add-to-list 'auto-coding-alist '("\\.epub$" . no-conversion))))
-#+END_SRC
+#+end_src
 * Spell checking
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (el-get-bundle flyspell :builtin "22")
-#+END_SRC
-#+BEGIN_SRC emacs-lisp
+#+end_src
+#+begin_src emacs-lisp
   (dolist (hook '(org-mode-hook text-mode-hook))
     (add-hook hook 'flyspell-mode))
-#+END_SRC
+#+end_src
 ** TODO Use org-reveal in org-mode buffers
 Error is invisible as subtree remains collapsed, =org-reveal= should be used.
 * Load local customizations
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (load custom-file t)
-#+END_SRC
+#+end_src
 * Tips and tricks
 ** Show the log
 The buffer *Messages* is an Emacs' log with a lot of information about whats going on under the hood. The dumb way to swith to this buffer is to treat it as any other buffer and =M-x switch-to-buffer= and select it. Using a default keybinding =C-h e= will show this buffer but without switching to it.
 * Finalize
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (req-package-finish)
-#+END_SRC
+#+end_src
