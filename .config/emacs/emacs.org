@@ -199,145 +199,132 @@ By default, Emacs saves backup files (the files ending with =~=) in the current 
                 messages-buffer-max-lines 10000)
 #+END_SRC
 ** TODO Install platform-dependent packages
+
 There are two flavors of platform-dependent packages:
 - Emacs package that should be installed in a platform-dependent way. In Debian, =magit= (and its dependencies) is available as [[deb:elpa-magit]].
 - non-Emacs, platform-specific package, required by Emacs package. To open =.class= files automatically with =javap=, we need a platform-specific Java SDK implementation.
 *** Platform-specific Emacs package
+
 Some reasons to have platform-specific Emacs package are:
 - the package is functional on a specific platform only. There is a little sense in something working with Debian's apt database when you're on the system that doesn't have =apt=;
+- Emacs package requires native, platform-specific tool. =evernote-mode= requires Ruby interpreter, and it's much simpler to just install =sudo apt-get install evernote-mode= and let it drag in required Ruby implementation and all its transitive dependencies.
 - you don't want to use latest (but not always greatest) upstream version of the package;
-- Emacs package requires native, platform-specific tool. =evernote-mode= requires Ruby interpreter, and it's much simplier to just install =sudo apt-get install evernote-mode= and let it drag in required Ruby implementation and all its transitive dependencies.
 
 If the native Emacs package shares the same package name with el-get's recipe:
-#+BEGIN_SRC emacs-lisp :tangle no
+
+#+begin_src emacs-lisp :tangle no
   (el-get-bundle js2-mode :type apt-get)
-#+END_SRC
+#+end_src
 
 But if doesn't, use =:pkgname= with the native package's name:
-#+BEGIN_SRC emacs-lisp :tangle no
+
+#+begin_src emacs-lisp :tangle no
   (el-get-bundle seq :type apt-get :pkgname "elpa-seq")
-#+END_SRC
+#+end_src
 **** TODO Don't reinstall packages of =:type apt-get=
 On startup, =el-get= every time tries to reinstall some packages:
-#+BEGIN_QUOTE
+
+#+begin_quote
 Error (el-get): while installing ag: el-get: *apt-get install silversearcher-ag-el* Could not install package ag.
 Error (el-get): while installing projectile: el-get: *apt-get install elpa-projectile* Could not install package projectile.
-#+END_QUOTE
+#+end_quote
 
-#+BEGIN_SRC emacs-lisp :tangle no :results pp :wrap "SRC emacs-lisp :tangle no" :var packages='("ag" "projectile" "seq" "prolog-el" "helm" "helm-projectile")'
+#+begin_src emacs-lisp :tangle no :results pp :wrap "src emacs-lisp :tangle no"
   (mapcar (lambda (package)
             (let* ((source (el-get-package-def package))
                    (dpkg-package (or (plist-get source :pkgname)
                                      (el-get-as-string package))))
               (list (cons "el-get-package-def" source)
-                    (cons "el-get dpkg status" (el-get-dpkg-package-installed-p dpkg-package))
-                    (cons "el-get status file" (list (cdr (assq (el-get-as-symbol package) (el-get-read-status-file)))))
-                    (cons "raw dpkg status" (car (process-lines "dpkg-query" "--show" "--showformat=${Status}\n"
-                                                                dpkg-package))))))
-          packages)
-#+END_SRC
+                    (cons "el-get-dpkg-package-installed-p" (el-get-dpkg-package-installed-p dpkg-package))
+                    (cons "el-get-read-status-file" (list (cdr (assq (el-get-as-symbol package) (el-get-read-status-file)))))
+                    (cons "dpkg-query" (car (process-lines "dpkg-query" "--show" "--showformat=${Status}\n"
+                                                                dpkg-package)))
+                    (cons "el-get-package-directory" (file-relative-name (el-get-package-directory package) "~/")))))
+          (mapcar #'car (el-get-package-types-alist nil 'apt-get)))
+#+end_src
 
 #+RESULTS:
-#+BEGIN_SRC emacs-lisp :tangle no
-((("el-get-package-def" :name ag :type apt-get :pkgname "silversearcher-ag-el" :after nil :depends
-   (s dash))
-  ("el-get dpkg status" . t)
-  ("el-get status file"
-   (status "required" recipe nil))
-  ("raw dpkg status" . "install ok installed"))
- (("el-get-package-def" :name projectile :type apt-get :pkgname "elpa-projectile" :after nil :depends
-   (pkg-info))
-  ("el-get dpkg status" . t)
-  ("el-get status file"
+#+begin_src emacs-lisp :tangle no
+((("el-get-package-def" :name csv-mode :type apt-get :pkgname "elpa-csv-mode" :after nil)
+  ("el-get-dpkg-package-installed-p" . t)
+  ("el-get-read-status-file"
    (status "installed" recipe
-	   (:name projectile :after nil :depends
-		  (pkg-info)
-		  :description "Project navigation and management library for Emacs." :type github :pkgname "bbatsov/projectile")))
-  ("raw dpkg status" . "install ok installed"))
- (("el-get-package-def" :name seq :type apt-get :pkgname "elpa-seq" :after nil)
-  ("el-get dpkg status" . t)
-  ("el-get status file"
-   (status "required" recipe nil))
-  ("raw dpkg status" . "install ok installed"))
- (("el-get-package-def" :name prolog-el :type apt-get :after nil)
-  ("el-get dpkg status" . t)
-  ("el-get status file"
-   (status "required" recipe nil))
-  ("raw dpkg status" . "install ok installed"))
- (("el-get-package-def" :name helm :type apt-get :pkgname "elpa-helm" :after nil :features
-   ("helm-config"))
-  ("el-get dpkg status" . t)
-  ("el-get status file"
+	   (:name csv-mode :type apt-get :pkgname "elpa-csv-mode" :after nil)))
+  ("dpkg-query" . "install ok installed")
+  ("el-get-package-directory" . ".config/emacs/el-get/csv-mode/"))
+ (("el-get-package-def" :name org-contrib :type apt-get :pkgname "elpa-org-contrib" :after nil :depends
+   (org-mode))
+  ("el-get-dpkg-package-installed-p" . t)
+  ("el-get-read-status-file"
    (status "installed" recipe
-	   (:name helm :after nil :features
-		  ("helm-config")
-		  :description "Emacs incremental completion and narrowing framework" :type github :pkgname "emacs-helm/helm" :autoloads "helm-autoloads" :build
-		  (("make"))
-		  :build/darwin
-		  `(("make" ,(format "EMACS_COMMAND=%s" el-get-emacs)))
-		  :build/windows-nt
-		  (let
-		      ((generated-autoload-file
-			(expand-file-name "helm-autoloads.el"))
-		       \
-		       (backup-inhibited t))
-		  (update-directory-autoloads default-directory)
-		  nil)
-	   :post-init
-	   (helm-mode))))
- ("raw dpkg status" . "install ok installed"))
-(("el-get-package-def" :name helm-projectile :type apt-get :pkgname "elpa-helm-projectile" :after nil :depends
-(cl-lib helm projectile))
-("el-get dpkg status" . t)
-("el-get status file"
-(status "installed" recipe
-(:name helm-projectile :after nil :depends
-(cl-lib helm projectile)
-:description "Helm integration for Projectile." :type github :pkgname "bbatsov/helm-projectile")))
-("raw dpkg status" . "install ok installed")))
-#+END_SRC
+	   (:name org-contrib :type apt-get :pkgname "elpa-org-contrib" :after nil :depends
+		  (org-mode))))
+  ("dpkg-query" . "install ok installed")
+  ("el-get-package-directory" . ".config/emacs/el-get/org-contrib/")))
+#+end_src
 *** Platform-specific dependency of Emacs package
 For instance, =pandoc-mode= requires platform-specific binaries of the =pandoc= tool. While there is a native Debian package, [[deb:pandoc]], neither this package provides Emacs' mode nor there is a separate package for =pandoc-mode= Emacs.
 
-Unfortunatelly, =el-get= doesn't support installation of platform-specific packages. One of the (crazy) roads is to fool =el-get= and install such packages as =:type apt-get=:
-#+BEGIN_SRC emacs-lisp :tangle no
-  (dolist (package '(make texinfo))
-    (el-get-bundle apt-get:package :type apt-get))
-#+END_SRC
+=el-get= doesn't support installation of platform-specific packages.
+*** System Packages
+
+#+begin_src emacs-lisp
+  (req-package system-packages
+    :ensure)
+  (req-package use-package-ensure-system-package
+    :ensure)
+#+end_src
+
 *** TODO Elpa packages in Debian break el-get
+
 Expected location of the package =:type apt-get= files is under =el-get-apt-get-base= directory. Unfortunatelly, some elpa packages in Debian break this expectation by placing files:
 - under =elpa-src= directory
 - into a versioned package-specific subdirectory like =helm-projectile-0.14.0=.
-#+BEGIN_SRC emacs-lisp :tangle no :exports both :results pp :var packages='(dash seq helm magit helm-projectile) :wrap "SRC emacs-lisp :tangle no"
-  (mapcar (lambda (package)
-            (let* ((apt-get-pkgname (plist-get (el-get-package-def package) :pkgname))
-                   (pkg-el-files (split-string (shell-command-to-string (format "dpkg --listfiles %s | grep '.el$'" apt-get-pkgname))))
-                   (pkg-el-dirs (delete-dups (mapcar 'file-name-directory pkg-el-files))))
-              (remove nil (mapcar (lambda (dir)
-                                    (when (and (file-in-directory-p dir el-get-apt-get-base)
-                                               (not (file-equal-p dir el-get-apt-get-base)))
-                                      dir))
-                                  pkg-el-dirs))))
-          packages)
-#+END_SRC
+
+#+begin_src emacs-lisp :tangle no :exports both :results pp :wrap "src emacs-lisp :tangle no"
+  (let* ((required-dpkg-packages (el-get-package-types-alist nil 'apt-get))
+         (packages (delete-dups (mapcar 'car required-dpkg-packages))))
+    (el-get-read-status-file-force)
+    (dolist (package packages)
+      (let* ((pkg-el-dir (directory-file-name (el-get-package-directory package)))
+             (apt-get-pkgname (plist-get (el-get-package-def package) :pkgname))
+             (pkg-el-files (split-string (shell-command-to-string (format "dpkg --listfiles %s | grep '\\.el$'" apt-get-pkgname))))
+             (pkg-el-dirs (delete-dups (mapcar 'file-name-directory pkg-el-files))))
+        ;; el-get dir apt-get package must be a symlink to real packages dir
+        (el-get-dpkg-remove-symlink package)
+        (when (and (file-directory-p pkg-el-dir)
+                   (not (file-symlink-p pkg-el-dir)))
+          (delete-directory pkg-el-dir t))
+        (make-symbolic-link (first pkg-el-dirs) pkg-el-dir)
+        (el-get-save-package-status package "installed")))
+    (mapcar (lambda (package)
+              (let* ((apt-get-pkgname (plist-get (el-get-package-def package) :pkgname))
+                     (pkg-el-files (split-string (shell-command-to-string (format "dpkg --listfiles %s | grep '\\.el$'" apt-get-pkgname))))
+                     (pkg-el-dirs (delete-dups (mapcar 'file-name-directory pkg-el-files))))
+                (remove nil (mapcar (lambda (dir)
+                                      (when (and (file-in-directory-p dir el-get-apt-get-base)
+                                                 (not (file-equal-p dir el-get-apt-get-base)))
+                                        dir))
+                                    pkg-el-dirs))))
+            packages))
+#+end_src
 
 #+RESULTS:
-#+BEGIN_SRC emacs-lisp :tangle no
-(("/usr/share/emacs/site-lisp/dash-el/")
- ("/usr/share/emacs/site-lisp/elpa-src/seq-2.16/")
- ("/usr/share/emacs/site-lisp/elpa-src/helm-2.1.0/")
- ("/usr/share/emacs/site-lisp/elpa-src/magit-2.8.0/")
- ("/usr/share/emacs/site-lisp/elpa-src/helm-projectile-0.14.0/"))
-#+END_SRC
-** Install packages over secure connection only
-#+BEGIN_SRC emacs-lisp
-  (setq el-get-allow-insecure nil)
-#+END_SRC
-** TODO Removing unnecessary packages
+#+begin_src emacs-lisp :tangle no
+(("/usr/share/emacs/site-lisp/elpa-src/csv-mode-1.23/")
+ ("/usr/share/emacs/site-lisp/elpa-src/org-contrib-0.4.2/"))
+#+end_src
+
+** TODO How to remove unnecessary packages
+
 When trying out new packages, its easy to lose track of direct and indirect dependencies of (now) unused packages that could and should be removed, see issues [[github:dimitri/el-get/issues/1782][Removing unnecessary packages]] and [[github:dimitri/el-get/issues/1849][Feature request: el-get-autoremove]].
-#+BEGIN_SRC emacs-lisp :tangle no
+
+The simplest solution is to blindly remove every package which is not explicitly referenced by =el-get-sources=:
+
+#+begin_src emacs-lisp :tangle no :noeval
   (el-get-cleanup (mapcar 'el-get-source-name el-get-sources))
-#+END_SRC
+#+end_SRC
+
 ** Hunt down errors in init files
 #+BEGIN_SRC emacs-lisp
   (el-get-bundle seq :type apt-get :pkgname "elpa-seq")
