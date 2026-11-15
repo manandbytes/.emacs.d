@@ -1,0 +1,44 @@
+## test.yml
+
+name: Main workflow
+on: [push, pull_request]
+permissions: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        emacs_version:
+          - 30.2  # debian
+          - snapshot
+        include:
+          - emacs_version: 'snapshot'
+            allow_failure: true
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        persist-credentials: false
+
+    - name: Install Emacs
+      uses: purcell/setup-emacs@bdc64dc730ae1fcba200bfd52cb1b4cf6159cbe5 # v8.0
+      with:
+        version: ${{ matrix.emacs_version }}
+
+    - name: Emacs version
+      run: emacs --version
+
+    - name: Refresh packages
+      if: matrix.allow_failure != true
+      run: |
+        emacs --init-directory .config/emacs/ \
+            --batch --kill \
+            --file .config/emacs/init.el \
+            --eval "(package-refresh-contents)" \
+
+    - name: Load config
+      if: matrix.allow_failure != true
+      run: |
+        emacs --init-directory .config/emacs/ \
+            --batch --kill \
+            --script .config/emacs/init.el
