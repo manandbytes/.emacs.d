@@ -40,6 +40,11 @@ Check the status of Emacs with:
 Emacs provides a convenient way to browse, change and save settings via =M-x customize=. By default, it saves these settings to an initialization file, =~/.emacs.d/init.el=. To keep initialization file clean and simple, customizations must go to a separate file:
 #+BEGIN_SRC emacs-lisp
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+  (when (and custom-file
+	     (file-exists-p custom-file))
+    (load custom-file nil :nomessage))
+  (add-hook 'kill-emacs-query-functions
+	    'custom-prompt-customize-unsaved-options)
 #+END_SRC
 ** TODO Refine workflow
 Check these resources for more info:
@@ -164,6 +169,10 @@ By default, Emacs saves backup files (the files ending with =~=) in the current 
 	("nongnu" . "https://elpa.nongnu.org/nongnu/"))
       package-archive-priorities
       '(("gnu" . 90) ("gnu-devel" . 0) ("melpa" . 80) ("nongnu" . 70)))
+#+end_src
+
+#+begin_src elisp
+(package-install-selected-packages t)
 #+end_src
 
 ** Enable =use-package=

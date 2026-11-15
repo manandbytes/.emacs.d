@@ -62,7 +62,7 @@
 	       editorconfig ef-themes eglot-java elf-mode elfeed-org
 	       elfeed-tube emacs-everywhere embark-org-roam es-mode
 	       eshell-bookmark eshell-git-prompt eshell-prompt-extras
-	       expand-region feather fira-code-mode flycheck-eglot
+	       expand-region f feather fira-code-mode flycheck-eglot
 	       flycheck-ledger flycheck-package flycheck-plantuml
 	       flycheck-pycheckers flycheck-pyflakes flymake-proselint
 	       flymake-puppet flymake-shellcheck flymake-yamllint
